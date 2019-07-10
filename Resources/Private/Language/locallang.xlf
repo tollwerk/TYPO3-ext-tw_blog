@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<xliff version="1.0">
+    <file source-language="en" datatype="plaintext" original="messages" date="2016-12-08T10:17:19Z"
+          product-name="tw_blog">
+        <header/>
+        <body>
+            <trans-unit id="blog.readArticle">
+                <source>Read article</source>
+            </trans-unit>
+            <trans-unit id="blog.more_by_series">
+                <source>Other articles the series «%s»</source>
+            </trans-unit>
+            <trans-unit id="blog.authors.about.male">
+                <source>About the author</source>
+            </trans-unit>
+            <trans-unit id="blog.authors.about.males">
+                <source>About the authors</source>
+            </trans-unit>
+            <trans-unit id="blog.authors.about.female">
+                <source>About the author</source>
+            </trans-unit>
+            <trans-unit id="blog.authors.about.females">
+                <source>About the authors</source>
+            </trans-unit>
+            <trans-unit id="blog.authors.about.mixed">
+                <source>About the authors</source>
+            </trans-unit>
+            <trans-unit id="blog.pagination.aria_label">
+                <source>Browse through blog articles</source>
+            </trans-unit>
+            <trans-unit id="blog.pagination.first">
+                <source>First page</source>
+            </trans-unit>
+            <trans-unit id="blog.pagination.previous">
+                <source>Previous page</source>
+            </trans-unit>
+            <trans-unit id="blog.pagination.page">
+                <source>Page %s of %s</source>
+            </trans-unit>
+            <trans-unit id="blog.pagination.next">
+                <source>Next page</source>
+            </trans-unit>
+            <trans-unit id="blog.pagination.last">
+                <source>Last page</source>
+            </trans-unit>
+            <trans-unit id="blog.prevnext.next">
+                <source>More recent article</source>
+            </trans-unit>
+            <trans-unit id="blog.prevnext.prev">
+                <source>Older article</source>
+            </trans-unit>
+            <trans-unit id="blog.prevnext.aria_label">
+                <source>Older and more recent articles</source>
+            </trans-unit>
+
+            <!-- Crop variants -->
+            <trans-unit id="cropVariants.blog_thumbnail">
+                <source>Blog Thumbnail</source>
+            </trans-unit>
+            <trans-unit id="cropVariants.blog_teaser">
+                <source>Blog Teaser</source>
+            </trans-unit>
+            <trans-unit id="cropVariants.blog_featured_teaser">
+                <source>Featured Blog Article Teaser</source>
+            </trans-unit>
+            <trans-unit id="cropVariants.blog_header">
+                <source>Blog Page Header</source>
+            </trans-unit>
+        </body>
+    </file>
+</xliff>

@@ -1,0 +1,41 @@
+config.tx_extbase.persistence.classes {
+    Tollwerk\TwBlog\Domain\Model\Category.mapping {
+        tableName = sys_category
+        columns {
+
+        }
+    }
+
+    Tollwerk\TwBlog\Domain\Model\Content.mapping {
+        tableName = tt_content
+        columns {
+            CType.mapOnProperty = type
+            image.mapOnProperty = image
+            deleted.mapOnProperty = deleted
+            pi_flexform.mapOnProperty = flexform
+        }
+    }
+
+    Tollwerk\TwBlog\Domain\Model\BlogArticle.mapping {
+        tableName = pages
+        columns {
+            uid.mapOnProperty = uid
+            pid.mapOnProperty = pid
+            title.mapOnProperty = title
+            starttime.mapOnProperty = starttime
+            endtime.mapOnProperty = endtime
+            tstamp.mapOnProperty = lastmod
+            crdate.mapOnProperty = crdate
+            media.mapOnProperty = media
+            tx_twblog_blog_teaser_text.mapOnProperty = teaserText
+            tx_twblog_blog_teaser_image.mapOnProperty = teaserImage
+            tx_twblog_blog_authors.mapOnProperty = authors
+            tx_twblog_blog_series.mapOnProperty = blogSeries
+            tx_twblog_blog_comments.mapOnProperty = comments
+        }
+    }
+
+    TYPO3\CMS\Extbase\Domain\Model\FrontendUser.subclasses {
+        attendee = \Tollwerk\TwBlog\Domain\Model\FrontendUser
+    }
+}

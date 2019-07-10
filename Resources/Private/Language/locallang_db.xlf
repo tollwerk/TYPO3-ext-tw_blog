@@ -1,0 +1,427 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<xliff version="1.0">
+    <file source-language="en" datatype="plaintext" original="messages" date="2016-12-08T10:17:19Z"
+          product-name="tw_blog">
+        <header/>
+        <body>
+            <trans-unit id="pageUids">
+                <source>Page IDs</source>
+            </trans-unit>
+            <trans-unit id="pageUids.navFooter">
+                <source>Footer navigation</source>
+            </trans-unit>
+            <trans-unit id="pageUids.privacy">
+                <source>Privacy disclaimer</source>
+            </trans-unit>
+            <trans-unit id="pageUids.feUsers">
+                <source>Frontend users</source>
+            </trans-unit>
+            <trans-unit id="pageUids.specialMenu">
+                <source>Special menu pages (IDs)</source>
+            </trans-unit>
+            <trans-unit id="social">
+                <source>Social Media</source>
+            </trans-unit>
+            <trans-unit id="social.facebook">
+                <source>Facebook profile</source>
+            </trans-unit>
+            <trans-unit id="social.twitter">
+                <source>Twitter profile</source>
+            </trans-unit>
+            <trans-unit id="social.xing">
+                <source>XING profile</source>
+            </trans-unit>
+            <trans-unit id="social.youtube">
+                <source>YouTube profile</source>
+            </trans-unit>
+            <trans-unit id="social.instagram">
+                <source>Instagram profile</source>
+            </trans-unit>
+            <trans-unit id="social.linkedin">
+                <source>LinkedIn profile</source>
+            </trans-unit>
+            <trans-unit id="social.flickr">
+                <source>Flickr profile</source>
+            </trans-unit>
+            <trans-unit id="storagePid">
+                <source>Storage PID</source>
+            </trans-unit>
+            <trans-unit id="email">
+                <source>Email settings</source>
+            </trans-unit>
+            <trans-unit id="email.senderName">
+                <source>Email sender name</source>
+            </trans-unit>
+            <trans-unit id="email.senderAddress">
+                <source>Email sender address</source>
+            </trans-unit>
+            <trans-unit id="backendLayout.default">
+                <source>Default</source>
+            </trans-unit>
+            <trans-unit id="backendLayout.offline">
+                <source>Offline</source>
+            </trans-unit>
+            <trans-unit id="backendLayout.track">
+                <source>Track</source>
+            </trans-unit>
+            <trans-unit id="backendLayout.content">
+                <source>Content</source>
+            </trans-unit>
+            <trans-unit id="backendLayout.columns.1">
+                <source>Main content</source>
+            </trans-unit>
+            <trans-unit id="backendLayout.columns.2">
+                <source>Aside content</source>
+            </trans-unit>
+            <trans-unit id="file" xml:space="preserve">
+				<source>Files &amp; directories</source>
+			</trans-unit>
+			<trans-unit id="file.templateRootPath" xml:space="preserve">
+				<source>Path to template files (FE)</source>
+			</trans-unit>
+			<trans-unit id="file.partialRootPath" xml:space="preserve">
+				<source>Path to template partials (FE)</source>
+			</trans-unit>
+			<trans-unit id="file.layoutRootPath" xml:space="preserve">
+				<source>Path to template layouts (FE)</source>
+			</trans-unit>
+            <trans-unit id="common" xml:space="preserve">
+				<source>Common settings</source>
+			</trans-unit>
+			<trans-unit id="common.enable" xml:space="preserve">
+				<source>Enable this extension</source>
+			</trans-unit>
+            <trans-unit id="media" xml:space="preserve">
+				<source>Media</source>
+			</trans-unit>
+            <trans-unit id="media.logos.maxHeight" xml:space="preserve">
+				<source>Maximum height: Maximum height for contact logos (numeric value only)</source>
+			</trans-unit>
+            <trans-unit id="media.logos.minHeight" xml:space="preserve">
+				<source>Minimum height: Minimum height for contact logos (numeric value only)</source>
+			</trans-unit>
+            <trans-unit id="media.logos.heightUnit" xml:space="preserve">
+				<source>CSS height unit: CSS unit to use for contact logo height</source>
+			</trans-unit>
+            <trans-unit id="media.gallery.maxWidth" xml:space="preserve">
+				<source>Max. image width in galleries</source>
+			</trans-unit>
+
+            <!-- Blog -->
+            <trans-unit id="blog">
+                <source>Blog</source>
+            </trans-unit>
+            <trans-unit id="plugin.blog">
+                <source>Blog</source>
+            </trans-unit>
+            <trans-unit id="plugin.jobs">
+                <source>Job offerings</source>
+            </trans-unit>
+            <trans-unit id="plugin.events.programme">
+                <source>Event programme</source>
+            </trans-unit>
+            <trans-unit id="plugin.events.details">
+                <source>Event details</source>
+            </trans-unit>
+            <trans-unit id="plugin.events.carousel">
+                <source>Event carousel</source>
+            </trans-unit>
+            <trans-unit id="plugin.events.simplelist">
+                <source>Event simple list</source>
+            </trans-unit>
+            <trans-unit id="plugin.events.display_mode">
+                <source>Display mode</source>
+            </trans-unit>
+            <trans-unit id="plugin.events.display_mode.default">
+                <source>Default</source>
+            </trans-unit>
+            <trans-unit id="plugin.events.display_mode.spotlight">
+                <source>Spotlight</source>
+            </trans-unit>
+            <trans-unit id="plugin.events.selection_mode">
+                <source>Selection mode</source>
+            </trans-unit>
+            <trans-unit id="plugin.events.selection_mode.categories">
+                <source>Categories</source>
+            </trans-unit>
+            <trans-unit id="plugin.events.selection_mode.manual">
+                <source>Manual</source>
+            </trans-unit>
+            <trans-unit id="plugin.events.selection_mode.manual.uids">
+                <source>Events</source>
+            </trans-unit>
+            <trans-unit id="plugin.events.showHidden">
+                <source>Show hidden records</source>
+            </trans-unit>
+            <trans-unit id="plugin.blog.comments">
+                <source>Blog comments</source>
+            </trans-unit>
+            <trans-unit id="plugin.blog.display_mode">
+                <source>Display Mode</source>
+            </trans-unit>
+            <trans-unit id="plugin.blog.listPid">
+                <source>Blog article list page (ID)</source>
+            </trans-unit>
+            <trans-unit id="plugin.blog.listContent">
+                <source>Blog article list content element (ID)</source>
+            </trans-unit>
+            <trans-unit id="plugin.blog.articles_per_page">
+                <source>Articles per page</source>
+            </trans-unit>
+            <trans-unit id="plugin.blog.storagePid">
+                <source>Storage PID for blog articles</source>
+            </trans-unit>
+            <trans-unit id="plugin.blog.width.article">
+                <source>Max. image width in articles</source>
+            </trans-unit>
+            <trans-unit id="plugin.blog.width.regular">
+                <source>Max. preview image width for regular articles (pixel)</source>
+            </trans-unit>
+            <trans-unit id="plugin.blog.width.featured">
+                <source>Max. preview image width for featured articles (pixel)</source>
+            </trans-unit>
+            <trans-unit id="plugin.blog.display_mode.default">
+                <source>Regular</source>
+            </trans-unit>
+            <trans-unit id="plugin.blog.display_mode.featured">
+                <source>Featured Articles</source>
+            </trans-unit>
+            <trans-unit id="pages.tx_twblog_blog_featured" approved="yes">
+                <source>Is featured article</source>
+            </trans-unit>
+            <trans-unit id="pages.tx_twblog_blog_teaser_image" approved="yes">
+                <source>Teaser image</source>
+            </trans-unit>
+            <trans-unit id="pages.tx_twblog_blog_teaser_text" approved="yes">
+                <source>Teaser text</source>
+            </trans-unit>
+            <trans-unit id="pages.tx_twblog_blog_authors" approved="yes">
+                <source>Authors</source>
+            </trans-unit>
+            <trans-unit id="pages.tx_twblog_blog_series" approved="yes">
+                <source>Blog series</source>
+            </trans-unit>
+            <trans-unit id="pages.tx_twblog_blog_comments" approved="yes">
+                <source>Comments</source>
+            </trans-unit>
+            <trans-unit id="pages.tx_twblog_blog_date" approved="yes">
+                <source>Blog date for sorting</source>
+            </trans-unit>
+            <trans-unit id="pages.legacy_url" approved="yes">
+                <source>Legacy URL</source>
+            </trans-unit>
+
+            <!-- Blog Series -->
+            <trans-unit id="tx_twblog_domain_model_blogseries">
+                <source>Blog series</source>
+            </trans-unit>
+            <trans-unit id="tx_twblog_domain_model_blogseries.title">
+                <source>Title</source>
+            </trans-unit>
+
+            <!-- Comment -->
+            <trans-unit id="tx_twblog_domain_model_comment">
+                <source>Comment</source>
+            </trans-unit>
+            <trans-unit id="tx_twblog_domain_model_comment.name">
+                <source>Name</source>
+            </trans-unit>
+            <trans-unit id="tx_twblog_domain_model_comment.email">
+                <source>Email address</source>
+            </trans-unit>
+            <trans-unit id="tx_twblog_domain_model_comment.url">
+                <source>Url</source>
+            </trans-unit>
+            <trans-unit id="tx_twblog_domain_model_comment.text">
+                <source>Text</source>
+            </trans-unit>
+            <trans-unit id="tx_twblog_domain_model_comment.replies">
+                <source>Replies</source>
+            </trans-unit>
+
+            <!-- Organization -->
+            <trans-unit id="plugin.logos">
+                <source>Contact Logos</source>
+            </trans-unit>
+            <trans-unit id="plugin.organizations">
+                <source>Organizations</source>
+            </trans-unit>
+            <trans-unit id="plugin.logos.useGreyscaleLogos">
+                <source>Use greyscale logos</source>
+            </trans-unit>
+            <trans-unit id="plugin.logos.selectionMode">
+                <source>Selection Mode</source>
+            </trans-unit>
+            <trans-unit id="plugin.logos.selectionMode.0">
+                <source>Categories</source>
+            </trans-unit>
+            <trans-unit id="plugin.logos.selectionMode.1">
+                <source>Manual</source>
+            </trans-unit>
+            <trans-unit id="plugin.logos.contactIds">
+                <source>Contacts</source>
+            </trans-unit>
+            <trans-unit id="tx_twblog_domain_model_organization" approved="yes">
+                <source>Organization</source>
+            </trans-unit>
+
+            <!-- Person -->
+            <trans-unit id="plugin.persons">
+                <source>Persons</source>
+            </trans-unit>
+            <trans-unit id="plugin.persons.display_mode">
+                <source>Display Mode</source>
+            </trans-unit>
+            <trans-unit id="plugin.persons.display_mode.introduction">
+                <source>Introduction</source>
+            </trans-unit>
+            <trans-unit id="plugin.persons.display_mode.mention">
+                <source>Mention</source>
+            </trans-unit>
+            <trans-unit id="plugin.persons.display_mode.profile">
+                <source>Profile</source>
+            </trans-unit>
+            <trans-unit id="plugin.persons.fields_mode">
+                <source>Fields to show</source>
+            </trans-unit>
+            <trans-unit id="plugin.persons.fields_mode.default">
+                <source>Default</source>
+            </trans-unit>
+            <trans-unit id="plugin.persons.selection_mode">
+                <source>Selection Mode</source>
+            </trans-unit>
+            <trans-unit id="plugin.persons.selection_mode.categories">
+                <source>By categories</source>
+            </trans-unit>
+            <trans-unit id="plugin.persons.selection_mode.manual">
+                <source>Pick manually</source>
+            </trans-unit>
+            <trans-unit id="plugin.persons.selection_mode.manual.uids">
+                <source>Persons</source>
+            </trans-unit>
+            <trans-unit id="plugin.persons.selection_mode.manual.categories">
+                <source>Categories</source>
+            </trans-unit>
+            <trans-unit id="plugin.persons.selection_mode.all">
+                <source>All</source>
+            </trans-unit>
+            <trans-unit id="plugin.persons.fields_mode.blog">
+                <source>Prefer NDF specific fields</source>
+            </trans-unit>
+            <trans-unit id="tx_twblog_domain_model_person" approved="yes">
+                <source>Person</source>
+            </trans-unit>
+            <trans-unit id="tx_twblog_domain_model_person.tab.general" approved="yes">
+                <source>General</source>
+            </trans-unit>
+            <trans-unit id="tx_twblog_domain_model_person.tab.details" approved="yes">
+                <source>Details</source>
+            </trans-unit>
+            <trans-unit id="tx_twblog_domain_model_person.tab.access" approved="yes">
+                <source>Access</source>
+            </trans-unit>
+            <trans-unit id="tx_twblog_domain_model_person.title" approved="yes">
+                <source>Title</source>
+            </trans-unit>
+            <trans-unit id="tx_twblog_domain_model_person.link" approved="yes">
+                <source>Link</source>
+            </trans-unit>
+            <trans-unit id="tx_twblog_domain_model_person.given_name" approved="yes">
+                <source>Given Name</source>
+            </trans-unit>
+            <trans-unit id="tx_twblog_domain_model_person.full_name" approved="no">
+                <source>Full Name</source>
+            </trans-unit>
+            <trans-unit id="tx_twblog_domain_model_person.family_name" approved="yes">
+                <source>Family Name</source>
+            </trans-unit>
+            <trans-unit id="tx_twblog_domain_model_person.full_name" approved="yes">
+                <source>Full Name (for search etc.)</source>
+            </trans-unit>
+            <trans-unit id="tx_twblog_domain_model_person.title" approved="yes">
+                <source>Title</source>
+            </trans-unit>
+            <trans-unit id="tx_twblog_domain_model_person.organization" approved="yes">
+                <source>Organization</source>
+            </trans-unit>
+            <trans-unit id="tx_twblog_domain_model_person.role" approved="yes">
+                <source>Role</source>
+            </trans-unit>
+            <trans-unit id="tx_twblog_domain_model_person.gender" approved="no">
+                <source>Gender</source>
+            </trans-unit>
+            <trans-unit id="tx_twblog_domain_model_person.gender.0" approved="no">
+                <source>Not specified</source>
+            </trans-unit>
+            <trans-unit id="tx_twblog_domain_model_person.gender.1" approved="no">
+                <source>Male</source>
+            </trans-unit>
+            <trans-unit id="tx_twblog_domain_model_person.gender.2" approved="no">
+                <source>Female</source>
+            </trans-unit>
+            <trans-unit id="tx_twblog_domain_model_person.portrait" approved="yes">
+                <source>Portrait</source>
+            </trans-unit>
+            <trans-unit id="tx_twblog_domain_model_person.portrait.square" approved="yes">
+                <source>Square</source>
+            </trans-unit>
+            <trans-unit id="tx_twblog_domain_model_person.logo" approved="yes">
+                <source>Logo</source>
+            </trans-unit>
+            <trans-unit id="tx_twblog_domain_model_person.logo_greyscale" approved="yes">
+                <source>Greyscale logo</source>
+            </trans-unit>
+            <trans-unit id="tx_twblog_domain_model_person.phone" approved="yes">
+                <source>Phone (work)</source>
+            </trans-unit>
+            <trans-unit id="tx_twblog_domain_model_person.phone_private" approved="yes">
+                <source>Phone (private)</source>
+            </trans-unit>
+            <trans-unit id="tx_twblog_domain_model_person.fax" approved="yes">
+                <source>Fax</source>
+            </trans-unit>
+            <trans-unit id="tx_twblog_domain_model_person.email" approved="yes">
+                <source>Email Address</source>
+            </trans-unit>
+            <trans-unit id="tx_twblog_domain_model_person.website" approved="yes">
+                <source>Website URL</source>
+            </trans-unit>
+            <trans-unit id="tx_twblog_domain_model_person.facebook" approved="yes">
+                <source>Facebook URL</source>
+            </trans-unit>
+            <trans-unit id="tx_twblog_domain_model_person.twitter" approved="yes">
+                <source>Twitter URL</source>
+            </trans-unit>
+            <trans-unit id="tx_twblog_domain_model_person.xing" approved="yes">
+                <source>XING URL</source>
+            </trans-unit>
+            <trans-unit id="tx_twblog_domain_model_person.instagram" approved="yes">
+                <source>Instagram URL</source>
+            </trans-unit>
+            <trans-unit id="tx_twblog_domain_model_person.linkedin" approved="yes">
+                <source>LinkedIn URL</source>
+            </trans-unit>
+            <trans-unit id="tx_twblog_domain_model_person.sorting" approved="yes">
+                <source>Sorting</source>
+            </trans-unit>
+            <trans-unit id="tx_twblog_domain_model_person.description" approved="yes">
+                <source>Description</source>
+            </trans-unit>
+            <trans-unit id="tx_twblog_domain_model_person.type" approved="yes">
+                <source>Type</source>
+            </trans-unit>
+            <trans-unit id="tx_twblog_domain_model_person.type.1" approved="yes">
+                <source>Person</source>
+            </trans-unit>
+            <trans-unit id="tx_twblog_domain_model_person.type.2" approved="yes">
+                <source>Organization</source>
+            </trans-unit>
+            <trans-unit id="tx_twblog_domain_model_person.address" approved="yes">
+                <source>Address</source>
+            </trans-unit>
+            <trans-unit id="tx_twblog_domain_model_person.organization" approved="yes">
+                <source>Organization</source>
+            </trans-unit>
+        </body>
+    </file>
+</xliff>

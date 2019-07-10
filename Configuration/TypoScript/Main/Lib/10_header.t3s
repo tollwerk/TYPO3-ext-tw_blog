@@ -1,0 +1,23 @@
+lib.blogSocialMediaBanner = FILES
+lib.blogSocialMediaBanner {
+    references {
+        table = pages
+        uid.data = TSFE:id
+        fieldName = tx_twblog_blog_teaser_image
+    }
+
+    renderObj = IMG_RESOURCE
+    renderObj {
+        file {
+            import.data = file:current:uid
+            treatIdAsReference = 1
+            width = 1200c
+            height = 630c
+            cropVariant = blog_teaser
+        }
+
+        stdWrap.innerWrap.dataWrap = https://{getIndpEnv:TYPO3_HOST_ONLY}/|
+    }
+
+    maxItems = 1
+}

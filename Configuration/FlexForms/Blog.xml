@@ -1,0 +1,57 @@
+<T3DataStructure>
+    <meta>
+        <langDisable>1</langDisable>
+    </meta>
+    <sheets>
+        <main>
+            <ROOT>
+                <type>array</type>
+                <el>
+                    <settings.display_mode>
+                        <TCEforms>
+                            <exclude>1</exclude>
+                            <label>
+                                LLL:EXT:tw_blog/Resources/Private/Language/locallang_db.xlf:plugin.blog.display_mode
+                            </label>
+                            <config>
+                                <type>select</type>
+                                <renderType>selectSingle</renderType>
+                                <items>
+                                    <numIndex index="0" type="array">
+                                        <numIndex index="0">
+                                            LLL:EXT:tw_blog/Resources/Private/Language/locallang_db.xlf:plugin.blog.display_mode.default
+                                        </numIndex>
+                                        <numIndex index="1">default</numIndex>
+                                    </numIndex>
+                                    <numIndex index="1" type="array">
+                                        <numIndex index="0">
+                                            LLL:EXT:tw_blog/Resources/Private/Language/locallang_db.xlf:plugin.blog.display_mode.featured
+                                        </numIndex>
+                                        <numIndex index="1">featured</numIndex>
+                                    </numIndex>
+                                </items>
+                            </config>
+                        </TCEforms>
+                    </settings.display_mode>
+                    <settings.articles_per_page>
+                        <exclude>1</exclude>
+                        <label>
+                            LLL:EXT:tw_blog/Resources/Private/Language/locallang_db.xlf:plugin.blog.articles_per_page
+                        </label>
+                        <config>
+                            <type>input</type>
+                            <size>20</size>
+                            <max>30</max>
+                            <eval>int, trim</eval>
+                            <default>8</default>
+                            <size>3</size>
+                            <max>2</max>
+                        </config>
+                    </settings.articles_per_page>
+                </el>
+            </ROOT>
+        </main>
+    </sheets>
+</T3DataStructure>
+
+

@@ -1,0 +1,63 @@
+<f:comment><!--
+
+    @param AbstractContact[] authors    Array with person and / or organisation records
+
+--></f:comment>
+<html xmlns:f="https://xsd.helhum.io/ns/typo3/cms-fluid/master/ViewHelpers"
+      xmlns:base="http://typo3.org/ns/Tollwerk/TwBase/ViewHelpers"
+      data-namespace-typo3-fluid="true">
+
+    <f:render section="Authors" arguments="{authors: authors}"/>
+
+    <f:comment><!--
+
+        Render the authors of a blog article
+
+        @param AbstractContact[] authors    Array with person and / or organisation records
+
+    --></f:comment>
+    <f:section name="Authors">
+        <f:if condition="{authors}">
+            <div class="BlogAuthors">
+                <v:condition.type.isInstanceOf value="{authors.0}" class="\\Tollwerk\\TwBlog\\Domain\\Model\\Person">
+                    <f:then>
+                        <f:variable name="gender" value="{blog:blogArticle.authors.gender(persons: authors)}"/>
+                    </f:then>
+                    <f:else>
+                        <f:variable name="gender" value="mixed"/>
+                    </f:else>
+                </v:condition.type.isInstanceOf>
+                <base:heading type="3"
+                              content="{f:translate(key: 'LLL:EXT:tw_blog/Resources/Private/Language/locallang.xlf:blog.authors.about.{gender}')}">
+                    <f:render partial="Elements/Contact/List" arguments="{contacts: authors}"/>
+                </base:heading>
+            </div>
+        </f:if>
+    </f:section>
+
+    <f:comment><!--
+
+        Render the interview partners of a blog article
+
+        @param AbstractContact[] authors    Array with person and / or organisation records
+
+    --></f:comment>
+    <f:section name="Interviewees">
+        <f:if condition="{authors}">
+            <div class="BlogAuthors BlogAuthors--interviewees">
+                <v:condition.type.isInstanceOf value="{authors.0}" class="\\Tollwerk\\TwBlog\\Domain\\Model\\Person">
+                    <f:then>
+                        <f:variable name="gender" value="{blog:blogArticle.authors.gender(persons: authors)}"/>
+                    </f:then>
+                    <f:else>
+                        <f:variable name="gender" value="mixed"/>
+                    </f:else>
+                </v:condition.type.isInstanceOf>
+                <base:heading type="3"
+                              content="{f:translate(key: 'LLL:EXT:tw_blog/Resources/Private/Language/locallang.xlf:blog.interviewees.about.{gender}')}">
+                    <f:render partial="Elements/Contact/List" arguments="{contacts: authors}"/>
+                </base:heading>
+            </div>
+        </f:if>
+    </f:section>
+</html>

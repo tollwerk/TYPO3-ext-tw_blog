@@ -1,0 +1,49 @@
+<f:comment><!--
+    No parameters
+    @param comment[] comments      Array with comments
+--></f:comment>
+<html xmlns:f="https://xsd.helhum.io/ns/typo3/cms-fluid/master/ViewHelpers"
+      xmlns:base="http://typo3.org/ns/Tollwerk/TwBase/ViewHelpers"
+      xmlns:blog="http://typo3.org/ns/Tollwerk/TwBlog/ViewHelpers"
+      xmlns:v="http://typo3.org/ns/FluidTYPO3/Vhs/ViewHelpers" data-namespace-typo3-fluid="true">
+
+    <div class="CommentForm">
+        <f:form
+                action="create"
+                controller="Comment"
+                pluginName="Comments"
+                extensionName="TwBlog"
+                name="newComment"
+                arguments="{
+                parent: parent,
+                parentTable: parentTable,
+                pid: pid
+            }"
+        >
+            <label>
+                <f:translate key="LLL:EXT:tw_blog/Resources/Private/Language/locallang.xlf:comment.form.text"/>
+                <f:form.textarea property="text" placeholder="Kommentar schreiben"/>
+            </label>
+
+            <label>
+                <f:translate key="LLL:EXT:tw_blog/Resources/Private/Language/locallang.xlf:comment.form.name"/>
+                <f:form.textfield property="name" placeholder=""/>
+            </label>
+
+            <label>
+                <f:translate key="LLL:EXT:tw_blog/Resources/Private/Language/locallang.xlf:comment.form.email"/>
+                <f:form.textfield type="email" property="email"/>
+            </label>
+
+            <label>
+                <f:translate key="LLL:EXT:tw_blog/Resources/Private/Language/locallang.xlf:comment.form.url"/>
+                <f:form.textfield property="url"/>
+            </label>
+
+
+            <f:form.submit
+                    value="{f:translate(key: 'LLL:EXT:tw_blog/Resources/Private/Language/locallang.xlf:comment.form.submit')}"/>
+        </f:form>
+    </div>
+
+</html>

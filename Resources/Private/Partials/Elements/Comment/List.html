@@ -1,0 +1,35 @@
+<f:comment><!--
+    No parameters
+    @param comment[] comments      Array with comments
+--></f:comment>
+<html xmlns:f="https://xsd.helhum.io/ns/typo3/cms-fluid/master/ViewHelpers"
+      xmlns:base="http://typo3.org/ns/Tollwerk/TwBase/ViewHelpers"
+      xmlns:blog="http://typo3.org/ns/Tollwerk/TwBlog/ViewHelpers"
+      xmlns:v="http://typo3.org/ns/FluidTYPO3/Vhs/ViewHelpers" data-namespace-typo3-fluid="true">
+
+    <f:comment><!--
+
+        TODO: Kommentar hier lesen. Komponente fertigstellen.
+        Klassennamen und Elemente können natürlich nach belieben noch ergänzt werden.
+        Der "Kommentar schreiben"-Button kann später ergänzt werden. Der Kommentar selber weiß
+        erstmal noch nichts davon. Für den Pagebrowser brauchen wir auch erstmal eine eigene Komponente.
+
+    --></f:comment>
+
+    <div class="CommentList">
+
+        <!-- TODO: Sprachlabels (Plural und Singular) in locallang.xlf (Roten Cache leeren!) -->
+        <div class="CommentList__count">
+            <f:translate key="LLL:EXT:tw_blog/Resources/Private/Language/locallang.xlf:comments" />
+            <span class="CommentList__count__numbers">{comments->f:count()}</span>
+        </div>
+        <ol class="CommentList__items">
+            <f:for each="{comments}" as="comment">
+                <li class="CommentList__item">
+                    <f:render partial="Elements/Comment/Default" arguments="{comment: comment}"/>
+                </li>
+            </f:for>
+        </ol>
+    </div>
+
+</html>

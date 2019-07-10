@@ -1,0 +1,44 @@
+<f:comment><!--
+
+    No parameters
+
+    @param string comment.name      The name of the commenting person
+    @param int comment.crdate       The creation date of the comment as unix timestamp
+    @param string comment.text      The comment text
+
+--></f:comment>
+<html xmlns:f="https://xsd.helhum.io/ns/typo3/cms-fluid/master/ViewHelpers"
+      xmlns:base="http://typo3.org/ns/Tollwerk/TwBase/ViewHelpers"
+      xmlns:blog="http://typo3.org/ns/Tollwerk/TwBlog/ViewHelpers"
+      xmlns:v="http://typo3.org/ns/FluidTYPO3/Vhs/ViewHelpers" data-namespace-typo3-fluid="true">
+
+
+    <f:comment><!--
+
+        TODO: Kommentar hier lesen. Komponente fertigstellen.
+        Klassennamen und Elemente können natürlich nach belieben noch ergänzt werden.
+        Der "Antworten"-Button kann später ergänzt werden. Der Kommentar selber weiß
+        erstmal noch nichts davon.
+
+    --></f:comment>
+
+    <div class="Comment">
+        <div class="Comment__header">
+            <div class="Comment__name">{comment.name}</div>
+
+            <f:variable name="date" value="{f:format.date(format: '{f:translate(key: \'LLL:EXT:tw_blog/Resources/Private/Language/locallang.xlf:date_format\')}', date: comment.crdate)}"/>
+            <f:variable name="time" value="{f:format.date(format: '{f:translate(key: \'LLL:EXT:tw_blog/Resources/Private/Language/locallang.xlf:time_format\')}', date: comment.crdate)}"/>
+
+            <div class="Comment__time">
+                <f:translate key="LLL:EXT:tw_blog/Resources/Private/Language/locallang.xlf:date-time"
+                             arguments="{0: date, 1: time}"/>
+            </div>
+
+        </div>
+
+        <div class="Comment__text">
+            <f:format.nl2br>{comment.text}</f:format.nl2br>
+        </div>
+    </div>
+
+</html>

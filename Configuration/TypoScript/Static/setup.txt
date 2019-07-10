@@ -1,0 +1,13 @@
+plugin.tx_twblog {
+    settings {
+        blog {
+            listPid = {$plugin.tx_twblog.settings.blog.listPid}
+            listContent = {$plugin.tx_twblog.settings.blog.listContent}
+            articlesPerPage = {$plugin.tx_twblog.settings.blog.articlesPerPage}
+            imageWidth = {$plugin.tx_twblog.settings.blog.imageWidth}
+            regularWidth = {$plugin.tx_twblog.settings.blog.regularWidth}
+            featuredWidth = {$plugin.tx_twblog.settings.blog.featuredWidth}
+            storagePid = {$plugin.tx_twblog.settings.blog.storagePid}
+        }
+    }
+}

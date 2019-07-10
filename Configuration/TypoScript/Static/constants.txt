@@ -1,0 +1,23 @@
+# customsubcategory=blog=LLL:EXT:tw_blog/Resources/Private/Language/locallang_db.xlf:blog
+
+plugin.tx_twblog {
+
+    settings {
+        blog {
+            # cat=plugin.tx_blog/blog/001; type=int+; label=LLL:EXT:tw_blog/Resources/Private/Language/locallang_db.xlf:plugin.blog.listPid
+            listPid =
+            # cat=plugin.tx_blog/blog/002; type=int+; label=LLL:EXT:tw_blog/Resources/Private/Language/locallang_db.xlf:plugin.blog.listContent
+            listContent =
+            # cat=plugin.tx_blog/blog/003; type=int+; label=LLL:EXT:tw_blog/Resources/Private/Language/locallang_db.xlf:plugin.blog.articles_per_page
+            articlesPerPage = 12
+            # cat=plugin.tx_blog/blog/004; type=int+; label=LLL:EXT:tw_blog/Resources/Private/Language/locallang_db.xlf:plugin.blog.width.article
+            imageWidth = 1000
+            # cat=plugin.tx_blog/blog/005; type=int+; label=LLL:EXT:tw_blog/Resources/Private/Language/locallang_db.xlf:plugin.blog.width.regular
+            regularWidth = 500
+            # cat=plugin.tx_blog/blog/006; type=int+; label=LLL:EXT:tw_blog/Resources/Private/Language/locallang_db.xlf:plugin.blog.width.featured
+            featuredWidth = 800
+            # cat=plugin.tx_blog/blog/007; type=string; label=LLL:EXT:tw_blog/Resources/Private/Language/locallang_db.xlf:plugin.blog.storagePid
+            storagePid =
+        }
+    }
+}

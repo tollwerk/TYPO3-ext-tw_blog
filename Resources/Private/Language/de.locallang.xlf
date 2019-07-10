@@ -1,0 +1,70 @@
+<?xml version='1.0' encoding='utf-8'?>
+<xliff version="1.0">
+    <file source-language="en" datatype="plaintext" original="messages" date="2016-12-08T10:17:19Z" product-name="tw_blog">
+        <header/>
+        <body>
+            <trans-unit id="blog.readArticle" approved="no">
+                <source>Read article</source>
+            <target state="needs-translation">Artikel lesen</target></trans-unit>
+            <trans-unit id="blog.more_by_series" approved="no">
+                <source>Other articles the series «%s»</source>
+            <target state="needs-translation">Weitere Artikel in der Serie »%s«</target></trans-unit>
+            <trans-unit id="blog.authors.about.male" approved="yes">
+                <source>About the author</source>
+            <target state="translated">Über den Autor</target></trans-unit>
+            <trans-unit id="blog.authors.about.males" approved="yes">
+                <source>About the authors</source>
+            <target state="translated">Über die Autoren</target></trans-unit>
+            <trans-unit id="blog.authors.about.female" approved="yes">
+                <source>About the author</source>
+            <target state="translated">Über die Autorin</target></trans-unit>
+            <trans-unit id="blog.authors.about.females" approved="yes">
+                <source>About the authors</source>
+            <target state="translated">Über die Autorinnen</target></trans-unit>
+            <trans-unit id="blog.authors.about.mixed" approved="yes">
+                <source>About the authors</source>
+            <target state="translated">Über die Autoren</target></trans-unit>
+            <trans-unit id="blog.pagination.aria_label" approved="no">
+                <source>Browse through blog articles</source>
+            <target state="needs-translation">Liste der Blogartikel durchblättern</target></trans-unit>
+            <trans-unit id="blog.pagination.first" approved="yes">
+                <source>First page</source>
+            <target state="translated">Erste Seite</target></trans-unit>
+            <trans-unit id="blog.pagination.previous" approved="yes">
+                <source>Previous page</source>
+            <target state="translated">Vorherige Seite</target></trans-unit>
+            <trans-unit id="blog.pagination.page" approved="yes">
+                <source>Page %s of %s</source>
+            <target state="translated">Seite %s von %s</target></trans-unit>
+            <trans-unit id="blog.pagination.next" approved="yes">
+                <source>Next page</source>
+            <target state="translated">Nächste Seite</target></trans-unit>
+            <trans-unit id="blog.pagination.last" approved="yes">
+                <source>Last page</source>
+            <target state="translated">Letzte Seite</target></trans-unit>
+            <trans-unit id="blog.prevnext.next" approved="no">
+                <source>More recent article</source>
+            <target state="needs-translation">Jüngerer Artikel</target></trans-unit>
+            <trans-unit id="blog.prevnext.prev" approved="no">
+                <source>Older article</source>
+            <target state="needs-translation">Älterer Artikel</target></trans-unit>
+            <trans-unit id="blog.prevnext.aria_label" approved="no">
+                <source>Older and more recent articles</source>
+            <target state="needs-translation">Ältere und jüngere Blogartikel</target></trans-unit>
+
+            <!-- Crop variants -->
+            <trans-unit id="cropVariants.blog_thumbnail" approved="no">
+                <source>Blog Thumbnail</source>
+            <target state="needs-translation">Blog-Vorschaubild</target></trans-unit>
+            <trans-unit id="cropVariants.blog_teaser" approved="no">
+                <source>Blog Teaser</source>
+            <target state="needs-translation">Blog-Teaserbild</target></trans-unit>
+            <trans-unit id="cropVariants.blog_featured_teaser" approved="no">
+                <source>Featured Blog Article Teaser</source>
+            <target state="needs-translation">Blog-Teaserbild (hervorgehoben)</target></trans-unit>
+            <trans-unit id="cropVariants.blog_header" approved="no">
+                <source>Blog Page Header</source>
+            <target state="needs-translation">Blogseite Kopfbereich</target></trans-unit>
+        </body>
+    </file>
+</xliff>

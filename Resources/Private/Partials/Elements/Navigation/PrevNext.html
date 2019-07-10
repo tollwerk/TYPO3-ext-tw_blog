@@ -1,0 +1,29 @@
+<f:comment><!--
+
+    No parameters
+
+    @param array prev       Previous option (title, url, text)
+    @param array next       Next option (title, url, text)
+    @param string label     Navigation label
+
+--></f:comment>
+<html xmlns:f="https://xsd.helhum.io/ns/typo3/cms-fluid/master/ViewHelpers"
+      xmlns:blog="http://typo3.org/ns/Tollwerk/TwBlog/ViewHelpers" data-namespace-typo3-fluid="true">
+
+    <f:if condition="{prev} || {next}">
+        <nav class="PrevNext" aria-label="{label}">
+            <f:if condition="{next.text}">
+                <a href="{next.url}" class="PrevNext__link PrevNext__link--next" title="{next.title}">
+                    <blog:icon icon="Backward"/>
+                    <span class="PrevNext__link-text">{next.text}</span>
+                </a>
+            </f:if>
+            <f:if condition="{prev.text}">
+                <a href="{prev.url}" class="PrevNext__link PrevNext__link--prev" title="{prev.title}">
+                    <span class="PrevNext__link-text">{prev.text}</span>
+                    <blog:icon icon="Forward"/>
+                </a>
+            </f:if>
+        </nav>
+    </f:if>
+</html>

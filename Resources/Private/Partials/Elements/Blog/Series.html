@@ -1,0 +1,67 @@
+<f:comment><!--
+
+    @param BlogArticle blogArticle     The blog article
+
+--></f:comment>
+<html xmlns:f="https://xsd.helhum.io/ns/typo3/cms-fluid/master/ViewHelpers"
+      xmlns:base="http://typo3.org/ns/Tollwerk/TwBase/ViewHelpers"
+      data-namespace-typo3-fluid="true">
+    <f:variable name="articlesBySeries" value="{blog:blogArticle.bySeries(
+            series: blogArticle.blogSeries,
+            storagePid: settings.blog.storagePid,
+            exclude: blogArticle
+        )}"/>
+
+    <f:variable name="sponsors" value="{blog:blogSeries.sponsors(uid: blogArticle.blogSeries.uid)}"/>
+    <f:if condition="{articlesBySeries}">
+        <div class="BlogSeries">
+            <base:heading type="4" class="BlogSeries__header"
+                          content="{f:translate(key: 'LLL:EXT:tw_blog/Resources/Private/Language/locallang.xlf:blog.more_by_series', arguments: '{0: blogArticle.blogSeries.title}')}"/>
+            <f:render partial="Elements/Sponsors/Default"
+                      arguments="{sponsors: '{blog:blogSeries.sponsors(uid: blogArticle.blogSeries.uid)}'}"/>
+
+            <ol class="BlogSeries__items" itemscope itemtype="http://schema.org/ItemList">
+                <f:for each="{articlesBySeries}" as="seriesArticle" key="itemkey">
+                    <f:variable name="blogAuthors" value="{blog:blogArticle.authors(article: seriesArticle)}"/>
+                    <li class="BlogSeries__item" itemprop="itemListElement" itemscope
+                        itemtype="http://schema.org/ListItem">
+                        <meta itemprop="position" content="{itemkey}"/>
+                        <f:spaceless>
+                            <f:link.page pageUid="{seriesArticle.uid}" class="BlogSeries__item-link"
+                                         additionalAttributes="{itemprop: 'url'}">
+                                <f:render section="Image" arguments="{image: seriesArticle.teaserImage}"/>
+                                <div class="BlogSeries__item-text">
+                                    {seriesArticle.title}
+                                    <f:render partial="Elements/Blog/Article" section="DateAuthors"
+                                              arguments="{blogArticle: seriesArticle, blogAuthors: blogAuthors}"/>
+                                </div>
+                            </f:link.page>
+                        </f:spaceless>
+                    </li>
+                </f:for>
+            </ol>
+        </div>
+    </f:if>
+
+
+    <f:comment><!--
+
+        Render the Image 
+
+        @param BlogArticle blogArticle              Blog article
+
+    --></f:comment>
+    <f:section name="Image">
+        <div class="BlogSeries__item-thumbnail">
+            <f:if condition="{image}">
+                <f:then>
+                    <base:image image="{image}" cropVariant="blog_thumbnail" width="50c" height="50c"/>
+                </f:then>
+                <f:else>
+                    <base:image src="/typo3conf/ext/tw_blog/Resources/Public/Images/Card/card-default.jpg"
+                                cropVariant="blog_thumbnail" width="50c" height="50c"/>
+                </f:else>
+            </f:if>
+        </div>
+    </f:section>
+</html>

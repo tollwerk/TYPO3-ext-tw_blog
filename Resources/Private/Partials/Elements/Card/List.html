@@ -1,0 +1,45 @@
+<f:comment><!--
+
+    @param array card       Card items (see Item.html)
+
+--></f:comment>
+<html xmlns:f="https://xsd.helhum.io/ns/typo3/cms-fluid/master/ViewHelpers" data-namespace-typo3-fluid="true">
+    <f:spaceless>
+        <f:render section="List" contentAs="content">
+            <f:for each="{cards}" as="card" iteration="iterator" key="itemkey">
+                <f:render section="Item" contentAs="content" arguments="{itemkey: itemkey}">
+                    <f:render partial="Elements/Card/Item" arguments="{card: card, itemkey: itemkey}"/>
+                </f:render>
+            </f:for>
+        </f:render>
+
+        <f:comment><!--
+
+            @param string content       Card items
+            @param string class         Additional CSS classes
+
+        --></f:comment>
+        <f:section name="List">
+            <ol class="CardList{f:if(condition: class, then: ' {class}')}" itemscope
+                itemtype="http://schema.org/ItemList">
+                <f:format.raw>{content}</f:format.raw>
+            </ol>
+        </f:section>
+
+        <f:comment><!--
+
+            @param string content                   Card content
+            @param string position                  Item position
+            @param string class                     Additional CSS classes
+            @param string additionalAttributes      Additional attributes
+
+        --></f:comment>
+        <f:section name="Item">
+            <li class="CardList__item{f:if(condition: class, then: ' {class}')}" itemprop="itemListElement" itemscope
+                itemtype="http://schema.org/ListItem" {base:attributes.list(nonEmptyAttributes: additionalAttributes)}>
+                <meta itemprop="position" content="{position}"/>
+                <f:format.raw>{content}</f:format.raw>
+            </li>
+        </f:section>
+    </f:spaceless>
+</html>
