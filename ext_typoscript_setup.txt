@@ -13,25 +13,27 @@ config.tx_extbase.persistence.classes {
             image.mapOnProperty = image
             deleted.mapOnProperty = deleted
             pi_flexform.mapOnProperty = flexform
+            list_type.mapOnProperty = listType
         }
     }
 
     Tollwerk\TwBlog\Domain\Model\BlogArticle.mapping {
         tableName = pages
         columns {
-            uid.mapOnProperty = uid
-            pid.mapOnProperty = pid
-            title.mapOnProperty = title
-            starttime.mapOnProperty = starttime
-            endtime.mapOnProperty = endtime
             tstamp.mapOnProperty = lastmod
-            crdate.mapOnProperty = crdate
-            media.mapOnProperty = media
+            l18n_cfg.mapOnProperty = localizationConfig
             tx_twblog_blog_teaser_text.mapOnProperty = teaserText
             tx_twblog_blog_teaser_image.mapOnProperty = teaserImage
             tx_twblog_blog_authors.mapOnProperty = authors
             tx_twblog_blog_series.mapOnProperty = blogSeries
             tx_twblog_blog_comments.mapOnProperty = comments
+        }
+    }
+
+    Tollwerk\TwBlog\Domain\Model\BlogAuthor.mapping {
+        tableName = be_users
+        columns {
+            avatar.mapOnPorperty = avatar
         }
     }
 

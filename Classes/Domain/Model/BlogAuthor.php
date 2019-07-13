@@ -5,7 +5,7 @@
  *
  * @category   Tollwerk
  * @package    Tollwerk\TwBlog
- * @subpackage Tollwerk\TwBlog\Domain
+ * @subpackage Tollwerk\TwBlog\Domain\Model
  * @author     Joschi Kuphal <joschi@tollwerk.de> / @jkphl
  * @copyright  Copyright © 2019 Joschi Kuphal <joschi@tollwerk.de> / @jkphl
  * @license    http://opensource.org/licenses/MIT The MIT License (MIT)
@@ -36,40 +36,41 @@
 
 namespace Tollwerk\TwBlog\Domain\Model;
 
+use TYPO3\CMS\Beuser\Domain\Model\BackendUser;
 use TYPO3\CMS\Extbase\Domain\Model\FileReference;
 
 /**
- * System Category
+ * Blog Author
  *
  * @package    Tollwerk\TwBlog
  * @subpackage Tollwerk\TwBlog\Domain\Model
  */
-class Category extends \TYPO3\CMS\Extbase\Domain\Model\Category
+class BlogAuthor extends BackendUser
 {
     /**
-     * Image
+     * Avatar
      *
      * @var \TYPO3\CMS\Extbase\Domain\Model\FileReference
      */
-    protected $image = null;
+    protected $avatar = null;
 
     /**
-     * Return the category image
+     * Get the avatar
      *
      * @return \TYPO3\CMS\Extbase\Domain\Model\FileReference
      */
-    public function getImage(): ?FileReference
+    public function getAvatar(): ?FileReference
     {
-        return $this->image;
+        return $this->avatar;
     }
 
     /**
-     * Set the category image
+     * Set the avatar
      *
-     * @param \TYPO3\CMS\Extbase\Domain\Model\FileReference $image
+     * @param \TYPO3\CMS\Extbase\Domain\Model\FileReference $avatar
      */
-    public function setImage(FileReference $image)
+    public function setAvatar(FileReference $avatar): void
     {
-        $this->image = $image;
+        $this->avatar = $avatar;
     }
 }

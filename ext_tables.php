@@ -5,6 +5,12 @@ if (!defined('TYPO3_MODE')) {
 }
 call_user_func(
     function($extKey) {
+        \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addStaticFile(
+            $extKey,
+            'Configuration/TypoScript/Static',
+            'tollwerk Blog'
+        );
+
         // Allow records on standard pages
         \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::allowTableOnStandardPages('tx_twblog_domain_model_comment');
 

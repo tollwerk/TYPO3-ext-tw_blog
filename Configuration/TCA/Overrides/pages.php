@@ -37,14 +37,15 @@ if (!defined('TYPO3_MODE')) {
     die('Access denied.');
 }
 
-
 // Add new doktype as possible select item:
 call_user_func(
     function($extKey, $table) {
+        $blogType                                                                                = \Tollwerk\TwBlog\Domain\Model\BlogArticle::DOKTYPE;
         $GLOBALS['TCA'][$table]['columns']['media']['config']['appearance']['fileUploadAllowed'] = false;
         $GLOBALS['TCA'][$table]['columns']['categories']['config']['foreign_table_where']        = 'AND sys_category.pid IN (###PAGE_TSCONFIG_IDLIST###) AND sys_category.sys_language_uid IN (-1, 0) ORDER BY sys_category.sorting ASC';
         $GLOBALS['TCA'][$table]['columns']['starttime']['config']['eval']                        = 'datetime,int';
         $GLOBALS['TCA'][$table]['columns']['title']['config']['eval']                            = 'trim,required,uniqueInPid';
+        $GLOBALS['TCA'][$table]['types'][$blogType]                                              = $GLOBALS['TCA'][$table]['types']['1'];
 
         // Add new columns
         $newColumns = [
@@ -89,7 +90,7 @@ call_user_func(
                     'type'                => 'select',
                     'renderType'          => 'selectMultipleSideBySide',
                     'foreign_table'       => 'be_users',
-                    'foreign_table_where' => 'AND be_users.username NOT LIKE "\_%" ORDER BY be_users.realName ASC',
+                    'foreign_table_where' => 'AND be_users.username NOT LIKE "\_cli%" ORDER BY be_users.realName ASC',
                     'MM'                  => 'tx_twblog_blog_article_author_mm',
                     'size'                => 3,
                     'minitems'            => 1,
@@ -132,17 +133,18 @@ call_user_func(
             $table,
             '--div--;LLL:EXT:tw_blog/Resources/Private/Language/locallang_db.xlf:plugin.blog,
             --palette--;;blogteaser, tx_twblog_blog_teaser_image, tx_twblog_blog_authors,
-            --div--;LLL:EXT:tw_blog/Resources/Private/Language/locallang_db.xlf:plugin.blog.comments, tx_twblog_blog_comments'
+            --div--;LLL:EXT:tw_blog/Resources/Private/Language/locallang_db.xlf:plugin.blog.comments, tx_twblog_blog_comments',
+            $blogType
         );
-        \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addFieldsToPalette($table,
-            'visibility', 'space_after_class', 'after:space_after_class');
+        \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addFieldsToPalette(
+            $table,
+            'visibility', 'space_after_class', 'after:space_after_class'
+        );
 
-        $GLOBALS['TCA'][$table]['palettes']['blogteaser']   = [
+        $GLOBALS['TCA'][$table]['palettes']['blogteaser'] = [
             'showitem'       => 'tx_twblog_blog_teaser_text, tx_twblog_blog_series',
             'canNotCollapse' => true,
         ];
-
-        $archiveDoktype = \Tollwerk\TwBlog\Domain\Repository\BlogArticleRepository::DOKTYPE;
 
         // Add new page type as possible select item:
         \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addTcaSelectItem(
@@ -150,7 +152,7 @@ call_user_func(
             'doktype',
             [
                 'LLL:EXT:'.$extKey.'/Resources/Private/Language/locallang_db.xlf:plugin.blog',
-                $archiveDoktype,
+                $blogType,
                 'EXT:'.$extKey.'/Resources/Public/Icons/Extension/apps-pagetree-page-blogpage.svg'
             ],
             '1',
@@ -163,7 +165,7 @@ call_user_func(
             [
                 'ctrl' => [
                     'typeicon_classes' => [
-                        $archiveDoktype => 'apps-pagetree-blog',
+                        $blogType => 'apps-pagetree-blog',
                     ],
                 ],
             ]

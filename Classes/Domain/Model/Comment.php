@@ -46,6 +46,13 @@ use TYPO3\CMS\Extbase\DomainObject\AbstractEntity;
 class  Comment extends AbstractEntity
 {
     /**
+     * Creation date
+     *
+     * @var int
+     */
+    protected $crdate;
+
+    /**
      * Parent unique identifier
      *
      * @var int
@@ -61,13 +68,13 @@ class  Comment extends AbstractEntity
 
     /**
      * @var string
-     * @Extbase\Validate("NotEmpty")
+     * @TYPO3\CMS\Extbase\Annotation\Validate("NotEmpty")
      */
     protected $name = '';
 
     /**
      * @var string
-     * @Extbase\Validate("NotEmpty")
+     * @TYPO3\CMS\Extbase\Annotation\Validate("NotEmpty")
      */
     protected $email = '';
 
@@ -197,5 +204,25 @@ class  Comment extends AbstractEntity
     public function setReplies($replies)
     {
         $this->replies = $replies;
+    }
+
+    /**
+     * Return the creation date
+     *
+     * @return int Creation date
+     */
+    public function getCrdate(): int
+    {
+        return $this->crdate;
+    }
+
+    /**
+     * Set the creation date
+     *
+     * @param int $crdate Creation date
+     */
+    public function setCrdate(int $crdate): void
+    {
+        $this->crdate = $crdate;
     }
 }

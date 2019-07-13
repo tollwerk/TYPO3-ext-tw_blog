@@ -46,7 +46,6 @@ use TYPO3\CMS\Extbase\Persistence\ObjectStorage;
  */
 class BlogArticle extends AbstractEntity
 {
-
     /**
      * Blog document type
      *
@@ -67,6 +66,13 @@ class BlogArticle extends AbstractEntity
      * @var int
      */
     protected $pid;
+
+    /**
+     * Doktype
+     *
+     * @var int
+     */
+    protected $doktype;
 
     /**
      * Blog title
@@ -111,9 +117,22 @@ class BlogArticle extends AbstractEntity
     protected $crdate = 0;
 
     /**
-     * Authors
+     * Blog last modification
      *
      * @var int
+     */
+    protected $tstamp = 0;
+    /**
+     * Localization configuration
+     *
+     * @var int
+     */
+    protected $localizationConfig = 0;
+
+    /**
+     * Authors
+     *
+     * @var \TYPO3\CMS\Extbase\Persistence\ObjectStorage<\Tollwerk\TwBlog\Domain\Model\BlogAuthor>
      */
     protected $authors = null;
 
@@ -135,7 +154,7 @@ class BlogArticle extends AbstractEntity
     /**
      * Categories
      *
-     * @var \TYPO3\CMS\Extbase\Persistence\ObjectStorage<\Tollwerk\TwBlog\Domain\Model\Category>
+     * @var \TYPO3\CMS\Extbase\Persistence\ObjectStorage<\TYPO3\CMS\Extbase\Domain\Model\Category>
      * @TYPO3\CMS\Extbase\Annotation\ORM\Lazy
      */
     protected $categories = null;
@@ -159,27 +178,27 @@ class BlogArticle extends AbstractEntity
      */
     protected function initStorageObjects()
     {
-        $this->authors  = new \TYPO3\CMS\Extbase\Persistence\ObjectStorage();
-        $this->comments = new \TYPO3\CMS\Extbase\Persistence\ObjectStorage();
-        $this->media    = new \TYPO3\CMS\Extbase\Persistence\ObjectStorage();
+        $this->authors  = new ObjectStorage();
+        $this->comments = new ObjectStorage();
+        $this->media    = new ObjectStorage();
     }
 
     /**
      * Return the authors
      *
-     * @return int
+     * @return ObjectStorage Authors
      */
-    public function getAuthors(): int
+    public function getAuthors(): ObjectStorage
     {
         return $this->authors;
     }
 
     /**
-     * Set the authors
+     * Set authors
      *
-     * @param int Authors
+     * @param ObjectStorage $authors Authors
      */
-    public function setAuthors(int $authors): void
+    public function setAuthors(ObjectStorage $authors): void
     {
         $this->authors = $authors;
     }
@@ -212,6 +231,26 @@ class BlogArticle extends AbstractEntity
     public function getPid(): int
     {
         return $this->pid;
+    }
+
+    /**
+     * Return the doktype
+     *
+     * @return int Doktype
+     */
+    public function getDoktype(): int
+    {
+        return $this->doktype;
+    }
+
+    /**
+     * Set the doktype
+     *
+     * @param int $doktype Doktype
+     */
+    public function setDoktype(int $doktype): void
+    {
+        $this->doktype = $doktype;
     }
 
     /**
@@ -292,6 +331,26 @@ class BlogArticle extends AbstractEntity
     public function setCrdate(int $crdate): void
     {
         $this->crdate = $crdate;
+    }
+
+    /**
+     * Return the modification date
+     *
+     * @return int Creation date
+     */
+    public function getTstamp(): int
+    {
+        return $this->tstamp;
+    }
+
+    /**
+     * Set the creation date
+     *
+     * @param int $tstamp modification date
+     */
+    public function setTstamp(int $tstamp): void
+    {
+        $this->tstamp = $tstamp;
     }
 
     /**
@@ -429,7 +488,7 @@ class BlogArticle extends AbstractEntity
     /**
      * Return the categories
      *
-     * @return \TYPO3\CMS\Extbase\Persistence\ObjectStorage<\MyVendor\MyModels\Domain\Model\Category>
+     * @return \TYPO3\CMS\Extbase\Persistence\ObjectStorage<\TYPO3\CMS\Extbase\Domain\Model\Category>
      */
     public function getCategories(): ObjectStorage
     {
@@ -446,5 +505,25 @@ class BlogArticle extends AbstractEntity
     public function setCategories(ObjectStorage $categories): void
     {
         $this->categories = $categories;
+    }
+
+    /**
+     * Return the localization configuration
+     *
+     * @return int
+     */
+    public function getLocalizationConfig(): int
+    {
+        return $this->localizationConfig;
+    }
+
+    /**
+     * Set the localization configuration
+     *
+     * @param int $localizationConfig
+     */
+    public function setLocalizationConfig(int $localizationConfig): void
+    {
+        $this->localizationConfig = $localizationConfig;
     }
 }

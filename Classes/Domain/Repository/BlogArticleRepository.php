@@ -40,7 +40,9 @@ use Tollwerk\TwBlog\Domain\Model\BlogArticle;
 use TYPO3\CMS\Core\Database\ConnectionPool;
 use TYPO3\CMS\Core\Database\QueryGenerator;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Extbase\Configuration\Exception\InvalidConfigurationTypeException;
 use TYPO3\CMS\Extbase\Object\ObjectManager;
+use TYPO3\CMS\Extbase\Persistence\Exception\InvalidQueryException;
 use TYPO3\CMS\Extbase\Persistence\QueryInterface;
 use TYPO3\CMS\Extbase\Persistence\QueryResultInterface;
 
@@ -169,6 +171,8 @@ class BlogArticleRepository extends AbstractRepository
      * @param BlogArticle $blogArticle
      *
      * @return null|BlogArticle Next blog article
+     * @throws InvalidConfigurationTypeException
+     * @throws InvalidQueryException
      */
     public function findNext(BlogArticle $blogArticle): ?BlogArticle
     {
@@ -197,6 +201,8 @@ class BlogArticleRepository extends AbstractRepository
      * @param BlogArticle $blogArticle
      *
      * @return null|BlogArticle Previous Blog article
+     * @throws InvalidConfigurationTypeException
+     * @throws InvalidQueryException
      */
     public function findPrevious(BlogArticle $blogArticle): ?BlogArticle
     {

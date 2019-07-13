@@ -8,6 +8,7 @@ plugin.tx_twblog {
             regularWidth = {$plugin.tx_twblog.settings.blog.regularWidth}
             featuredWidth = {$plugin.tx_twblog.settings.blog.featuredWidth}
             storagePid = {$plugin.tx_twblog.settings.blog.storagePid}
+            rootCategory = {$plugin.tx_twblog.settings.blog.rootCategory}
         }
     }
 }
