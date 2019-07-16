@@ -22,6 +22,13 @@
 			<trans-unit id="common.enable" xml:space="preserve">
 				<source>Enable this extension</source>
 			</trans-unit>
+            <trans-unit id="backendLayout.blogArticle">
+                <source>Blog article</source>
+            </trans-unit>
+            <trans-unit id="backendLayout.blogArticle.col.content">
+                <source>Content</source>
+            </trans-unit>
+
 
             <!-- Blog -->
             <trans-unit id="blog">
