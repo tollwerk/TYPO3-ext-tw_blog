@@ -14,14 +14,12 @@
         <nav class="PrevNext" aria-label="{label}">
             <f:if condition="{next.text}">
                 <a href="{next.url}" class="PrevNext__link PrevNext__link--next" title="{next.title}">
-                    <blog:icon icon="Backward"/>
                     <span class="PrevNext__link-text">{next.text}</span>
                 </a>
             </f:if>
             <f:if condition="{prev.text}">
                 <a href="{prev.url}" class="PrevNext__link PrevNext__link--prev" title="{prev.title}">
                     <span class="PrevNext__link-text">{prev.text}</span>
-                    <blog:icon icon="Forward"/>
                 </a>
             </f:if>
         </nav>

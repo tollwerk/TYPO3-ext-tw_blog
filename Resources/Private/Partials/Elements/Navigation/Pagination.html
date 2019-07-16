@@ -52,7 +52,6 @@
                                     title: '{f:translate(key: \'LLL:EXT:tw_blog/Resources/Private/Language/locallang.xlf:blog.pagination.first\')}'
                                 }"
                               contentAs="content">
-                        <blog:icon icon="Start" theme="grey500"/>
                     </f:render>
                 </f:if>
                 <f:if condition="{pagination.offsets.prev} >= 0">
@@ -65,7 +64,6 @@
                                 }"/>
                     <f:render section="Link" arguments="{offset: pagination.offsets.prev, plugin: plugin}"
                               contentAs="content">
-                        <blog:icon icon="Backward" theme="grey500"/>
                     </f:render>
                 </f:if>
             </div>
@@ -108,7 +106,6 @@
                                     plugin: plugin,
                                     title: '{f:translate(key: \'LLL:EXT:tw_blog/Resources/Private/Language/locallang.xlf:blog.pagination.next\')}'
                                 }" contentAs="content">
-                        <blog:icon icon="Forward" theme="grey500"/>
                     </f:render>
                 </f:if>
                 <f:if condition="{pagination.pages.last}">
@@ -120,7 +117,6 @@
                                       title: '{f:translate(key: \'LLL:EXT:tw_blog/Resources/Private/Language/locallang.xlf:blog.pagination.last\')}'
                                 }"
                               contentAs="content">
-                        <blog:icon icon="End" theme="grey500"/>
                     </f:render>
                 </f:if>
             </div>
