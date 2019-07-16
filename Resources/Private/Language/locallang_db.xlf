@@ -52,6 +52,9 @@
             <trans-unit id="plugin.blog.articles_per_page">
                 <source>Articles per page</source>
             </trans-unit>
+            <trans-unit id="plugin.blog.show_pagination">
+                <source>Show pagination</source>
+            </trans-unit>
             <trans-unit id="plugin.blog.storagePid">
                 <source>Storage page for blog articles (ID)</source>
             </trans-unit>

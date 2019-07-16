@@ -11,7 +11,6 @@
 
 --></f:comment>
 <html xmlns:f="https://xsd.helhum.io/ns/typo3/cms-fluid/master/ViewHelpers" data-namespace-typo3-fluid="true">
-
     <f:spaceless>
         <f:render section="Main" arguments="{_all}"/>
 
@@ -28,15 +27,15 @@
 
         --></f:comment>
         <f:section name="Main">
-            <f:if condition="{settings.display_mode}">
-                <f:then>
-                    <f:render section="BlogList--{settings.display_mode}" arguments="{blogArticles: blogArticles}"/>
-                </f:then>
-                <f:else>
-                    <f:render section="BlogList--default" arguments="{blogArticles: blogArticles}"/>
-                </f:else>
-            </f:if>
-            <f:render partial="Elements/Navigation/Pagination" arguments="{
+            <ol class="BlogList BlogList--{settings.display_mode}">
+                <f:for each="{blogArticles}" as="blogArticle">
+                    <li class="BlogListItem BlogListItem--{settings.display_mode}">
+                        <f:render section="ItemContent--{settings.display_mode}" arguments="{blogArticle: blogArticle}"/>
+                    </li>
+                </f:for>
+            </ol>
+            <f:if condition="{settings.show_pagination}">
+                <f:render partial="Elements/Navigation/Pagination" arguments="{
                     label: '{f:translate(key:\'LLL:EXT:tw_blog/Resources/Private/Language/locallang.xlf:blog.pagination.aria_label\')}',
                     section: 'c{settings.blog.listContent}',
                     countAll: countAll,
@@ -45,127 +44,35 @@
                     controller: 'Blog',
                     pluginName: 'Blog',
                     extensionName: 'TwBlog'
-                }"
-            />
-        </f:section>
-
-        <f:comment><!--
-
-            Render default blog list
-
-            @param BlogArticle[] blogArticles           The blog articles
-
-        --></f:comment>
-        <f:section name="BlogList--default">
-            <f:render partial="Elements/Card/List" section="List" contentAs="content"
-                      arguments="{class: 'BlogList BlogList--default'}">
-                <f:render section="Items" arguments="{
-                    blogArticles: blogArticles,
-                    contentSection: 'ItemDefault',
-                    maxWidth: settings.blog.regularWidth,
-                    cropVariant: 'blog_teaser'
-                    }"/>
-            </f:render>
-        </f:section>
-
-        <f:comment><!--
-
-            Render featured blog list
-
-            @param BlogArticle[] blogArticles           The blog articles
-
-        --></f:comment>
-        <f:section name="BlogList--featured">
-            <f:render partial="Elements/Card/List" section="List" contentAs="content"
-                      arguments="{class: 'BlogList BlogList--featured'}">
-                <f:render section="Items" arguments="{
-                        blogArticles: blogArticles,
-                        contentSection: 'ItemFeatured',
-                        maxWidth: settings.blog.featuredWidth,
-                        cropVariant: 'blog_featured_teaser'
-                    }"/>
-            </f:render>
-        </f:section>
-
-        <f:comment><!--
-
-            Render blog articles
-
-            @param BlogArticle[] blogArticles           The blog articles
-            @param string contentSection                Content section
-            @param int maxWidth                         Max. image width
-            @param string cropVariant                   Crop variant
-
-        --></f:comment>
-        <f:section name="Items">
-            <f:for each="{blogArticles}" as="blogArticle" iteration="iterator" key="position">
-                <f:render partial="Elements/Card/List" section="Item" contentAs="content"
-                          arguments="{class: 'BlogList__item', position: position}">
-                    <f:variable name="alternative">
-                        <f:if condition="{blogArticle.teaserImage.alternative}">
-                            <f:then>{blogArticle.teaserImage.alternative}</f:then>
-                            <f:else if="{blogArticle.teaserImage.originalResource.alternative}">
-                                {blogArticle.teaserImage.originalResource.alternative}
-                            </f:else>
-                            <f:else>{blogArticle.title}</f:else>
-                        </f:if>
-                    </f:variable>
-                    <f:render partial="Elements/Card/Item" section="VerticalOpaque" contentAs="content" arguments="{
-                        cropVariant: cropVariant,
-                        image: blogArticle.teaserImage,
-                        alternative: '{alternative -> v:format.trim()}',
-                        tabindex: '-1',
-                        link: '{f:uri.page(pageUid: blogArticle.uid)}',
-                        maxWidth: maxWidth,
-                        itemkey: '{itemkey}'
-                        }">
-                        <f:render section="{contentSection}" arguments="{blogArticle: blogArticle}"/>
-                        <div class="Card__link">
-                            <f:link.page pageUid="{blogArticle.uid}">
-                                ->
-                                <span class="hide-element"><f:translate
-                                        key="LLL:EXT:tw_blog/Resources/Private/Language/locallang.xlf:blog.readArticle"/></span>
-                            </f:link.page>
-                        </div>
-                    </f:render>
-                </f:render>
-            </f:for>
-        </f:section>
-
-        <f:comment><!--
-
-            Render the content of a featured article
-
-            @param BlogArticle blogArticle              Blog article
-
-        --></f:comment>
-        <f:section name="ItemFeatured">
-            <div class="Card__text">
-                <f:link.page tabindex="-1" pageUid="{blogArticle.uid}" additionalAttributes="{itemprop: 'url'}">
-                    <base:heading content="{blogArticle.title}" class="BlogList__item-title">
-                        <f:variable name="blogAuthors" value="{blog:blogArticle.authors(article: blogArticle)}"/>
-                        <f:render partial="Elements/Blog/Article" section="DateAuthors"
-                                  arguments="{blogArticle: blogArticle, blogAuthors: blogAuthors, class: 'BlogList__item-details'}"/>
-                        <f:render section="ItemTeaser" arguments="{blogArticle: blogArticle}"/>
-                        <f:render partial="Elements/Blog/Article" section="Categories"
-                                  arguments="{categories: blogArticle.categories}"/>
-                    </base:heading>
-                </f:link.page>
-            </div>
-        </f:section>
-
-        <f:comment><!--
-
-            Render a blog article teaser
-
-            @param BlogArticle blogArticle              Blog article
-
-        --></f:comment>
-        <f:section name="ItemTeaser">
-            <f:variable name="teaserText" value="{blogArticle.teaserText -> v:format.trim()}"/>
-            <f:if condition="{teaserText}">
-                <p class="BlogList__item-teaser">{teaserText}</p>
+                }"/>
             </f:if>
+        </f:section>
+
+
+
+
+        <f:comment><!--
+
+            Render the content of a default article
+
+            @param BlogArticle blogArticle              Blog article
+
+        --></f:comment>
+        <f:section name="ItemContent--default">
+            <div class="BlogListItem BlogListItem--default">
+
+                    <div class="BlogListItem__image">
+                        <f:if condition="{blogArticle.teaserImage}">
+                            <base:image image="{blogArticle.teaserImage}" />
+                        </f:if>
+                    </div>
+                    <f:link.page tabindex="-1" pageUid="{blogArticle.uid}" additionalAttributes="{itemprop: 'url'}">
+                        <base:heading content="{blogArticle.title}" class="BlogListItem__title"/>
+                    </f:link.page>
+                    <p class="BlogListItem__text">
+                        <f:format.nl2br>{blogArticle.teaserText}</f:format.nl2br>
+                    </p>
+            </div>
         </f:section>
 
         <f:comment><!--
@@ -175,12 +82,14 @@
             @param BlogArticle blogArticle              Blog article
 
         --></f:comment>
-        <f:section name="ItemDefault">
-            <div class="Card__text">
+        <f:section name="ItemContent--featured">
+            <div class="BlogListItem BlogListItem--default">
                 <f:link.page tabindex="-1" pageUid="{blogArticle.uid}" additionalAttributes="{itemprop: 'url'}">
                     <base:heading content="{blogArticle.title}" class="BlogList__item-title"/>
                 </f:link.page>
             </div>
         </f:section>
+
+
     </f:spaceless>
 </html>
