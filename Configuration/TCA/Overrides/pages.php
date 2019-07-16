@@ -40,12 +40,11 @@ if (!defined('TYPO3_MODE')) {
 // Add new doktype as possible select item:
 call_user_func(
     function($extKey, $table) {
-        $blogType                                                                                = \Tollwerk\TwBlog\Domain\Model\BlogArticle::DOKTYPE;
         $GLOBALS['TCA'][$table]['columns']['media']['config']['appearance']['fileUploadAllowed'] = false;
         $GLOBALS['TCA'][$table]['columns']['categories']['config']['foreign_table_where']        = 'AND sys_category.pid IN (###PAGE_TSCONFIG_IDLIST###) AND sys_category.sys_language_uid IN (-1, 0) ORDER BY sys_category.sorting ASC';
         $GLOBALS['TCA'][$table]['columns']['starttime']['config']['eval']                        = 'datetime,int';
         $GLOBALS['TCA'][$table]['columns']['title']['config']['eval']                            = 'trim,required,uniqueInPid';
-        $GLOBALS['TCA'][$table]['types'][$blogType]                                              = $GLOBALS['TCA'][$table]['types']['1'];
+        $GLOBALS['TCA'][$table]['types'][\Tollwerk\TwBlog\Domain\Model\BlogArticle::DOKTYPE]     = $GLOBALS['TCA'][$table]['types']['1'];
 
         // Add new columns
         $newColumns = [
@@ -134,7 +133,7 @@ call_user_func(
             '--div--;LLL:EXT:tw_blog/Resources/Private/Language/locallang_db.xlf:plugin.blog,
             --palette--;;blogteaser, tx_twblog_blog_teaser_image, tx_twblog_blog_authors,
             --div--;LLL:EXT:tw_blog/Resources/Private/Language/locallang_db.xlf:plugin.blog.comments, tx_twblog_blog_comments',
-            $blogType
+            \Tollwerk\TwBlog\Domain\Model\BlogArticle::DOKTYPE
         );
         \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addFieldsToPalette(
             $table,
@@ -152,7 +151,7 @@ call_user_func(
             'doktype',
             [
                 'LLL:EXT:'.$extKey.'/Resources/Private/Language/locallang_db.xlf:plugin.blog',
-                $blogType,
+                \Tollwerk\TwBlog\Domain\Model\BlogArticle::DOKTYPE,
                 'EXT:'.$extKey.'/Resources/Public/Icons/Extension/apps-pagetree-page-blogpage.svg'
             ],
             '1',
@@ -165,7 +164,7 @@ call_user_func(
             [
                 'ctrl' => [
                     'typeicon_classes' => [
-                        $blogType => 'apps-pagetree-blog',
+                        \Tollwerk\TwBlog\Domain\Model\BlogArticle::DOKTYPE => 'apps-pagetree-blog',
                     ],
                 ],
             ]

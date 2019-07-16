@@ -5,25 +5,5 @@
 --></f:comment>
 <html xmlns:f="https://xsd.helhum.io/ns/typo3/cms-fluid/master/ViewHelpers" data-namespace-typo3-fluid="true">
     <f:variable name="blogArticle" value="{blog:blogArticle.get()}"/>
-    <f:render partial="Elements/Page/Header" arguments="{data: data}"/>
-    <div class="Page Page--blog frame frame-default">
-        <div class="cols">
-            <f:render partial="Elements/Page/Main" contentAs="content" arguments="{class: 'col-8-of-12'}">
-                <f:render partial="Elements/Blog/Article" contentAs="content"
-                          arguments="{blogArticle: blogArticle, blogAuthors: blogAuthors}">
-                    <f:render section="Content"/>
-                </f:render>
-            </f:render>
-            <f:render partial="Elements/Page/Aside" contentAs="content" arguments="{class: 'col-4-of-12'}">
-                <f:render partial="Elements/Blog/Authors" section="Interviewees"
-                          arguments="{authors: '{blog:blogArticle.interviewees(uid: blogArticle.uid)}'}"/>
-                <f:render partial="Elements/Blog/Authors"
-                          arguments="{authors: '{blog:blogArticle.authors(article: blogArticle)}'}"/>
-                <f:render partial="Elements/Blog/Series" arguments="{blogArticle: blogArticle}"/>
-                <f:render partial="Elements/SocialMedia/Nueww"/>
-                <f:render partial="Elements/Newsletter/Default"/>
-            </f:render>
-        </div>
-    </div>
-    <f:render partial="Elements/Page/Footer" arguments="{data: data}"/>
+    <f:render section="Content" arguments="{_all}"/>
 </html>
