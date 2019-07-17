@@ -79,14 +79,19 @@ class BlogArticle extends AbstractEntity
      *
      * @var string
      */
-    protected $title = "";
+    protected $title = '';
+
+    /**
+     * @var string
+     */
+    protected $subtitle = '';
 
     /**
      * Teaser text
      *
      * @var string
      */
-    protected $teaserText = "";
+    protected $teaserText = '';
 
     /**
      * Teaser image
@@ -272,6 +277,23 @@ class BlogArticle extends AbstractEntity
     {
         $this->title = $title;
     }
+
+    /**
+     * @return string
+     */
+    public function getSubtitle(): string
+    {
+        return $this->subtitle;
+    }
+
+    /**
+     * @param string $subtitle
+     */
+    public function setSubtitle(string $subtitle): void
+    {
+        $this->subtitle = $subtitle;
+    }
+
 
     /**
      * Return the teaser text

@@ -76,6 +76,16 @@
             <trans-unit id="plugin.blog.display_mode.featured">
                 <source>Featured Articles</source>
             </trans-unit>
+
+            <!-- Table: be_users -->
+            <trans-unit id="be_users.tx_twblog_frontend_name" approved="yes">
+                <source>Frontend name</source>
+            </trans-unit>
+            <trans-unit id="be_users.tx_twblog_frontend_image" approved="yes">
+                <source>Frontend image</source>
+            </trans-unit>
+
+            <!-- Table: Pages -->
             <trans-unit id="pages.tx_twblog_blog_featured" approved="yes">
                 <source>Is featured article</source>
             </trans-unit>
