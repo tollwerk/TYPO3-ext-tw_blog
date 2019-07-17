@@ -108,6 +108,14 @@ class BlogArticle extends AbstractEntity
     protected $media = null;
 
     /**
+     * Related articles
+     *
+     * @var \TYPO3\CMS\Extbase\Persistence\ObjectStorage<\Tollwerk\TwBlog\Domain\Model\BlogArticle> relatedArticles
+     * @TYPO3\CMS\Extbase\Annotation\ORM\Lazy
+     */
+    protected $relatedArticles = null;
+
+    /**
      * Blog publishing date
      *
      * @var int
@@ -547,5 +555,52 @@ class BlogArticle extends AbstractEntity
     public function setLocalizationConfig(int $localizationConfig): void
     {
         $this->localizationConfig = $localizationConfig;
+    }
+
+
+    /**
+     * Add a relatedArticle
+     *
+     * @param \Tollwerk\TwBlog\Domain\Model\BlogArticle $relatedArticle
+     *
+     * @return void
+     */
+    public function addRelatedArticles(BlogArticle $relatedArticle): void
+    {
+        $this->relatedArticles->attach($relatedArticle);
+    }
+
+    /**
+     * Remove a relatedArticle
+     *
+     * @param \Tollwerk\TwBlog\Domain\Model\BlogArticle $relatedArticleToRemove The related article to be removed
+     *
+     * @return void
+     */
+    public function removeRelatedArticle(BlogArticle $relatedArticleToRemove): void
+    {
+        $this->relatedArticles->detach($relatedArticleToRemove);
+    }
+
+    /**
+     * Return all relatedArticles
+     *
+     * @return \TYPO3\CMS\Extbase\Persistence\ObjectStorage<\Tollwerk\TwBlog\Domain\Model\BlogArticle> relatedArticles
+     */
+    public function getRelatedArticles(): ObjectStorage
+    {
+        return $this->relatedArticles;
+    }
+
+    /**
+     * Set the relatedArticles
+     *
+     * @param \TYPO3\CMS\Extbase\Persistence\ObjectStorage<\Tollwerk\TwBlog\Domain\Model\BlogArticle> $relatedArticles
+     *
+     * @return void
+     */
+    public function setRelatedArticles(ObjectStorage $relatedArticles): void
+    {
+        $this->relatedArticles = $relatedArticles;
     }
 }

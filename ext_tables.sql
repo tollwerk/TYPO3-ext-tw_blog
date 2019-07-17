@@ -1,10 +1,11 @@
 CREATE TABLE pages
 (
-  tx_twblog_blog_teaser_image INT(11) UNSIGNED NOT NULL DEFAULT '0',
-  tx_twblog_blog_teaser_text  TEXT             NOT NULL DEFAULT '',
-  tx_twblog_blog_authors      INT(11) UNSIGNED NOT NULL DEFAULT '0',
-  tx_twblog_blog_series       INT(11) UNSIGNED NOT NULL DEFAULT '0',
-  tx_twblog_blog_comments     VARCHAR(255)              DEFAULT '' NOT NULL,
+  tx_twblog_blog_teaser_image     INT(11) UNSIGNED NOT NULL DEFAULT '0',
+  tx_twblog_blog_teaser_text      TEXT             NOT NULL DEFAULT '',
+  tx_twblog_blog_related_articles VARCHAR(32)               DEFAULT '' NOT NULL,
+  tx_twblog_blog_authors          INT(11) UNSIGNED NOT NULL DEFAULT '0',
+  tx_twblog_blog_series           INT(11) UNSIGNED NOT NULL DEFAULT '0',
+  tx_twblog_blog_comments         VARCHAR(255)              DEFAULT '' NOT NULL
 );
 
 CREATE TABLE be_users

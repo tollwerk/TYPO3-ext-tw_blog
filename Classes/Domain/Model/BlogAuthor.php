@@ -48,29 +48,48 @@ use TYPO3\CMS\Extbase\Domain\Model\FileReference;
 class BlogAuthor extends BackendUser
 {
     /**
-     * Avatar
-     *
+     * @var string
+     */
+    protected $frontendName = '';
+
+    /**
      * @var \TYPO3\CMS\Extbase\Domain\Model\FileReference
      */
-    protected $avatar = null;
+    protected $frontendImage = null;
+
+    /**
+     * @return string
+     */
+    public function getFrontendName(): string
+    {
+        return $this->frontendName;
+    }
+
+    /**
+     * @param string $frontendName
+     */
+    public function setFrontendName(string $frontendName): void
+    {
+        $this->frontendName = $frontendName;
+    }
 
     /**
      * Get the avatar
      *
      * @return \TYPO3\CMS\Extbase\Domain\Model\FileReference
      */
-    public function getAvatar(): ?FileReference
+    public function getFrontendImage(): ?FileReference
     {
-        return $this->avatar;
+        return $this->frontendImage;
     }
 
     /**
      * Set the avatar
      *
-     * @param \TYPO3\CMS\Extbase\Domain\Model\FileReference $avatar
+     * @param \TYPO3\CMS\Extbase\Domain\Model\FileReference $frontendImage
      */
-    public function setAvatar(FileReference $avatar): void
+    public function setFrontendImage(FileReference $frontendImage): void
     {
-        $this->avatar = $avatar;
+        $this->frontendImage = $frontendImage;
     }
 }
