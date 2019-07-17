@@ -1,5 +1,5 @@
 <f:layout name="Blog"/>
 
-<f:section name="Content">
-    <f:cObject typoscriptObjectPath="lib.tx_twblog.pageContent" data="{colPos: '0'}" />
+<f:section name="Main">
+    <f:render partial="Elements/Blog/Article" arguments="{_all}"/>
 </f:section>

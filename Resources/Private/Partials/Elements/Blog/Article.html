@@ -6,181 +6,19 @@
 <html xmlns:f="https://xsd.helhum.io/ns/typo3/cms-fluid/master/ViewHelpers"
       xmlns:base="http://typo3.org/ns/Tollwerk/TwBase/ViewHelpers" data-namespace-typo3-fluid="true">
 
-    <f:render section="Article" arguments="{_all}"/>
+    <div class="BlogArticle">
 
-    <f:section name="Article">
-        <f:variable name="blogAuthors" value="{blog:blogArticle.authors(article: blogArticle)}"/>
-        <article class="BlogArticle" itemprop="blogPost" itemscope itemtype="http://schema.org/BlogPosting">
-            <header class="BlogArticle__header">
-                <div class="BlogArticle__header__top">
-                    <f:render section="DateAuthors" arguments="{blogArticle: blogArticle, blogAuthors: blogAuthors}"/>
-                    <f:render partial="Elements/Sponsors/Default"
-                              arguments="{sponsors: '{blog:blogArticle.sponsors(uid: blogArticle.uid)}'}"/>
-                </div>
-                <base:heading level="1" content="{blogArticle.title}" additionalAttributes="{itemprop: 'headline'}"/>
-                <f:render section="Categories" arguments="{categories: blogArticle.categories}"/>
-            </header>
-
-            <f:if condition="{blogArticle.teaserImage}">
-                <figure class="BlogArticle__header-image">
-                <base:media
-                        file="{blogArticle.teaserImage}"
-                        width="{settings.blog.imageWidth}m"
-                        title="{blogArticle.teaserImage.title}"
-                        alt="{blogArticle.teaserImage.alternative}"
-                        srcset="{settings.media.srcset}"
-                        sizes="{settings.media.sizes}"
-                        picturefill="{settings.media.picturefill}"
-                        responsive="1"
-                        cropVariant="blog_header"
-                />
-                    <f:if condition="{blogArticle.teaserImage.originalResource.properties.tx_twblog_copyright_author} || {blogArticle.teaserImage.originalResource.properties.tx_twblog_copyright_year} || {blogArticle.teaserImage.originalResource.properties.tx_twblog_copyright_license}">
-                        <figcaption class="BlogArticle__header-image-caption">
-                            <f:if condition="{blogArticle.teaserImage.originalResource.properties.tx_twblog_copyright_author}">
-                                <span>{blogArticle.teaserImage.originalResource.properties.tx_twblog_copyright_author}</span>
-                            </f:if>
-                            <f:if condition="{blogArticle.teaserImage.originalResource.properties.tx_twblog_copyright_year}">
-                                <span>{blogArticle.teaserImage.originalResource.properties.tx_twblog_copyright_year}</span>
-                            </f:if>
-                            <f:if condition="{blogArticle.teaserImage.originalResource.properties.tx_twblog_copyright_license}">
-                                <span class="BlogArticle__header-image-caption-license"><f:translate key="LLL:EXT:tw_blog/Resources/Private/Language/locallang.xlf:license"/>: <f:translate key="LLL:EXT:tw_blog/Resources/Private/Language/locallang.xlf:license.{blogArticle.teaserImage.originalResource.properties.tx_twblog_copyright_license}"/></span>
-                                {blogArticle.teaserImage.originalResource.properties.tx_twblog_copyright_license}
-                            </f:if>
-                        </figcaption>
-                    </f:if>
-                </figure>
-
-                <f:comment>
-                    <base:image class="BlogArticle__header-image" image="{blogArticle.teaserImage}"
-                                cropVariant="blog_header" maxWidth="{settings.blog.imageWidth}"
-                                additionalAttributes="{itemprop: 'image'}"/>
-                </f:comment>
-            </f:if>
-
-            <div class="BlogArticle__content">
-                <span itemprop="text">
-                    <f:format.raw>{content}</f:format.raw>
-                </span>
-                <f:render section="PrevNext" arguments="{_all}"/>
-            </div>
-
-            <span itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-                <meta itemprop="name"
-                      content="{f:translate(key: 'LLL:EXT:tw_blog/Resources/Private/Language/locallang.xlf:app.title')}"/>
-                <meta itemprop="logo"
-                      content="{base:uri.image(src: '/typo3conf/ext/tw_blog/Resources/Public/Images/nueww-2018.svg', absolute: 1)}"/>
-            </span>
-        </article>
-    </f:section>
-
-    <f:comment><!--
-
-        Render the blog article date & authors
-
-        @param BlogArticle blogArticle              Blog article
-        @param AbstractContact blogAuthors          Blog authors
-        @param string class                         Additional CSS classes
-
-    --></f:comment>
-    <f:section name="DateAuthors">
-        <div class="BlogArticle__details {class}">
-            <f:render section="Date" arguments="{blogArticle: blogArticle}"/>
-            <f:if condition="{blogAuthors}">
-                <ul class="BlogArticle__authors">
-                    <f:for each="{blogAuthors}" as="blogAuthor">
-                        <f:render section="Author" arguments="{blogAuthor: blogAuthor}"/>
-                    </f:for>
-                </ul>
-            </f:if>
-            <f:render section="Author" arguments="{blogAuthor: blogAuthor}"/>
+        <div class="BlogArticle__content">
+            <f:variable name="content" value="{v:content.render(column: 0, pageUid: blogArticle.uid)}"/>
+            <f:format.raw>{content}</f:format.raw>
         </div>
-    </f:section>
-
-    <f:comment><!--
-
-        Render the blog article date
-
-        @param BlogArticle blogArticle              Blog article
-
-    --></f:comment>
-    <f:section name="Date">
-        <f:if condition="{blogArticle.startTime}">
-            <f:then>
-                <f:variable name="date" value="{blogArticle.startTime}"/>
-            </f:then>
-            <f:else>
-                <f:variable name="date" value="{blogArticle.crdate}"/>
-            </f:else>
-        </f:if>
-        <time class="BlogArticle__time" datetime="{f:format.date(date: date, format: '%Y-%m-%d')}"
-              itemprop="datePublished">
-            <f:format.date
-                    format="{f:translate(key: 'LLL:EXT:tw_blog/Resources/Private/Language/locallang.xlf:date_format')}">
-                {date}
-            </f:format.date>
-        </time>
-    </f:section>
-
-    <f:comment><!--
-
-        Render the primary blog article author
-
-        @param BlogArticle blogAuthor               Primary blog author
-
-    --></f:comment>
-    <f:section name="Author">
-        <f:if condition="{blogAuthor}">
-            <li class="BlogArticle__author" itemprop="author">{blogAuthor.givenName} {blogAuthor.familyName}</li>
-        </f:if>
-    </f:section>
-
-    <f:section name="Fractal">
-        <f:variable name="content" value="{v:content.render(column: 0, pageUid: blogArticle.uid)}"/>
-        <f:render section="Article" arguments="{_all}"/>
-    </f:section>
-
-    <f:comment><!--
-
-        Render the blog article categories
-
-        @param Category[] categories                Blog categories
-
-    --></f:comment>
-    <f:section name="Categories">
-        <f:render partial="Elements/Tag/List" section="TagList--small" contentAs="content">
-            <f:for each="{categories}" as="category">
-                <f:render partial="Elements/Tag/List" section="TagList__item" contentAs="content">
-                    <f:render partial="Elements/Tag/Default" arguments="{title: category.title}"/>
-                </f:render>
-            </f:for>
-        </f:render>
-    </f:section>
-
-    <f:comment><!--
-
-        Render the blog article next and after this blog article a series
-
-        @param BlogArticle blogArticle              Blog article
-
-    --></f:comment>
-    <f:section name="PrevNext">
-        <f:variable name="nextBlogArticle" value="{blog:blogArticle.next(blogArticle: blogArticle)}"/>
-        <f:variable name="previousBlogArticle" value="{blog:blogArticle.previous(blogArticle: blogArticle)}"/>
-        <f:if condition="{previousBlogArticle}">
-            <f:variable name="prev" value="{
-                title: previousBlogArticle.title,
-                url: '{f:uri.page(pageUid: previousBlogArticle.uid)}',
-                text: '{f:translate(key: \'LLL:EXT:tw_blog/Resources/Private/Language/locallang.xlf:blog.prevnext.prev\')}'
-            }"/>
-        </f:if>
-        <f:if condition="{nextBlogArticle}">
-            <f:variable name="next" value="{
-                title: nextBlogArticle.title,
-                url: '{f:uri.page(pageUid: nextBlogArticle.uid)}',
-                text: '{f:translate(key: \'LLL:EXT:tw_blog/Resources/Private/Language/locallang.xlf:blog.prevnext.next\')}'
-            }"/>
-        </f:if>
-        <f:render partial="Elements/Navigation/PrevNext"
-                  arguments="{prev: prev, next: next, label: '{f:translate(key: \'LLL:EXT:tw_blog/Resources/Private/Language/locallang.xlf:blog.prevnext.aria_label\')}'}"/>
-    </f:section>
+        <div class="BlogArticle__meta">
+            <f:debug>{blogArticle}</f:debug>
+            <ul>
+                <f:for each="{blogArticle.authors}" as="author">
+                    <li>{author.realName}</li>
+                </f:for>
+            </ul>
+        </div>
+    </div>
 </html>
