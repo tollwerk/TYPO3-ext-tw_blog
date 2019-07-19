@@ -46,6 +46,8 @@ use TYPO3\CMS\Extbase\Persistence\ObjectStorage;
  */
 class BlogArticle extends AbstractEntity
 {
+
+
     /**
      * Blog document type
      *
@@ -73,6 +75,11 @@ class BlogArticle extends AbstractEntity
      * @var int
      */
     protected $doktype;
+
+    /**
+     * @var bool
+     */
+    protected $hidden = false;
 
     /**
      * Blog title
@@ -264,6 +271,22 @@ class BlogArticle extends AbstractEntity
     public function setDoktype(int $doktype): void
     {
         $this->doktype = $doktype;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isHidden(): bool
+    {
+        return $this->hidden;
+    }
+
+    /**
+     * @param bool $hidden
+     */
+    public function setHidden(bool $hidden): void
+    {
+        $this->hidden = $hidden;
     }
 
     /**

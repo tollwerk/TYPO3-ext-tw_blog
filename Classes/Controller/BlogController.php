@@ -100,14 +100,17 @@ class BlogController extends ActionController
      * List action
      *
      * @param int $offset
+     * @param bool $showDisabled
      */
-    public function listAction($offset = 0): void
+    public function listAction($offset = 0, $showDisabled = false): void
     {
+        $showDisabled = ($showDisabled === true ? true : (isset($this->settings['show_disabled']) ? true : false));
+
 
         $offset          = $this->settings['display_mode'] == self::DISPLAY_MODE_FEATURED ? 0 : $offset;
         $articlesPerPage = isset($this->settings['articles_per_page']) ? intval($this->settings['articles_per_page']) : intval($this->settings['blog']['articlesPerPage']);
-        $blogArticles    = $this->blogArticleRepository->findLimited($offset, $articlesPerPage);
-        $countAll        = $this->blogArticleRepository->countAll();
+        $blogArticles    = $this->blogArticleRepository->findLimited($offset, $articlesPerPage, $showDisabled);
+        $countAll        = $this->blogArticleRepository->countAll($showDisabled);
         $pagination      = ($this->settings['display_mode'] == self::DISPLAY_MODE_FEATURED)
             ? null : self::pagination($offset, $articlesPerPage, $countAll);
 

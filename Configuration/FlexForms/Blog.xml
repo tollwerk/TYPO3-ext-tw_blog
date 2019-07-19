@@ -48,6 +48,16 @@
                             <max>2</max>
                         </config>
                     </settings.articles_per_page>
+                    <settings.show_disabled>
+                        <exclude>1</exclude>
+                        <label>
+                            LLL:EXT:tw_blog/Resources/Private/Language/locallang_db.xlf:plugin.blog.show_disabled
+                        </label>
+                        <config>
+                            <type>check</type>
+                            <default>0</default>
+                        </config>
+                    </settings.show_disabled>
                     <settings.show_pagination>
                         <exclude>1</exclude>
                         <label>

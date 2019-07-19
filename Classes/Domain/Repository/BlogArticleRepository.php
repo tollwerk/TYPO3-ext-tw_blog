@@ -110,10 +110,11 @@ class BlogArticleRepository extends AbstractRepository
      * Returns all blog posts
      *
      * @param array $storagePids Optional: Storage PIDs
+     * @param bool $showDisabled
      *
      * @return QueryResultInterface|array
      */
-    public function findAll(array $storagePids = [])
+    public function findAll(array $storagePids = [], bool $showDisabled = false)
     {
         $query = $this->createQuery();
         if (!empty($storagePids)) {
@@ -151,12 +152,17 @@ class BlogArticleRepository extends AbstractRepository
      *
      * @param int $offset Offset
      * @param int $limit  Limit
+     * @param bool $showDisabled
      *
      * @return array|QueryResultInterface Blog articles
      */
-    public function findLimited($offset = 0, $limit = 1): ?QueryResultInterface
+    public function findLimited(int $offset = 0, int $limit = 1, bool $showDisabled = false): ?QueryResultInterface
     {
         $query = $this->createQuery();
+        if($showDisabled) {
+            $query->getQuerySettings()->setIgnoreEnableFields(true);
+        }
+
         $query->setOffset($offset);
         $query->setLimit($limit);
         $constraints = $this->getDefaultConstraints($query);
@@ -223,12 +229,17 @@ class BlogArticleRepository extends AbstractRepository
 
     /**
      * Count all available blog posts
+     *
+     * @param bool $showDisabled
      * @return int
      */
-    public function countAll(): int
+    public function countAll(bool $showDisabled = false): int
     {
         $queryBuilder = GeneralUtility::makeInstance(ConnectionPool::class)->getQueryBuilderForTable('pages');
         $query        = $this->createQuery();
+        if($showDisabled) {
+            $query->getQuerySettings()->setEnableFieldsToBeIgnored(['hidden']);
+        }
         $statement    = $queryBuilder
             ->select('uid')
             ->from('pages')
