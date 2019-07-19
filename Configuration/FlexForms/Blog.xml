@@ -33,6 +33,32 @@
                             </config>
                         </TCEforms>
                     </settings.display_mode>
+                    <settings.order_by>
+                        <TCEforms>
+                            <exclude>1</exclude>
+                            <label>
+                                LLL:EXT:tw_blog/Resources/Private/Language/locallang_db.xlf:plugin.blog.order_by
+                            </label>
+                            <config>
+                                <type>select</type>
+                                <renderType>selectSingle</renderType>
+                                <items>
+                                    <numIndex index="0" type="array">
+                                        <numIndex index="0">
+                                            LLL:EXT:tw_blog/Resources/Private/Language/locallang_db.xlf:plugin.blog.order_by.starttime
+                                        </numIndex>
+                                        <numIndex index="1">1</numIndex>
+                                    </numIndex>
+                                    <numIndex index="1" type="array">
+                                        <numIndex index="0">
+                                            LLL:EXT:tw_blog/Resources/Private/Language/locallang_db.xlf:plugin.blog.order_by.sorting
+                                        </numIndex>
+                                        <numIndex index="1">2</numIndex>
+                                    </numIndex>
+                                </items>
+                            </config>
+                        </TCEforms>
+                    </settings.order_by>
                     <settings.articles_per_page>
                         <exclude>1</exclude>
                         <label>

@@ -43,6 +43,15 @@
             <trans-unit id="plugin.blog.display_mode">
                 <source>Display Mode</source>
             </trans-unit>
+            <trans-unit id="plugin.blog.order_by">
+                <source>Order by</source>
+            </trans-unit>
+            <trans-unit id="plugin.blog.order_by.starttime">
+                <source>Start time</source>
+            </trans-unit>
+            <trans-unit id="plugin.blog.order_by.sorting">
+                <source>Manual sorting</source>
+            </trans-unit>
             <trans-unit id="plugin.blog.listPid">
                 <source>Blog article list page (ID)</source>
             </trans-unit>

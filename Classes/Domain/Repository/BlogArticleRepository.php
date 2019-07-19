@@ -54,12 +54,10 @@ use TYPO3\CMS\Extbase\Persistence\QueryResultInterface;
  */
 class BlogArticleRepository extends AbstractRepository
 {
-    /**
-     * Blog post doktype
-     *
-     * @var int
-     */
     const DOKTYPE = 116;
+    const ORDER_BY_STARTTIME = 1;
+    const ORDER_BY_SORTING = 2;
+
     /**
      * Blog article storage PIDs
      *
@@ -74,7 +72,7 @@ class BlogArticleRepository extends AbstractRepository
      */
     protected $defaultOrderings = array(
         'starttime' => QueryInterface::ORDER_DESCENDING,
-        'uid'       => QueryInterface::ORDER_DESCENDING
+        'uid' => QueryInterface::ORDER_DESCENDING
     );
 
     /**
@@ -100,7 +98,7 @@ class BlogArticleRepository extends AbstractRepository
      */
     protected function getStoragePidsRecursive($storagePid = 1, $recursive = 99): array
     {
-        $objectManager  = GeneralUtility::makeInstance(ObjectManager::class);
+        $objectManager = GeneralUtility::makeInstance(ObjectManager::class);
         $queryGenerator = $objectManager->get(QueryGenerator::class);
 
         return GeneralUtility::trimExplode(',', $queryGenerator->getTreeList($storagePid, $recursive));
@@ -140,7 +138,7 @@ class BlogArticleRepository extends AbstractRepository
         $query->getQuerySettings()->setRespectStoragePage(false);
         $query->getQuerySettings()->setIgnoreEnableFields(true);
 
-        $constraints   = $this->getDefaultConstraints($query);
+        $constraints = $this->getDefaultConstraints($query);
         $constraints[] = $query->equals('uid', $identifier);
         $query->matching($query->logicalAnd($constraints));
 
@@ -156,17 +154,32 @@ class BlogArticleRepository extends AbstractRepository
      *
      * @return array|QueryResultInterface Blog articles
      */
-    public function findLimited(int $offset = 0, int $limit = 1, bool $showDisabled = false): ?QueryResultInterface
+    public function findLimited(int $offset = 0, int $limit = 1, int $orderBy = self::ORDER_BY_STARTTIME, bool $showDisabled = false): ?QueryResultInterface
     {
         $query = $this->createQuery();
-        if($showDisabled) {
+        if ($showDisabled) {
             $query->getQuerySettings()->setIgnoreEnableFields(true);
+        }
+
+        switch ($orderBy){
+            case self::ORDER_BY_SORTING:
+                $query->setOrderings([
+                    'sorting' => QueryInterface::ORDER_ASCENDING,
+                ]);
+                break;
+            default:
+                $query->setOrderings([
+                    'starttime' => QueryInterface::ORDER_DESCENDING,
+                    'uid' => QueryInterface::ORDER_DESCENDING,
+
+                ]);
+                break;
         }
 
         $query->setOffset($offset);
         $query->setLimit($limit);
         $constraints = $this->getDefaultConstraints($query);
-        $return      = $query->matching($query->logicalAnd($constraints))->execute();
+        $return = $query->matching($query->logicalAnd($constraints))->execute();
 
         return $return;
     }
@@ -191,7 +204,7 @@ class BlogArticleRepository extends AbstractRepository
             $constraints[] = $query->greaterThan('starttime', $blogArticle->getStarttime());
             $query->setOrderings([
                 'starttime' => QueryInterface::ORDER_ASCENDING,
-                'uid'       => QueryInterface::ORDER_ASCENDING
+                'uid' => QueryInterface::ORDER_ASCENDING
             ]);
         } else {
             $constraints[] = $query->greaterThan('uid', $blogArticle->getUid());
@@ -231,16 +244,17 @@ class BlogArticleRepository extends AbstractRepository
      * Count all available blog posts
      *
      * @param bool $showDisabled
+     *
      * @return int
      */
     public function countAll(bool $showDisabled = false): int
     {
         $queryBuilder = GeneralUtility::makeInstance(ConnectionPool::class)->getQueryBuilderForTable('pages');
-        $query        = $this->createQuery();
-        if($showDisabled) {
+        $query = $this->createQuery();
+        if ($showDisabled) {
             $query->getQuerySettings()->setEnableFieldsToBeIgnored(['hidden']);
         }
-        $statement    = $queryBuilder
+        $statement = $queryBuilder
             ->select('uid')
             ->from('pages')
             ->where(

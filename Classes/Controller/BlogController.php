@@ -102,14 +102,18 @@ class BlogController extends ActionController
      * @param int $offset
      * @param bool $showDisabled
      */
-    public function listAction($offset = 0, $showDisabled = false): void
+    public function listAction($offset = 0, int $orderBy = null, bool $showDisabled = false): void
     {
         $showDisabled = ($showDisabled === true ? true : (isset($this->settings['show_disabled']) ? true : false));
 
+        if($orderBy === null) {
+            $orderBy = isset($this->settings['order_by']) ? intval($this->settings['order_by']) : BlogArticleRepository::ORDER_BY_STARTTIME;
+        }
 
         $offset          = $this->settings['display_mode'] == self::DISPLAY_MODE_FEATURED ? 0 : $offset;
         $articlesPerPage = isset($this->settings['articles_per_page']) ? intval($this->settings['articles_per_page']) : intval($this->settings['blog']['articlesPerPage']);
-        $blogArticles    = $this->blogArticleRepository->findLimited($offset, $articlesPerPage, $showDisabled);
+
+        $blogArticles    = $this->blogArticleRepository->findLimited($offset, $articlesPerPage, $orderBy, $showDisabled);
         $countAll        = $this->blogArticleRepository->countAll($showDisabled);
         $pagination      = ($this->settings['display_mode'] == self::DISPLAY_MODE_FEATURED)
             ? null : self::pagination($offset, $articlesPerPage, $countAll);
