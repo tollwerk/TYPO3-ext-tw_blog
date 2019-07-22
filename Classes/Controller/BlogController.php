@@ -119,6 +119,9 @@ class BlogController extends ActionController
             ? null : self::pagination($offset, $articlesPerPage, $countAll);
 
         $this->view->assignMultiple([
+            'articlesPerPage' => $articlesPerPage,
+            'orderBy' => $orderBy,
+            'showDisabled' => $showDisabled,
             'countAll'     => $countAll,
             'blogArticles' => $blogArticles,
             'pagination'   => $pagination,

@@ -151,14 +151,19 @@ class BlogArticleRepository extends AbstractRepository
      * @param int $offset Offset
      * @param int $limit  Limit
      * @param bool $showDisabled
+     * @param array $storagePids
      *
      * @return array|QueryResultInterface Blog articles
      */
-    public function findLimited(int $offset = 0, int $limit = 1, int $orderBy = self::ORDER_BY_STARTTIME, bool $showDisabled = false): ?QueryResultInterface
+    public function findLimited(int $offset = 0, int $limit = 1, int $orderBy = self::ORDER_BY_STARTTIME, bool $showDisabled = false, array $storagePids = []): ?QueryResultInterface
     {
         $query = $this->createQuery();
         if ($showDisabled) {
             $query->getQuerySettings()->setIgnoreEnableFields(true);
+        }
+
+        if(count($storagePids)){
+            $query->getQuerySettings()->setStoragePageIds($storagePids);
         }
 
         switch ($orderBy){
