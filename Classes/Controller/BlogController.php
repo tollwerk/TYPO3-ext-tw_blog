@@ -104,7 +104,7 @@ class BlogController extends ActionController
      */
     public function listAction($offset = 0, int $orderBy = null, bool $showDisabled = false): void
     {
-        $showDisabled = ($showDisabled === true ? true : (isset($this->settings['show_disabled']) ? true : false));
+        $showDisabled = ($showDisabled === true ? true : (!empty($this->settings['show_disabled']) ? true : false));
 
         if($orderBy === null) {
             $orderBy = isset($this->settings['order_by']) ? intval($this->settings['order_by']) : BlogArticleRepository::ORDER_BY_STARTTIME;
