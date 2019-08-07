@@ -54,12 +54,10 @@ use TYPO3\CMS\Extbase\Persistence\QueryResultInterface;
  */
 class BlogArticleRepository extends AbstractRepository
 {
-    /**
-     * Blog post doktype
-     *
-     * @var int
-     */
     const DOKTYPE = 116;
+    const ORDER_BY_STARTTIME = 1;
+    const ORDER_BY_SORTING = 2;
+
     /**
      * Blog article storage PIDs
      *
@@ -74,7 +72,7 @@ class BlogArticleRepository extends AbstractRepository
      */
     protected $defaultOrderings = array(
         'starttime' => QueryInterface::ORDER_DESCENDING,
-        'uid'       => QueryInterface::ORDER_DESCENDING
+        'uid' => QueryInterface::ORDER_DESCENDING
     );
 
     /**
@@ -100,7 +98,7 @@ class BlogArticleRepository extends AbstractRepository
      */
     protected function getStoragePidsRecursive($storagePid = 1, $recursive = 99): array
     {
-        $objectManager  = GeneralUtility::makeInstance(ObjectManager::class);
+        $objectManager = GeneralUtility::makeInstance(ObjectManager::class);
         $queryGenerator = $objectManager->get(QueryGenerator::class);
 
         return GeneralUtility::trimExplode(',', $queryGenerator->getTreeList($storagePid, $recursive));
@@ -110,10 +108,11 @@ class BlogArticleRepository extends AbstractRepository
      * Returns all blog posts
      *
      * @param array $storagePids Optional: Storage PIDs
+     * @param bool $showDisabled
      *
      * @return QueryResultInterface|array
      */
-    public function findAll(array $storagePids = [])
+    public function findAll(array $storagePids = [], bool $showDisabled = false)
     {
         $query = $this->createQuery();
         if (!empty($storagePids)) {
@@ -139,7 +138,7 @@ class BlogArticleRepository extends AbstractRepository
         $query->getQuerySettings()->setRespectStoragePage(false);
         $query->getQuerySettings()->setIgnoreEnableFields(true);
 
-        $constraints   = $this->getDefaultConstraints($query);
+        $constraints = $this->getDefaultConstraints($query);
         $constraints[] = $query->equals('uid', $identifier);
         $query->matching($query->logicalAnd($constraints));
 
@@ -151,16 +150,41 @@ class BlogArticleRepository extends AbstractRepository
      *
      * @param int $offset Offset
      * @param int $limit  Limit
+     * @param bool $showDisabled
+     * @param array $storagePids
      *
      * @return array|QueryResultInterface Blog articles
      */
-    public function findLimited($offset = 0, $limit = 1): ?QueryResultInterface
+    public function findLimited(int $offset = 0, int $limit = 1, int $orderBy = self::ORDER_BY_STARTTIME, bool $showDisabled = false, array $storagePids = []): ?QueryResultInterface
     {
         $query = $this->createQuery();
+        if ($showDisabled) {
+            $query->getQuerySettings()->setIgnoreEnableFields(true);
+        }
+
+        if(count($storagePids)){
+            $query->getQuerySettings()->setStoragePageIds($storagePids);
+        }
+
+        switch ($orderBy){
+            case self::ORDER_BY_SORTING:
+                $query->setOrderings([
+                    'sorting' => QueryInterface::ORDER_ASCENDING,
+                ]);
+                break;
+            default:
+                $query->setOrderings([
+                    'starttime' => QueryInterface::ORDER_DESCENDING,
+                    'uid' => QueryInterface::ORDER_DESCENDING,
+
+                ]);
+                break;
+        }
+
         $query->setOffset($offset);
         $query->setLimit($limit);
         $constraints = $this->getDefaultConstraints($query);
-        $return      = $query->matching($query->logicalAnd($constraints))->execute();
+        $return = $query->matching($query->logicalAnd($constraints))->execute();
 
         return $return;
     }
@@ -185,7 +209,7 @@ class BlogArticleRepository extends AbstractRepository
             $constraints[] = $query->greaterThan('starttime', $blogArticle->getStarttime());
             $query->setOrderings([
                 'starttime' => QueryInterface::ORDER_ASCENDING,
-                'uid'       => QueryInterface::ORDER_ASCENDING
+                'uid' => QueryInterface::ORDER_ASCENDING
             ]);
         } else {
             $constraints[] = $query->greaterThan('uid', $blogArticle->getUid());
@@ -223,13 +247,19 @@ class BlogArticleRepository extends AbstractRepository
 
     /**
      * Count all available blog posts
+     *
+     * @param bool $showDisabled
+     *
      * @return int
      */
-    public function countAll(): int
+    public function countAll(bool $showDisabled = false): int
     {
         $queryBuilder = GeneralUtility::makeInstance(ConnectionPool::class)->getQueryBuilderForTable('pages');
-        $query        = $this->createQuery();
-        $statement    = $queryBuilder
+        $query = $this->createQuery();
+        if ($showDisabled) {
+            $query->getQuerySettings()->setEnableFieldsToBeIgnored(['hidden']);
+        }
+        $statement = $queryBuilder
             ->select('uid')
             ->from('pages')
             ->where(

@@ -1,6 +1,15 @@
-# customsubcategory=blog=LLL:EXT:tw_blog/Resources/Private/Language/locallang_db.xlf:blog
+# customsubcategory=file=LLL:EXT:tw_blog/Resources/Private/Language/locallang_db.xlf:file
 
 plugin.tx_twblog {
+
+    view {
+        # cat=plugin.tx_blog/file/10; type=string; label=LLL:EXT:tw_blog/Resources/Private/Language/locallang_db.xlf:file.templateRootPath
+        templateRootPath = EXT:tw_blog/Resources/Private/Templates/
+        # cat=plugin.tx_blog/file/11; type=string; label=LLL:EXT:tw_blog/Resources/Private/Language/locallang_db.xlf:file.partialRootPath
+        partialRootPath = EXT:tw_blog/Resources/Private/Partials/
+        # cat=plugin.tx_blog/file/12; type=string; label=LLL:EXT:tw_blog/Resources/Private/Language/locallang_db.xlf:file.layoutRootPath
+        layoutRootPath = EXT:tw_blog/Resources/Private/Layouts/
+    }
 
     settings {
         blog {

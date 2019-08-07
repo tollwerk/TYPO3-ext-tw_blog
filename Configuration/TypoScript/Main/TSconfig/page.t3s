@@ -1,1 +1,27 @@
 TCEFORM.pages.categories.PAGE_TSCONFIG_IDLIST = 6
+
+mod {
+    web_layout {
+        BackendLayouts {
+            blog {
+                title = LLL:EXT:tw_blog/Resources/Private/Language/locallang_db.xlf:backendLayout.blogArticle
+                config {
+                    backend_layout {
+                        colCount = 1
+                        rowCount = 1
+                        rows {
+                            1 {
+                                columns {
+                                    1 {
+                                        name = LLL:EXT:tw_blog/Resources/Private/Language/locallang_db.xlf:backendLayout.blogArticle.col.content
+                                        colPos = 0
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

@@ -46,6 +46,8 @@ use TYPO3\CMS\Extbase\Persistence\ObjectStorage;
  */
 class BlogArticle extends AbstractEntity
 {
+
+
     /**
      * Blog document type
      *
@@ -75,18 +77,28 @@ class BlogArticle extends AbstractEntity
     protected $doktype;
 
     /**
+     * @var bool
+     */
+    protected $hidden = false;
+
+    /**
      * Blog title
      *
      * @var string
      */
-    protected $title = "";
+    protected $title = '';
+
+    /**
+     * @var string
+     */
+    protected $subtitle = '';
 
     /**
      * Teaser text
      *
      * @var string
      */
-    protected $teaserText = "";
+    protected $teaserText = '';
 
     /**
      * Teaser image
@@ -101,6 +113,14 @@ class BlogArticle extends AbstractEntity
      * @var \TYPO3\CMS\Extbase\Persistence\ObjectStorage<\TYPO3\CMS\Extbase\Domain\Model\FileReference> media
      */
     protected $media = null;
+
+    /**
+     * Related articles
+     *
+     * @var \TYPO3\CMS\Extbase\Persistence\ObjectStorage<\Tollwerk\TwBlog\Domain\Model\BlogArticle> relatedArticles
+     * @TYPO3\CMS\Extbase\Annotation\ORM\Lazy
+     */
+    protected $relatedArticles = null;
 
     /**
      * Blog publishing date
@@ -254,6 +274,22 @@ class BlogArticle extends AbstractEntity
     }
 
     /**
+     * @return bool
+     */
+    public function isHidden(): bool
+    {
+        return $this->hidden;
+    }
+
+    /**
+     * @param bool $hidden
+     */
+    public function setHidden(bool $hidden): void
+    {
+        $this->hidden = $hidden;
+    }
+
+    /**
      * Return the blog title
      *
      * @return string Title
@@ -272,6 +308,23 @@ class BlogArticle extends AbstractEntity
     {
         $this->title = $title;
     }
+
+    /**
+     * @return string
+     */
+    public function getSubtitle(): string
+    {
+        return $this->subtitle;
+    }
+
+    /**
+     * @param string $subtitle
+     */
+    public function setSubtitle(string $subtitle): void
+    {
+        $this->subtitle = $subtitle;
+    }
+
 
     /**
      * Return the teaser text
@@ -525,5 +578,52 @@ class BlogArticle extends AbstractEntity
     public function setLocalizationConfig(int $localizationConfig): void
     {
         $this->localizationConfig = $localizationConfig;
+    }
+
+
+    /**
+     * Add a relatedArticle
+     *
+     * @param \Tollwerk\TwBlog\Domain\Model\BlogArticle $relatedArticle
+     *
+     * @return void
+     */
+    public function addRelatedArticles(BlogArticle $relatedArticle): void
+    {
+        $this->relatedArticles->attach($relatedArticle);
+    }
+
+    /**
+     * Remove a relatedArticle
+     *
+     * @param \Tollwerk\TwBlog\Domain\Model\BlogArticle $relatedArticleToRemove The related article to be removed
+     *
+     * @return void
+     */
+    public function removeRelatedArticle(BlogArticle $relatedArticleToRemove): void
+    {
+        $this->relatedArticles->detach($relatedArticleToRemove);
+    }
+
+    /**
+     * Return all relatedArticles
+     *
+     * @return \TYPO3\CMS\Extbase\Persistence\ObjectStorage<\Tollwerk\TwBlog\Domain\Model\BlogArticle> relatedArticles
+     */
+    public function getRelatedArticles(): ObjectStorage
+    {
+        return $this->relatedArticles;
+    }
+
+    /**
+     * Set the relatedArticles
+     *
+     * @param \TYPO3\CMS\Extbase\Persistence\ObjectStorage<\Tollwerk\TwBlog\Domain\Model\BlogArticle> $relatedArticles
+     *
+     * @return void
+     */
+    public function setRelatedArticles(ObjectStorage $relatedArticles): void
+    {
+        $this->relatedArticles = $relatedArticles;
     }
 }

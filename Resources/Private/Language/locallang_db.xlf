@@ -22,6 +22,13 @@
 			<trans-unit id="common.enable" xml:space="preserve">
 				<source>Enable this extension</source>
 			</trans-unit>
+            <trans-unit id="backendLayout.blogArticle">
+                <source>Blog article</source>
+            </trans-unit>
+            <trans-unit id="backendLayout.blogArticle.col.content">
+                <source>Content</source>
+            </trans-unit>
+
 
             <!-- Blog -->
             <trans-unit id="blog">
@@ -36,6 +43,15 @@
             <trans-unit id="plugin.blog.display_mode">
                 <source>Display Mode</source>
             </trans-unit>
+            <trans-unit id="plugin.blog.order_by">
+                <source>Order by</source>
+            </trans-unit>
+            <trans-unit id="plugin.blog.order_by.starttime">
+                <source>Start time</source>
+            </trans-unit>
+            <trans-unit id="plugin.blog.order_by.sorting">
+                <source>Manual sorting</source>
+            </trans-unit>
             <trans-unit id="plugin.blog.listPid">
                 <source>Blog article list page (ID)</source>
             </trans-unit>
@@ -44,6 +60,12 @@
             </trans-unit>
             <trans-unit id="plugin.blog.articles_per_page">
                 <source>Articles per page</source>
+            </trans-unit>
+            <trans-unit id="plugin.blog.show_pagination">
+                <source>Show pagination</source>
+            </trans-unit>
+            <trans-unit id="plugin.blog.show_disabled">
+                <source>Show disabled articles in list view</source>
             </trans-unit>
             <trans-unit id="plugin.blog.storagePid">
                 <source>Storage page for blog articles (ID)</source>
@@ -66,6 +88,16 @@
             <trans-unit id="plugin.blog.display_mode.featured">
                 <source>Featured Articles</source>
             </trans-unit>
+
+            <!-- Table: be_users -->
+            <trans-unit id="be_users.tx_twblog_frontend_name" approved="yes">
+                <source>Frontend name</source>
+            </trans-unit>
+            <trans-unit id="be_users.tx_twblog_frontend_image" approved="yes">
+                <source>Frontend image</source>
+            </trans-unit>
+
+            <!-- Table: Pages -->
             <trans-unit id="pages.tx_twblog_blog_featured" approved="yes">
                 <source>Is featured article</source>
             </trans-unit>

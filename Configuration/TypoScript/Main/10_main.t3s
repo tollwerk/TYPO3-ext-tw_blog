@@ -1,2 +1,3 @@
-# TYPO3 CMS 6.2+ syntax: Include all TypoScript resources inside the `lib` subdirectory (recursive)
 <INCLUDE_TYPOSCRIPT: source="DIR:./Lib" extensions="t3s">
+<INCLUDE_TYPOSCRIPT: source="DIR:./Page" extensions="t3s">
+
