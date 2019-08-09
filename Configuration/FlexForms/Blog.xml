@@ -7,6 +7,51 @@
             <ROOT>
                 <type>array</type>
                 <el>
+                    <settings.selection_mode>
+                        <TCEforms>
+                            <exclude>1</exclude>
+                            <onChange>reload</onChange>
+                            <label>
+                                LLL:EXT:tw_blog/Resources/Private/Language/locallang_db.xlf:plugin.blog.selection_mode
+                            </label>
+                            <config>
+                                <type>select</type>
+                                <renderType>selectSingle</renderType>
+                                <items>
+                                    <numIndex index="0" type="array">
+                                        <numIndex index="0">
+                                            LLL:EXT:tw_blog/Resources/Private/Language/locallang_db.xlf:plugin.blog.selection_mode.pages
+                                        </numIndex>
+                                        <numIndex index="1">1</numIndex>
+                                    </numIndex>
+                                    <numIndex index="1" type="array">
+                                        <numIndex index="0">
+                                            LLL:EXT:tw_blog/Resources/Private/Language/locallang_db.xlf:plugin.blog.selection_mode.manual
+                                        </numIndex>
+                                        <numIndex index="1">2</numIndex>
+                                    </numIndex>
+                                </items>
+                            </config>
+                        </TCEforms>
+                    </settings.selection_mode>
+                    <settings.articles>
+                        <TCEforms>
+                            <exclude>1</exclude>
+                            <displayCond>FIELD:settings.selection_mode:=:2</displayCond>
+                            <label>
+                                LLL:EXT:tw_blog/Resources/Private/Language/locallang_db.xlf:plugin.blog.articles
+                            </label>
+                            <config>
+                                <type>select</type>
+                                <renderType>selectMultipleSideBySide</renderType>
+                                <foreign_table>pages</foreign_table>
+                                <foreign_table_where>AND pages.doktype = 116 AND sys_language_uid IN (-1,0)</foreign_table_where>
+                                <size>10</size>
+                                <minitem>0</minitem>
+                                <enableMultiSelectFilterTextfield>true</enableMultiSelectFilterTextfield>
+                            </config>
+                        </TCEforms>
+                    </settings.articles>
                     <settings.display_mode>
                         <TCEforms>
                             <exclude>1</exclude>
@@ -94,6 +139,7 @@
                             <default>1</default>
                         </config>
                     </settings.show_pagination>
+
                 </el>
             </ROOT>
         </main>

@@ -37,6 +37,7 @@
 namespace Tollwerk\TwBlog\Controller;
 
 use Tollwerk\TwBlog\Domain\Repository\BlogArticleRepository;
+use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Mvc\Controller\ActionController;
 use TYPO3\CMS\Extbase\Mvc\View\ViewInterface;
 use TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer;
@@ -49,19 +50,11 @@ use TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer;
  */
 class BlogController extends ActionController
 {
-    /**
-     * Featured blog article
-     *
-     * @var string
-     */
     const DISPLAY_MODE_FEATURED = 'featured';
-
-    /**
-     * Default blog article
-     *
-     * @var string
-     */
     const DISPLAY_MODE_DEFAULT = 'default';
+
+    const SELECTION_MODE_PAGES = 1;
+    const SELECTION_MODE_MANUAL = 2;
 
     /**
      * Blog article repository
@@ -113,7 +106,6 @@ class BlogController extends ActionController
     public function listAction($offset = 0, int $orderBy = null, bool $showDisabled = false): void
     {
         $showDisabled = ($showDisabled === true ? true : (!empty($this->settings['show_disabled']) ? true : false));
-
         if($orderBy === null) {
             $orderBy = isset($this->settings['order_by']) ? intval($this->settings['order_by']) : BlogArticleRepository::ORDER_BY_STARTTIME;
         }
@@ -121,7 +113,16 @@ class BlogController extends ActionController
         $offset          = $this->settings['display_mode'] == self::DISPLAY_MODE_FEATURED ? 0 : $offset;
         $articlesPerPage = isset($this->settings['articles_per_page']) ? intval($this->settings['articles_per_page']) : intval($this->settings['blog']['articlesPerPage']);
 
-        $blogArticles    = $this->blogArticleRepository->findLimited($offset, $articlesPerPage, $orderBy, $showDisabled);
+        switch($this->settings['selection_mode']){
+            case self::SELECTION_MODE_MANUAL:
+                $blogArticles = $this->blogArticleRepository->findLimitedByUids(GeneralUtility::trimExplode(',', $this->settings['articles']), $offset, $articlesPerPage, $showDisabled);
+                break;
+            default:
+                $blogArticles    = $this->blogArticleRepository->findLimited($offset, $articlesPerPage, $orderBy, $showDisabled);
+                break;
+        }
+
+        // TODO: Fix $countAll bug. See https://github.com/tollwerk/TYPO3-ext-tw_blog/issues/8
         $countAll        = $this->blogArticleRepository->countAll($showDisabled);
         $pagination      = ($this->settings['display_mode'] == self::DISPLAY_MODE_FEATURED)
             ? null : self::pagination($offset, $articlesPerPage, $countAll);

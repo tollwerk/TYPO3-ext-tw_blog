@@ -150,6 +150,7 @@ class BlogArticleRepository extends AbstractRepository
      *
      * @param int $offset Offset
      * @param int $limit  Limit
+     * @param int $orderBy
      * @param bool $showDisabled
      * @param array $storagePids
      *
@@ -185,6 +186,59 @@ class BlogArticleRepository extends AbstractRepository
         $query->setLimit($limit);
         $constraints = $this->getDefaultConstraints($query);
         $return = $query->matching($query->logicalAnd($constraints))->execute();
+
+        return $return;
+    }
+
+
+    /**
+     * Find a limited number of blog articles by their uids
+     *
+     * @param array $uids
+     * @param int $offset Offset
+     * @param int $limit  Limit
+     * @param bool $showDisabled
+     *
+     * @return null|array
+     */
+    public function findLimitedByUids(array $uids = [], int $offset = 0, int $limit = 1, bool $showDisabled = false): ?array
+    {
+        if (!is_array($uids) || !count($uids)) {
+            return null;
+        }
+
+        $query = $this->createQuery();
+        if ($showDisabled) {
+            $query->getQuerySettings()->setIgnoreEnableFields(true);
+        }
+        $query->setOffset($offset);
+        $query->setLimit($limit);
+
+        $constraints = $this->getDefaultConstraints($query);
+        $constraints[] = $query->in('uid', $uids);
+        $records = $query->matching($query->logicalAnd($constraints))->execute();
+
+        // Sort manually by order of selected uids
+        $recordsByUid = [];
+        /** @var BlogArticle $record */
+        foreach ($records as $record) {
+            $recordsByUid[$record->getUid()] = $record;
+        }
+        $return = [];
+        foreach ($uids as $uid) {
+            $return[] = $recordsByUid[$uid];
+        }
+
+        // Sort manually by order of selected uids
+        $recordsByUid = [];
+        /** @var BlogArticle $record */
+        foreach ($records as $record) {
+            $recordsByUid[$record->getUid()] = $record;
+        }
+        $return = [];
+        foreach ($uids as $uid) {
+            $return[] = $recordsByUid[$uid];
+        }
 
         return $return;
     }
