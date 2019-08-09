@@ -43,6 +43,18 @@
             <trans-unit id="plugin.blog.display_mode">
                 <source>Display Mode</source>
             </trans-unit>
+            <trans-unit id="plugin.blog.selection_mode">
+                <source>Selection mode</source>
+            </trans-unit>
+            <trans-unit id="plugin.blog.selection_mode.pages">
+                <source>Record Storage Page</source>
+            </trans-unit>
+            <trans-unit id="plugin.blog.selection_mode.manual">
+                <source>Pick by hand</source>
+            </trans-unit>
+            <trans-unit id="plugin.blog.articles">
+                <source>Blog articles to show</source>
+            </trans-unit>
             <trans-unit id="plugin.blog.order_by">
                 <source>Order by</source>
             </trans-unit>

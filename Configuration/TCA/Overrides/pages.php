@@ -5,15 +5,15 @@
  *
  * @category   Tollwerk
  * @package    Tollwerk\TwBlog
- * @author     Joschi Kuphal <joschi@tollwerk.de> / @jkphl
- * @copyright  Copyright © 2019 Joschi Kuphal <joschi@tollwerk.de> / @jkphl
+ * @author     Klaus Fiedler <klaus@tollwerk.de>
+ * @copyright  Copyright © 2019 <klaus@tollwerk.de>
  * @license    http://opensource.org/licenses/MIT The MIT License (MIT)
  */
 
 /***********************************************************************************
  *  The MIT License (MIT)
  *
- *  Copyright © 2019 Joschi Kuphal <joschi@tollwerk.de>
+ *  Copyright © 2019 Klaus Fiedler <klaus@tollwerk.de>
  *
  *  Permission is hereby granted, free of charge, to any person obtaining a copy of
  *  this software and associated documentation files (the "Software"), to deal in
