@@ -41,6 +41,7 @@ use TYPO3\CMS\Core\Database\ConnectionPool;
 use TYPO3\CMS\Core\Database\QueryGenerator;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Configuration\Exception\InvalidConfigurationTypeException;
+use TYPO3\CMS\Extbase\Object\Exception;
 use TYPO3\CMS\Extbase\Object\ObjectManager;
 use TYPO3\CMS\Extbase\Persistence\Exception\InvalidQueryException;
 use TYPO3\CMS\Extbase\Persistence\QueryInterface;
@@ -72,37 +73,8 @@ class BlogArticleRepository extends AbstractRepository
      */
     protected $defaultOrderings = array(
         'starttime' => QueryInterface::ORDER_DESCENDING,
-        'uid' => QueryInterface::ORDER_DESCENDING
+        'uid'       => QueryInterface::ORDER_DESCENDING
     );
-
-    /**
-     * Return array with default constraints that should be used for all queries
-     * like only finding pages with the right doktype (116)
-     *
-     * @param \TYPO3\CMS\Extbase\Persistence\QueryInterface $query
-     *
-     * @return array Constraints
-     */
-    protected function getDefaultConstraints(&$query): array
-    {
-        return [
-            $query->equals('doktype', self::DOKTYPE)
-        ];
-    }
-
-    /**
-     * @param int $storagePid
-     * @param int $recursive
-     *
-     * @return array
-     */
-    protected function getStoragePidsRecursive($storagePid = 1, $recursive = 99): array
-    {
-        $objectManager = GeneralUtility::makeInstance(ObjectManager::class);
-        $queryGenerator = $objectManager->get(QueryGenerator::class);
-
-        return GeneralUtility::trimExplode(',', $queryGenerator->getTreeList($storagePid, $recursive));
-    }
 
     /**
      * Returns all blog posts
@@ -125,6 +97,21 @@ class BlogArticleRepository extends AbstractRepository
     }
 
     /**
+     * Return array with default constraints that should be used for all queries
+     * like only finding pages with the right doktype (116)
+     *
+     * @param QueryInterface $query
+     *
+     * @return array Constraints
+     */
+    protected function getDefaultConstraints(&$query): array
+    {
+        return [
+            $query->equals('doktype', self::DOKTYPE)
+        ];
+    }
+
+    /**
      * Finds an blog article matching the given identifier even if it's deleted
      *
      * @param mixed $identifier The identifier of the object to find
@@ -138,7 +125,7 @@ class BlogArticleRepository extends AbstractRepository
         $query->getQuerySettings()->setRespectStoragePage(false);
         $query->getQuerySettings()->setIgnoreEnableFields(true);
 
-        $constraints = $this->getDefaultConstraints($query);
+        $constraints   = $this->getDefaultConstraints($query);
         $constraints[] = $query->equals('uid', $identifier);
         $query->matching($query->logicalAnd($constraints));
 
@@ -146,101 +133,110 @@ class BlogArticleRepository extends AbstractRepository
     }
 
     /**
+     * Find a limited number of blog articles by their uids
+     *
+     * @param array $uids        Article IDs
+     * @param int $offset        Pagination offset
+     * @param int $limit         Pagination limit
+     * @param bool $showDisabled Include disabled articles
+     * @param int $count         Overall article count (set by reference)
+     *
+     * @return BlogArticle[]
+     * @throws InvalidQueryException
+     */
+    public function findLimitedByUids(
+        array $uids = [],
+        int $offset = 0,
+        int $limit = 1,
+        bool $showDisabled = false,
+        int &$count = null
+    ): array {
+        // If no IDs were given: return
+        if (!is_array($uids) || !count($uids)) {
+            $count = 0;
+
+            return [];
+        }
+
+        $query         = $this->createQuery();
+        $constraints   = $this->getDefaultConstraints($query);
+        $constraints[] = $query->in('uid', $uids);
+        $query->matching($query->logicalAnd($constraints));
+
+        // Include disabled articles?
+        if ($showDisabled) {
+            $query->getQuerySettings()->setIgnoreEnableFields(true);
+        }
+
+        // Run a count query without limits
+        $countQuery = clone $query;
+        $count      = $countQuery->execute()->count();
+
+        // Offset & limit
+        $query->setOffset($offset)->setLimit($limit);
+
+        $blogArticles = array_fill_keys($uids, null);
+        /** @var BlogArticle $blogArticle */
+        foreach ($query->execute() as $blogArticle) {
+            $blogArticles[$blogArticle->getUid()] = $blogArticle;
+        }
+
+        return array_values(array_filter($blogArticles));
+    }
+
+    /**
      * Find a limited number of blog articles
      *
-     * @param int $offset Offset
-     * @param int $limit  Limit
-     * @param int $orderBy
-     * @param bool $showDisabled
-     * @param array $storagePids
+     * @param int $offset        Pagination offset
+     * @param int $limit         Pagination limit
+     * @param bool $showDisabled Include disabled articles
+     * @param int $orderBy       Ordering
+     * @param array $storagePids Storage PIDS
+     * @param int $count         Overall article count (set by reference)
      *
      * @return array|QueryResultInterface Blog articles
      */
-    public function findLimited(int $offset = 0, int $limit = 1, int $orderBy = self::ORDER_BY_STARTTIME, bool $showDisabled = false, array $storagePids = []): ?QueryResultInterface
-    {
+    public function findLimited(
+        int $offset = 0,
+        int $limit = 1,
+        bool $showDisabled = false,
+        int $orderBy = self::ORDER_BY_STARTTIME,
+        array $storagePids = [],
+        int &$count = null
+    ): ?QueryResultInterface {
         $query = $this->createQuery();
+        $query->matching($query->logicalAnd($this->getDefaultConstraints($query)));
+
+        // Include disabled articles?
         if ($showDisabled) {
             $query->getQuerySettings()->setIgnoreEnableFields(true);
         }
 
-        if(count($storagePids)){
+        // Use particular storage pages?
+        if (count($storagePids)) {
             $query->getQuerySettings()->setStoragePageIds($storagePids);
         }
 
-        switch ($orderBy){
-            case self::ORDER_BY_SORTING:
-                $query->setOrderings([
-                    'sorting' => QueryInterface::ORDER_ASCENDING,
-                ]);
-                break;
-            default:
-                $query->setOrderings([
-                    'starttime' => QueryInterface::ORDER_DESCENDING,
-                    'uid' => QueryInterface::ORDER_DESCENDING,
+        // Run a count query without limits
+        $countQuery = clone $query;
+        $count      = $countQuery->execute()->count();
 
-                ]);
-                break;
+        // Order articles
+        if ($orderBy == self::ORDER_BY_SORTING) {
+            $query->setOrderings([
+                'sorting' => QueryInterface::ORDER_ASCENDING,
+            ]);
+        } else {
+            $query->setOrderings([
+                'starttime' => QueryInterface::ORDER_DESCENDING,
+                'uid'       => QueryInterface::ORDER_DESCENDING,
+            ]);
         }
 
-        $query->setOffset($offset);
-        $query->setLimit($limit);
-        $constraints = $this->getDefaultConstraints($query);
-        $return = $query->matching($query->logicalAnd($constraints))->execute();
+        // Offset & limit
+        $query->setOffset($offset)->setLimit($limit);
 
-        return $return;
-    }
-
-
-    /**
-     * Find a limited number of blog articles by their uids
-     *
-     * @param array $uids
-     * @param int $offset Offset
-     * @param int $limit  Limit
-     * @param bool $showDisabled
-     *
-     * @return null|array
-     */
-    public function findLimitedByUids(array $uids = [], int $offset = 0, int $limit = 1, bool $showDisabled = false): ?array
-    {
-        if (!is_array($uids) || !count($uids)) {
-            return null;
-        }
-
-        $query = $this->createQuery();
-        if ($showDisabled) {
-            $query->getQuerySettings()->setIgnoreEnableFields(true);
-        }
-        $query->setOffset($offset);
-        $query->setLimit($limit);
-
-        $constraints = $this->getDefaultConstraints($query);
-        $constraints[] = $query->in('uid', $uids);
-        $records = $query->matching($query->logicalAnd($constraints))->execute();
-
-        // Sort manually by order of selected uids
-        $recordsByUid = [];
-        /** @var BlogArticle $record */
-        foreach ($records as $record) {
-            $recordsByUid[$record->getUid()] = $record;
-        }
-        $return = [];
-        foreach ($uids as $uid) {
-            $return[] = $recordsByUid[$uid];
-        }
-
-        // Sort manually by order of selected uids
-        $recordsByUid = [];
-        /** @var BlogArticle $record */
-        foreach ($records as $record) {
-            $recordsByUid[$record->getUid()] = $record;
-        }
-        $return = [];
-        foreach ($uids as $uid) {
-            $return[] = $recordsByUid[$uid];
-        }
-
-        return $return;
+        return $query->execute();
     }
 
     /**
@@ -263,7 +259,7 @@ class BlogArticleRepository extends AbstractRepository
             $constraints[] = $query->greaterThan('starttime', $blogArticle->getStarttime());
             $query->setOrderings([
                 'starttime' => QueryInterface::ORDER_ASCENDING,
-                'uid' => QueryInterface::ORDER_ASCENDING
+                'uid'       => QueryInterface::ORDER_ASCENDING
             ]);
         } else {
             $constraints[] = $query->greaterThan('uid', $blogArticle->getUid());
@@ -309,7 +305,7 @@ class BlogArticleRepository extends AbstractRepository
     public function countAll(bool $showDisabled = false): int
     {
         $queryBuilder = GeneralUtility::makeInstance(ConnectionPool::class)->getQueryBuilderForTable('pages');
-        $query = $this->createQuery();
+        $query        = $this->createQuery();
         if ($showDisabled) {
             $query->getQuerySettings()->setEnableFieldsToBeIgnored(['hidden']);
         }
@@ -323,5 +319,22 @@ class BlogArticleRepository extends AbstractRepository
             ->execute();
 
         return $statement->rowCount();
+    }
+
+    /**
+     * Recursively determine storage PIDs
+     *
+     * @param int $storagePid Root PID
+     * @param int $recursive  Recursion levels
+     *
+     * @return array
+     * @throws Exception
+     */
+    protected function getStoragePidsRecursive($storagePid = 1, $recursive = 99): array
+    {
+        $objectManager  = GeneralUtility::makeInstance(ObjectManager::class);
+        $queryGenerator = $objectManager->get(QueryGenerator::class);
+
+        return GeneralUtility::trimExplode(',', $queryGenerator->getTreeList($storagePid, $recursive));
     }
 }
