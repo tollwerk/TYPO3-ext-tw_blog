@@ -47,10 +47,10 @@
                 <source>Selection Mode</source>
             </trans-unit>
             <trans-unit id="plugin.blog.selection_mode.pages">
-                <source>Record Storage Page</source>
+                <source>Storage Page(s)</source>
             </trans-unit>
             <trans-unit id="plugin.blog.selection_mode.manual">
-                <source>Pick manually</source>
+                <source>Manual selection</source>
             </trans-unit>
             <trans-unit id="plugin.blog.articles">
                 <source>Blog articles to show</source>
