@@ -24,7 +24,7 @@ $EM_CONF[$_EXTKEY] = [
     'createDirs'       => 'fileadmin/user_upload/blog',
     'constraints'      => [
         'depends'   => [
-            'typo3' => '9.5.0-9.99.99',
+            'typo3' => '10.0.0-10.99.99',
             'vhs'   => '5.0.0-',
         ],
         'conflicts' => [],

@@ -43,7 +43,7 @@ call_user_func(
         $GLOBALS['TCA'][$table]['columns']['media']['config']['appearance']['fileUploadAllowed'] = false;
         $GLOBALS['TCA'][$table]['columns']['categories']['config']['foreign_table_where'] = 'AND sys_category.pid IN (###PAGE_TSCONFIG_IDLIST###) AND sys_category.sys_language_uid IN (-1, 0) ORDER BY sys_category.sorting ASC';
         $GLOBALS['TCA'][$table]['columns']['starttime']['config']['eval'] = 'datetime,int';
-        $GLOBALS['TCA'][$table]['columns']['title']['config']['eval'] = 'trim,required,uniqueInPid';
+        $GLOBALS['TCA'][$table]['columns']['title']['config']['eval'] = 'trim,required';
         $GLOBALS['TCA'][$table]['types'][\Tollwerk\TwBlog\Domain\Model\BlogArticle::DOKTYPE] = $GLOBALS['TCA'][$table]['types']['1'];
 
         // Add new columns

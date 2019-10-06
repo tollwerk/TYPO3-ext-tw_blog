@@ -7,7 +7,7 @@ if (!defined('TYPO3_MODE')) {
 call_user_func(
     function() {
         // Register Extension for flux content element
-        \FluidTYPO3\Flux\Core::registerProviderExtensionKey('Tollwerk.TwBlog', 'Content');
+//        \FluidTYPO3\Flux\Core::registerProviderExtensionKey('Tollwerk.TwBlog', 'Content');
 
         // Register custom configurations for rte_ckeditor
         $GLOBALS['TYPO3_CONF_VARS']['RTE']['Presets']['tx_twblog_domain_model_person.description'] = 'EXT:tw_blog/Configuration/Yaml/CkEditor/tx_twblog_domain_model_person.description.yaml';
