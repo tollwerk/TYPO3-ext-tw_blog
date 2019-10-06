@@ -1,5 +1,6 @@
-plugin.tx_twblog {
+<INCLUDE_TYPOSCRIPT: source="FILE:EXT:tw_blog/Configuration/TypoScript/Main/10_main.typoscript">
 
+plugin.tx_twblog {
     view {
         templateRootPath = {$plugin.tx_twblog.view.templateRootPath}
         partialRootPath = {$plugin.tx_twblog.view.partialRootPath}
@@ -19,5 +20,3 @@ plugin.tx_twblog {
         }
     }
 }
-
-<INCLUDE_TYPOSCRIPT: source="FILE:EXT:tw_blog/Configuration/TypoScript/Main/10_main.t3s">
