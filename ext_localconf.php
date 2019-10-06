@@ -6,12 +6,6 @@ if (!defined('TYPO3_MODE')) {
 
 call_user_func(
     function() {
-        // Register Extension for flux content element
-//        \FluidTYPO3\Flux\Core::registerProviderExtensionKey('Tollwerk.TwBlog', 'Content');
-
-        // Register custom configurations for rte_ckeditor
-        $GLOBALS['TYPO3_CONF_VARS']['RTE']['Presets']['tx_twblog_domain_model_person.description'] = 'EXT:tw_blog/Configuration/Yaml/CkEditor/tx_twblog_domain_model_person.description.yaml';
-
         // Register global Fluid namespaces
         $GLOBALS['TYPO3_CONF_VARS']['SYS']['fluid']['namespaces']['blog']   = ['Tollwerk\\TwBlog\\ViewHelpers'];
         $GLOBALS['TYPO3_CONF_VARS']['SYS']['fluid']['namespaces']['vhs']    = ['FluidTYPO3\\Vhs\\ViewHelpers'];
@@ -23,9 +17,9 @@ call_user_func(
 
         // Configure plugins
         \TYPO3\CMS\Extbase\Utility\ExtensionUtility::configurePlugin(
-            'Tollwerk.TwBlog',
+            'TwBlog',
             'Blog',
-            ['Blog' => 'list'],
+            [\Tollwerk\TwBlog\Controller\BlogController::class => 'list'],
             []
         );
     }
