@@ -1,7 +1,7 @@
 <?php
 
 /**
- * tollwerk
+ * Blog
  *
  * @category   Tollwerk
  * @package    Tollwerk\TwBlog
@@ -37,19 +37,20 @@ if (!defined('TYPO3_MODE')) {
     die('Access denied.');
 }
 
-// Add new doktype as possible select item:
 call_user_func(
-    function ($extKey, $table) {
+    function($extKey, $table) {
         $GLOBALS['TCA'][$table]['columns']['media']['config']['appearance']['fileUploadAllowed'] = false;
-        $GLOBALS['TCA'][$table]['columns']['categories']['config']['foreign_table_where'] = 'AND sys_category.pid IN (###PAGE_TSCONFIG_IDLIST###) AND sys_category.sys_language_uid IN (-1, 0) ORDER BY sys_category.sorting ASC';
-        $GLOBALS['TCA'][$table]['columns']['starttime']['config']['eval'] = 'datetime,int';
-        $GLOBALS['TCA'][$table]['columns']['title']['config']['eval'] = 'trim,required';
+        $GLOBALS['TCA'][$table]['columns']['categories']['config']['foreign_table_where']        = 'AND sys_category.pid IN (###PAGE_TSCONFIG_IDLIST###) AND sys_category.sys_language_uid IN (-1, 0) ORDER BY sys_category.sorting ASC';
+        $GLOBALS['TCA'][$table]['columns']['starttime']['config']['eval']                        = 'datetime,int';
+        $GLOBALS['TCA'][$table]['columns']['title']['config']['eval']                            = 'trim,required';
+
+        // Add new doktype as possible select item:
         $GLOBALS['TCA'][$table]['types'][\Tollwerk\TwBlog\Domain\Model\BlogArticle::DOKTYPE] = $GLOBALS['TCA'][$table]['types']['1'];
 
         // Add new columns
         $newColumns = [
-            'tx_twblog_blog_teaser_text' => [
-                'label' => 'LLL:EXT:tw_blog/Resources/Private/Language/locallang_db.xlf:pages.tx_twblog_blog_teaser_text',
+            'tx_twblog_blog_teaser_text'      => [
+                'label'  => 'LLL:EXT:tw_blog/Resources/Private/Language/locallang_db.xlf:pages.tx_twblog_blog_teaser_text',
                 'config' => [
                     'type' => 'text',
                     'cols' => 24,
@@ -57,13 +58,13 @@ call_user_func(
                     'eval' => 'trim'
                 ]
             ],
-            'tx_twblog_blog_teaser_image' => [
+            'tx_twblog_blog_teaser_image'     => [
                 'exclude' => 0,
-                'label' => 'LLL:EXT:tw_blog/Resources/Private/Language/locallang_db.xlf:pages.tx_twblog_blog_teaser_image',
-                'config' => \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::getFileFieldTCAConfig(
+                'label'   => 'LLL:EXT:tw_blog/Resources/Private/Language/locallang_db.xlf:pages.tx_twblog_blog_teaser_image',
+                'config'  => \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::getFileFieldTCAConfig(
                     'tx_twblog_blog_teaser_image',
                     [
-                        'appearance' => [
+                        'appearance'       => [
                             'createNewRelationLinkTitle' => 'LLL:EXT:cms/locallang_ttc.xlf:images.addFileReference'
                         ],
                         'overrideChildTca' => [
@@ -82,62 +83,62 @@ call_user_func(
                     $GLOBALS['TYPO3_CONF_VARS']['GFX']['imagefile_ext']
                 ),
             ],
-            'tx_twblog_blog_authors' => [
+            'tx_twblog_blog_authors'          => [
                 'exclude' => true,
-                'label' => 'LLL:EXT:tw_blog/Resources/Private/Language/locallang_db.xlf:pages.tx_twblog_blog_authors',
-                'config' => [
-                    'type' => 'select',
-                    'renderType' => 'selectMultipleSideBySide',
-                    'foreign_table' => 'be_users',
-                    'foreign_table_where' => 'AND be_users.username NOT LIKE "\_cli%" ORDER BY be_users.realName ASC',
-                    'MM' => 'tx_twblog_blog_article_author_mm',
-                    'size' => 3,
-                    'minitems' => 0,
+                'label'   => 'LLL:EXT:tw_blog/Resources/Private/Language/locallang_db.xlf:pages.tx_twblog_blog_authors',
+                'config'  => [
+                    'type'                             => 'select',
+                    'renderType'                       => 'selectMultipleSideBySide',
+                    'foreign_table'                    => 'be_users',
+                    'foreign_table_where'              => 'AND be_users.username NOT LIKE "\_cli%" ORDER BY be_users.realName ASC',
+                    'MM'                               => 'tx_twblog_blog_article_author_mm',
+                    'size'                             => 3,
+                    'minitems'                         => 0,
                     'enableMultiSelectFilterTextfield' => true,
                 ],
             ],
             'tx_twblog_blog_related_articles' => [
                 'exclude' => true,
-                'label' => 'LLL:EXT:tw_blog/Resources/Private/Language/locallang_db.xlf:pages.tx_twblog_blog_related_articles',
-                'config' => [
-                    'type' => 'select',
-                    'renderType' => 'selectMultipleSideBySide',
-                    'foreign_table' => 'pages',
-                    'foreign_table_where' => 'AND pages.doktype = ' . \Tollwerk\TwBlog\Domain\Model\BlogArticle::DOKTYPE . ' AND sys_language_uid IN (-1,0)',
-                    'size' => 10,
-                    'minitems' => 0,
+                'label'   => 'LLL:EXT:tw_blog/Resources/Private/Language/locallang_db.xlf:pages.tx_twblog_blog_related_articles',
+                'config'  => [
+                    'type'                             => 'select',
+                    'renderType'                       => 'selectMultipleSideBySide',
+                    'foreign_table'                    => 'pages',
+                    'foreign_table_where'              => 'AND pages.doktype = '.\Tollwerk\TwBlog\Domain\Model\BlogArticle::DOKTYPE.' AND sys_language_uid IN (-1,0)',
+                    'size'                             => 10,
+                    'minitems'                         => 0,
                     'enableMultiSelectFilterTextfield' => true,
                 ],
             ],
 
             'tx_twblog_blog_comments' => [
-                'exclude' => true,
-                'label' => 'LLL:EXT:tw_blog/Resources/Private/Language/locallang_db.xlf:pages.tx_twblog_blog_comments',
+                'exclude'   => true,
+                'label'     => 'LLL:EXT:tw_blog/Resources/Private/Language/locallang_db.xlf:pages.tx_twblog_blog_comments',
                 'l10n_mode' => 'exclude',
-                'config' => [
-                    'type' => 'inline',
-                    'foreign_table' => 'tx_twblog_domain_model_comment',
-                    'foreign_field' => 'parent',
+                'config'    => [
+                    'type'                => 'inline',
+                    'foreign_table'       => 'tx_twblog_domain_model_comment',
+                    'foreign_field'       => 'parent',
                     'foreign_table_field' => 'parent_table',
-                    'maxitems' => 9999,
-                    'appearance' => [
-                        'collapseAll' => 1,
+                    'maxitems'            => 9999,
+                    'appearance'          => [
+                        'collapseAll'  => 1,
                         'expandSingle' => 1,
                     ],
                 ],
             ],
-            'tx_twblog_blog_series' => [
+            'tx_twblog_blog_series'   => [
                 'exclude' => true,
-                'label' => 'LLL:EXT:tw_blog/Resources/Private/Language/locallang_db.xlf:pages.tx_twblog_blog_series',
-                'config' => [
-                    'type' => 'select',
-                    'renderType' => 'selectSingle',
-                    'foreign_table' => 'tx_twblog_domain_model_blogseries',
+                'label'   => 'LLL:EXT:tw_blog/Resources/Private/Language/locallang_db.xlf:pages.tx_twblog_blog_series',
+                'config'  => [
+                    'type'                => 'select',
+                    'renderType'          => 'selectSingle',
+                    'foreign_table'       => 'tx_twblog_domain_model_blogseries',
                     'foreign_table_where' => 'AND tx_twblog_domain_model_blogseries.pid IN (###PAGE_TSCONFIG_IDLIST###) ORDER BY tx_twblog_domain_model_blogseries.title ASC',
-                    'items' => [
+                    'items'               => [
                         ['---', 0]
                     ],
-                    'size' => 1,
+                    'size'                => 1,
                 ],
             ],
         ];
@@ -156,9 +157,9 @@ call_user_func(
             $table,
             'doktype',
             [
-                'LLL:EXT:' . $extKey . '/Resources/Private/Language/locallang_db.xlf:plugin.blog',
+                'LLL:EXT:'.$extKey.'/Resources/Private/Language/locallang_db.xlf:plugin.blog',
                 \Tollwerk\TwBlog\Domain\Model\BlogArticle::DOKTYPE,
-                'EXT:' . $extKey . '/Resources/Public/Icons/Extension/apps-pagetree-page-blogpage.svg'
+                'EXT:'.$extKey.'/Resources/Public/Icons/Extension/apps-pagetree-page-blogpage.svg'
             ],
             '1',
             'after'
@@ -219,6 +220,12 @@ call_user_func(
             ],
         ];
         */
+
+        \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::registerPageTSConfigFile(
+            'tw_blog',
+            'Configuration/TypoScript/Main/TSconfig/page.tsconfig',
+            'Page Settings'
+        );
     },
     'tw_blog',
     'pages'
