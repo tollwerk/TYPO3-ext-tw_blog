@@ -7,19 +7,19 @@
             <trans-unit id="file" xml:space="preserve">
 				<source>Files &amp; directories</source>
 			</trans-unit>
-			<trans-unit id="file.templateRootPath" xml:space="preserve">
+            <trans-unit id="file.templateRootPath" xml:space="preserve">
 				<source>Path to template files (FE)</source>
 			</trans-unit>
-			<trans-unit id="file.partialRootPath" xml:space="preserve">
+            <trans-unit id="file.partialRootPath" xml:space="preserve">
 				<source>Path to template partials (FE)</source>
 			</trans-unit>
-			<trans-unit id="file.layoutRootPath" xml:space="preserve">
+            <trans-unit id="file.layoutRootPath" xml:space="preserve">
 				<source>Path to template layouts (FE)</source>
 			</trans-unit>
             <trans-unit id="common" xml:space="preserve">
 				<source>Common settings</source>
 			</trans-unit>
-			<trans-unit id="common.enable" xml:space="preserve">
+            <trans-unit id="common.enable" xml:space="preserve">
 				<source>Enable this extension</source>
 			</trans-unit>
             <trans-unit id="backendLayout.blogArticle">
@@ -44,13 +44,13 @@
                 <source>Display Mode</source>
             </trans-unit>
             <trans-unit id="plugin.blog.selection_mode">
-                <source>Selection mode</source>
+                <source>Selection Mode</source>
             </trans-unit>
             <trans-unit id="plugin.blog.selection_mode.pages">
                 <source>Record Storage Page</source>
             </trans-unit>
             <trans-unit id="plugin.blog.selection_mode.manual">
-                <source>Pick by hand</source>
+                <source>Pick manually</source>
             </trans-unit>
             <trans-unit id="plugin.blog.articles">
                 <source>Blog articles to show</source>
@@ -89,10 +89,10 @@
                 <source>Max. image width in articles</source>
             </trans-unit>
             <trans-unit id="plugin.blog.width.regular">
-                <source>Max. preview image width for regular articles (pixel)</source>
+                <source>Max. preview image width for regular articles (px)</source>
             </trans-unit>
             <trans-unit id="plugin.blog.width.featured">
-                <source>Max. preview image width for featured articles (pixel)</source>
+                <source>Max. preview image width for featured articles (px)</source>
             </trans-unit>
             <trans-unit id="plugin.blog.display_mode.default">
                 <source>Regular</source>
@@ -103,27 +103,30 @@
 
             <!-- Table: be_users -->
             <trans-unit id="be_users.tx_twblog_frontend_name" approved="yes">
-                <source>Frontend name</source>
+                <source>Frontend Name</source>
             </trans-unit>
             <trans-unit id="be_users.tx_twblog_frontend_image" approved="yes">
-                <source>Frontend image</source>
+                <source>Frontend Image</source>
             </trans-unit>
 
             <!-- Table: Pages -->
             <trans-unit id="pages.tx_twblog_blog_featured" approved="yes">
-                <source>Is featured article</source>
+                <source>Is featured article?</source>
             </trans-unit>
             <trans-unit id="pages.tx_twblog_blog_teaser_image" approved="yes">
-                <source>Teaser image</source>
+                <source>Teaser Image</source>
             </trans-unit>
             <trans-unit id="pages.tx_twblog_blog_teaser_text" approved="yes">
-                <source>Teaser text</source>
+                <source>Teaser Text</source>
             </trans-unit>
             <trans-unit id="pages.tx_twblog_blog_authors" approved="yes">
                 <source>Authors</source>
             </trans-unit>
             <trans-unit id="pages.tx_twblog_blog_series" approved="yes">
-                <source>Blog series</source>
+                <source>Blog Series</source>
+            </trans-unit>
+            <trans-unit id="pages.tx_twblog_blog_related_articles" approved="yes">
+                <source>Related Articles</source>
             </trans-unit>
             <trans-unit id="pages.tx_twblog_blog_comments" approved="yes">
                 <source>Comments</source>
@@ -154,7 +157,7 @@
                 <source>Email address</source>
             </trans-unit>
             <trans-unit id="tx_twblog_domain_model_comment.url">
-                <source>Url</source>
+                <source>URL</source>
             </trans-unit>
             <trans-unit id="tx_twblog_domain_model_comment.text">
                 <source>Text</source>
