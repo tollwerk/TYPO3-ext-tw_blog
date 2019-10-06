@@ -9,8 +9,7 @@ namespace Tollwerk\TwBlog\ViewHelpers\Page\Head;
  * LICENSE.md file that was distributed with this source code.
  */
 
-
-use TYPO3\CMS\Fluid\Core\ViewHelper\AbstractTagBasedViewHelper;
+use TYPO3Fluid\Fluid\Core\ViewHelper\AbstractTagBasedViewHelper;
 
 /**
  * ViewHelper used to render a link tag in the `<head>` section of the page.
@@ -37,7 +36,8 @@ class LinkViewHelper extends AbstractTagBasedViewHelper
         $this->registerTagAttribute('type', 'string', 'Property: type');
         $this->registerTagAttribute('lang', 'string', 'Property: lang');
         $this->registerTagAttribute('dir', 'string', 'Property: dir');
-        $this->registerArgument('priority', 'integer', 'Numerical priority if multiple calls are made. Highest wins. Default is 1.', false, 1);
+        $this->registerArgument('priority', 'integer',
+            'Numerical priority if multiple calls are made. Highest wins. Default is 1.', false, 1);
     }
 
     /**
