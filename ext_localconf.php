@@ -19,9 +19,16 @@ call_user_func(
         \TYPO3\CMS\Extbase\Utility\ExtensionUtility::configurePlugin(
             'TwBlog',
             'Blog',
-            [\Tollwerk\TwBlog\Controller\BlogController::class => 'list'],
+            [\Tollwerk\TwBlog\Controller\BlogController::class => 'list, filter'],
             []
         );
+
+        // Extend classes (XCLASSes)
+        $GLOBALS['TYPO3_CONF_VARS']['SYS']['Objects'][\TYPO3\CMS\Extbase\Domain\Model\Category::class]                = [
+            'className' => \Tollwerk\TwBlog\Domain\Model\Category::class
+        ];
+        $GLOBALS['TYPO3_CONF_VARS']['SYS']['Objects'][\TYPO3\CMS\Extbase\Domain\Repository\CategoryRepository::class] = [
+            'className' => \Tollwerk\TwBlog\Domain\Repository\CategoryRepository::class
+        ];
     }
 );
-

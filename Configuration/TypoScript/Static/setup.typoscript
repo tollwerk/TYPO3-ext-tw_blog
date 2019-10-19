@@ -5,6 +5,21 @@ plugin.tx_twblog {
         templateRootPath = {$plugin.tx_twblog.view.templateRootPath}
         partialRootPath = {$plugin.tx_twblog.view.partialRootPath}
         layoutRootPath = {$plugin.tx_twblog.view.layoutRootPath}
+
+        templateRootPaths {
+            10 = EXT:tw_blog/Resources/Private/Templates/
+            20 = {$plugin.tx_twblog.view.templateRootPath}
+        }
+
+        partialRootPaths {
+            10 = EXT:tw_blog/Resources/Private/Partials/
+            20 = {$plugin.tx_twblog.view.partialRootPath}
+        }
+
+        layoutRootPaths {
+            10 = EXT:tw_blog/Resources/Private/Layouts/
+            20 = {$plugin.tx_twblog.view.layoutRootPath}
+        }
     }
 
     settings {

@@ -36,8 +36,13 @@
 
 namespace Tollwerk\TwBlog\Domain\Repository;
 
+use Doctrine\DBAL\FetchMode;
 use Tollwerk\TwBlog\Domain\Model\BlogArticle;
 use TYPO3\CMS\Core\Database\ConnectionPool;
+use TYPO3\CMS\Core\Database\Query\QueryBuilder;
+use TYPO3\CMS\Core\Database\Query\Restriction\EndTimeRestriction;
+use TYPO3\CMS\Core\Database\Query\Restriction\HiddenRestriction;
+use TYPO3\CMS\Core\Database\Query\Restriction\StartTimeRestriction;
 use TYPO3\CMS\Core\Database\QueryGenerator;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Configuration\Exception\InvalidConfigurationTypeException;
@@ -138,50 +143,39 @@ class BlogArticleRepository extends AbstractRepository
      * @param array $uids        Article IDs
      * @param int $offset        Pagination offset
      * @param int $limit         Pagination limit
+     * @param array $categories  Categories
      * @param bool $showDisabled Include disabled articles
      * @param int $count         Overall article count (set by reference)
      *
-     * @return BlogArticle[]
+     * @return QueryResultInterface Blog articles
      * @throws InvalidQueryException
      */
     public function findLimitedByUids(
         array $uids = [],
         int $offset = 0,
         int $limit = 1,
+        array $categories = [],
         bool $showDisabled = false,
         int &$count = null
-    ): array {
-        // If no IDs were given: return
-        if (!is_array($uids) || !count($uids)) {
-            $count = 0;
-
-            return [];
+    ): ?QueryResultInterface {
+        $count = 0;
+        if (empty($uids)) {
+            return null;
         }
 
-        $query         = $this->createQuery();
-        $constraints   = $this->getDefaultConstraints($query);
-        $constraints[] = $query->in('uid', $uids);
-        $query->matching($query->logicalAnd($constraints));
+        $query = $this->createQuery();
+        $query->statement($this->createQueryStatement(
+            $uids,
+            $offset,
+            $limit,
+            $categories,
+            $showDisabled,
+            $query->getQuerySettings()->getStoragePageIds(),
+            [],
+            $count
+        ));
 
-        // Include disabled articles?
-        if ($showDisabled) {
-            $query->getQuerySettings()->setIgnoreEnableFields(true);
-        }
-
-        // Run a count query without limits
-        $countQuery = clone $query;
-        $count      = $countQuery->execute()->count();
-
-        // Offset & limit
-        $query->setOffset($offset)->setLimit($limit);
-
-        $blogArticles = array_fill_keys($uids, null);
-        /** @var BlogArticle $blogArticle */
-        foreach ($query->execute() as $blogArticle) {
-            $blogArticles[$blogArticle->getUid()] = $blogArticle;
-        }
-
-        return array_values(array_filter($blogArticles));
+        return $query->execute();
     }
 
     /**
@@ -189,54 +183,150 @@ class BlogArticleRepository extends AbstractRepository
      *
      * @param int $offset        Pagination offset
      * @param int $limit         Pagination limit
+     * @param array $categories  Categories
      * @param bool $showDisabled Include disabled articles
      * @param int $orderBy       Ordering
-     * @param array $storagePids Storage PIDS
+     * @param array $storagePids Storage PIDs
      * @param int $count         Overall article count (set by reference)
      *
-     * @return array|QueryResultInterface Blog articles
+     * @return QueryResultInterface Blog articles
+     * @throws InvalidQueryException
      */
     public function findLimited(
         int $offset = 0,
         int $limit = 1,
+        array $categories = [],
         bool $showDisabled = false,
         int $orderBy = self::ORDER_BY_STARTTIME,
         array $storagePids = [],
         int &$count = null
     ): ?QueryResultInterface {
-        $query = $this->createQuery();
-        $query->matching($query->logicalAnd($this->getDefaultConstraints($query)));
-
-        // Include disabled articles?
-        if ($showDisabled) {
-            $query->getQuerySettings()->setIgnoreEnableFields(true);
-        }
-
-        // Use particular storage pages?
-        if (count($storagePids)) {
-            $query->getQuerySettings()->setStoragePageIds($storagePids);
-        }
-
-        // Run a count query without limits
-        $countQuery = clone $query;
-        $count      = $countQuery->execute()->count();
-
-        // Order articles
-        if ($orderBy == self::ORDER_BY_SORTING) {
-            $query->setOrderings([
-                'sorting' => QueryInterface::ORDER_ASCENDING,
-            ]);
-        } else {
-            $query->setOrderings([
+        $count       = 0;
+        $query       = $this->createQuery();
+        $orderings   = ($orderBy == self::ORDER_BY_SORTING) ?
+            [
+                'sorting' => QueryInterface::ORDER_ASCENDING
+            ] : [
                 'starttime' => QueryInterface::ORDER_DESCENDING,
                 'uid'       => QueryInterface::ORDER_DESCENDING,
-            ]);
+            ];
+        $storagePids = $storagePids ?: $query->getQuerySettings()->getStoragePageIds();
+        $query->statement($this->createQueryStatement(
+            [],
+            $offset,
+            $limit,
+            $categories,
+            $showDisabled,
+            $storagePids,
+            $orderings,
+            $count
+        ));
+
+        return $query->execute();
+    }
+
+    /**
+     * Create a query statement
+     *
+     * @param int[] $ids          Article IDs
+     * @param int $offset         Pagination offset
+     * @param int $limit          Pagination limit
+     * @param int[] $categories   Categories
+     * @param bool $showDisabled  Include disabled articles
+     * @param string[] $orderings Ordering
+     * @param int[] $storagePids  Storage PIDs
+     * @param int $count          Overall article count (set by reference)
+     *
+     * @return string Query SQL
+     */
+    protected function createQueryStatement(
+        array $ids,
+        int $offset,
+        int $limit,
+        array $categories,
+        bool $showDisabled,
+        array $storagePids,
+        array $orderings,
+        int &$count
+    ): string {
+        // Query the blog article IDs first
+        $connection = GeneralUtility::makeInstance(ConnectionPool::class)
+                                    ->getConnectionForTable('pages');
+        $query      = $connection->createQueryBuilder();
+        if ($showDisabled) {
+            $query->getRestrictions()->removeByType(HiddenRestriction::class);
+            $query->getRestrictions()->removeByType(StartTimeRestriction::class);
+            $query->getRestrictions()->removeByType(EndTimeRestriction::class);
+        }
+        $query->select('p.*')
+              ->from('pages', 'p')
+              ->where($query->expr()->eq('p.doktype', static::DOKTYPE));
+
+        // IDs
+        if (count($ids)) {
+            $query->andWhere($query->expr()->in('p.uid', $ids));
+
+            // Order CASE statement
+            $cases = array_map(function(int $index, int $id) {
+                return " WHEN $id THEN $index";
+            }, array_keys($ids), $ids);
+            $query->addSelectLiteral(
+                'CASE '.$query->quoteIdentifier('p.uid').implode('', $cases).
+                ' END AS '.$query->quoteIdentifier('_ordervalues')
+            );
+            $orderings = ['_ordervalues' => QueryInterface::ORDER_ASCENDING];
+        }
+
+        // Storage pages
+        if (count($storagePids)) {
+            $query->andWhere($query->expr()->in('p.pid', $storagePids));
+        }
+
+        // Categories
+        if (count($categories)) {
+            $query->join(
+                'p',
+                'sys_category_record_mm',
+                's',
+                $query->expr()->andX(
+                    $query->expr()->eq('s.tablenames', $query->quote('pages')),
+                    $query->expr()->eq('s.fieldname', $query->quote('categories')),
+                    $query->expr()->in('s.uid_local', $categories),
+                    $query->expr()->in('s.uid_foreign', $query->quoteIdentifier('p.uid'))
+                )
+            );
+            $count = $this->countArticles($query);
+            $query->groupBy('p.uid');
+        } else {
+            $count = $this->countArticles($query);
         }
 
         // Offset & limit
-        $query->setOffset($offset)->setLimit($limit);
+        if (intval($limit)) {
+            $query->setFirstResult($offset * $limit)->setMaxResults($limit);
+        }
 
-        return $query->execute();
+        // Ordering
+        foreach ($orderings as $column => $direction) {
+            $query->orderBy(strncmp($column, '_', 1) ? 'p.'.$column : $column, $direction);
+        }
+
+        return $query->getSQL();
+    }
+
+    /**
+     * Run an article count query
+     *
+     * @param QueryBuilder $query Query
+     *
+     * @return int Number of results
+     */
+    protected function countArticles(QueryBuilder $query): int
+    {
+        $countQuery = clone $query;
+        $countQuery->selectLiteral('COUNT(DISTINCT '.$countQuery->quoteIdentifier('p.uid').')');
+
+        return intval($countQuery->execute()->fetch(FetchMode::COLUMN));
     }
 
     /**

@@ -1,0 +1,15 @@
+<f:comment><!--
+
+    Render a list of blog categories
+
+    @param array data               Content element
+    @param Category[] categories    Categories
+
+--></f:comment>
+<html xmlns:f="https://xsd.helhum.io/ns/typo3/cms-fluid/master/ViewHelpers" data-namespace-typo3-fluid="true">
+    <ul>
+        <f:for each="{categories}" as="category">
+            <li>{category.title}</li>
+        </f:for>
+    </ul>
+</html>

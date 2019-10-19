@@ -36,95 +36,38 @@
 
 namespace Tollwerk\TwBlog\Domain\Model;
 
-use TYPO3\CMS\Beuser\Domain\Model\BackendUser;
-use TYPO3\CMS\Extbase\Domain\Model\FileReference;
-
 /**
- * Blog Author
+ * Extended Category
  *
  * @package    Tollwerk\TwBlog
  * @subpackage Tollwerk\TwBlog\Domain\Model
  */
-class BlogAuthor extends BackendUser
+class Category extends \TYPO3\CMS\Extbase\Domain\Model\Category
 {
     /**
-     * Frontend name
+     * Active category filter
      *
-     * @var string
+     * @var bool
      */
-    protected $frontendName = '';
+    protected $active = false;
 
     /**
-     * Frontend image
+     * Return whether this is an active category filter
      *
-     * @var FileReference
+     * @return bool Active category filter
      */
-    protected $frontendImage = null;
-
-    /**
-     * Avatar image
-     *
-     * @var FileReference
-     */
-    protected $avatar = null;
-
-    /**
-     * Return the frontend name
-     *
-     * @return string
-     */
-    public function getFrontendName(): string
+    public function isActive(): bool
     {
-        return $this->frontendName;
+        return $this->active;
     }
 
     /**
-     * Set the frontend name
+     * Set whether this is an active category filter
      *
-     * @param string $frontendName
+     * @param bool $active Active category filter
      */
-    public function setFrontendName(string $frontendName): void
+    public function setActive(bool $active): void
     {
-        $this->frontendName = $frontendName;
-    }
-
-    /**
-     * Get the avatar
-     *
-     * @return FileReference
-     */
-    public function getFrontendImage(): ?FileReference
-    {
-        return $this->frontendImage;
-    }
-
-    /**
-     * Set the avatar
-     *
-     * @param FileReference $frontendImage
-     */
-    public function setFrontendImage(FileReference $frontendImage): void
-    {
-        $this->frontendImage = $frontendImage;
-    }
-
-    /**
-     * Return the avatar image
-     *
-     * @return FileReference
-     */
-    public function getAvatar(): ?FileReference
-    {
-        return $this->avatar;
-    }
-
-    /**
-     * Set the avatar image
-     *
-     * @param FileReference $avatar
-     */
-    public function setAvatar(FileReference $avatar): void
-    {
-        $this->avatar = $avatar;
+        $this->active = $active;
     }
 }

@@ -36,8 +36,10 @@
 
 namespace Tollwerk\TwBlog\Controller;
 
+use Tollwerk\TwBlog\Domain\Model\Category;
 use Tollwerk\TwBlog\Domain\Repository\BlogArticleRepository;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Extbase\Domain\Repository\CategoryRepository;
 use TYPO3\CMS\Extbase\Mvc\Controller\ActionController;
 use TYPO3\CMS\Extbase\Mvc\View\ViewInterface;
 use TYPO3\CMS\Extbase\Persistence\Exception\InvalidQueryException;
@@ -114,14 +116,23 @@ class BlogController extends ActionController
     /**
      * List action
      *
-     * @param int $offset        Pagination offset
-     * @param int|null $orderBy  Article sorting
-     * @param bool $showDisabled Show disabled articles
+     * @param int[]|null $categories Categories
+     * @param int $offset            Pagination offset
+     * @param int|null $orderBy      Article sorting
+     * @param bool $showDisabled     Show disabled articles
      *
      * @throws InvalidQueryException
      */
-    public function listAction($offset = 0, int $orderBy = null, bool $showDisabled = false): void
-    {
+    public function listAction(
+        array $categories = null,
+        $offset = 0,
+        int $orderBy = null,
+        bool $showDisabled = false
+    ): void {
+        // Show categories
+        $showCategories = ($categories === null) ?
+            GeneralUtility::trimExplode(',', $this->settings['categories'], true) : $categories;
+
         // Show featured articles?
         $showFeatured = ($this->settings['display_mode'] == self::DISPLAY_MODE_FEATURED);
 
@@ -144,6 +155,7 @@ class BlogController extends ActionController
                 GeneralUtility::trimExplode(',', $this->settings['articles'], true),
                 $offset,
                 $articlesPerPage,
+                $showCategories,
                 $showDisabled,
                 $countAll
             );
@@ -151,6 +163,7 @@ class BlogController extends ActionController
             $blogArticles = $this->blogArticleRepository->findLimited(
                 $offset,
                 $articlesPerPage,
+                $showCategories,
                 $showDisabled,
                 $orderBy,
                 [],
@@ -168,6 +181,25 @@ class BlogController extends ActionController
             'offset'          => $offset,
             'uid'             => $this->uid
         ]);
+    }
+
+    /**
+     * Blog category filter action
+     *
+     * @param array $categories Categories
+     */
+    public function filterAction(array $categories = [])
+    {
+        $rootCategory  = intval($this->settings['blog']['rootCategory']);
+        $allCategories = [];
+        /** @var Category $category */
+        foreach ($this->objectManager->get(CategoryRepository::class)->findByParent($rootCategory) as $category) {
+            if (in_array($category->getUid(), $categories)) {
+                $category->setActive(true);
+            }
+            $allCategories[] = $category;
+        }
+        $this->view->assign('categories', $allCategories);
     }
 
     /**

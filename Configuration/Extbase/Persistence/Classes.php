@@ -38,6 +38,7 @@ declare(strict_types=1);
 
 use Tollwerk\TwBlog\Domain\Model\BlogArticle;
 use Tollwerk\TwBlog\Domain\Model\BlogAuthor;
+use Tollwerk\TwBlog\Domain\Model\Category;
 use Tollwerk\TwBlog\Domain\Model\Content;
 
 return [
@@ -64,6 +65,9 @@ return [
     BlogArticle::class => [
         'tableName'  => 'pages',
         'properties' => [
+            'created'            => [
+                'fieldName' => 'crdate'
+            ],
             'lastmod'            => [
                 'fieldName' => 'tstamp'
             ],
@@ -101,4 +105,7 @@ return [
             ],
         ],
     ],
+    Category::class    => [
+        'tableName' => 'sys_category',
+    ]
 ];

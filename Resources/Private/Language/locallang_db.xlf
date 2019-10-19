@@ -37,6 +37,15 @@
             <trans-unit id="plugin.blog">
                 <source>Blog</source>
             </trans-unit>
+            <trans-unit id="plugin.blog.action">
+                <source>View action</source>
+            </trans-unit>
+            <trans-unit id="plugin.blog.list">
+                <source>Blog article list</source>
+            </trans-unit>
+            <trans-unit id="plugin.blog.filter">
+                <source>Blog category filter</source>
+            </trans-unit>
             <trans-unit id="plugin.blog.comments">
                 <source>Blog comments</source>
             </trans-unit>
@@ -75,6 +84,9 @@
             </trans-unit>
             <trans-unit id="plugin.blog.show_pagination">
                 <source>Show pagination</source>
+            </trans-unit>
+            <trans-unit id="plugin.blog.categories">
+                <source>Categories (none = all)</source>
             </trans-unit>
             <trans-unit id="plugin.blog.show_disabled">
                 <source>Show disabled articles in list view</source>

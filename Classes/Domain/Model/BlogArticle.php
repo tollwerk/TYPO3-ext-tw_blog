@@ -46,8 +46,6 @@ use TYPO3\CMS\Extbase\Persistence\ObjectStorage;
  */
 class BlogArticle extends AbstractEntity
 {
-
-
     /**
      * Blog document type
      *
@@ -134,7 +132,7 @@ class BlogArticle extends AbstractEntity
      *
      * @var int
      */
-    protected $crdate = 0;
+    protected $created = 0;
 
     /**
      * Blog last modification
@@ -371,19 +369,19 @@ class BlogArticle extends AbstractEntity
      *
      * @return int Creation date
      */
-    public function getCrdate(): int
+    public function getCreated(): int
     {
-        return $this->crdate;
+        return $this->created;
     }
 
     /**
      * Set the creation date
      *
-     * @param int $crdate Creation date
+     * @param int $created Creation date
      */
-    public function setCrdate(int $crdate): void
+    public function setCreated(int $created): void
     {
-        $this->crdate = $crdate;
+        $this->created = $created;
     }
 
     /**
