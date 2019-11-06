@@ -13,7 +13,6 @@ call_user_func(
 
         // Register hook after saving records (tt_content, plugins, pages, everything) in backend.
         $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['t3lib/class.t3lib_tcemain.php']['processDatamapClass'][]                   = \Tollwerk\TwBlog\Hooks\TceMainHook::class;
-        $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['t3lib/class.t3lib_userauthgroup.php']['getDefaultUploadFolder']['tw_blog'] = \Tollwerk\TwBlog\Hooks\BackendUserAuthentication::class.'->getDefaultUploadFolder';
 
         // Configure plugins
         \TYPO3\CMS\Extbase\Utility\ExtensionUtility::configurePlugin(
