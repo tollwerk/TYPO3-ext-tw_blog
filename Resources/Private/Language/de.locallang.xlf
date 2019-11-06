@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<xliff version="1.0">
+    <file source-language="en" datatype="plaintext" original="messages" date="2016-12-08T10:17:19Z"
+          product-name="tw_blog">
+        <header/>
+        <body>
+            <trans-unit id="blog.readArticle">
+                <source>Read article</source>
+                <target>Weiterlesen</target>
+            </trans-unit>
+            <trans-unit id="blog.more_by_series">
+                <source>Other articles the series «%s»</source>
+                <target>Andere Beiträge dieser Serie</target>
+            </trans-unit>
+            <trans-unit id="blog.authors.about.male">
+                <source>About the author</source>
+                <target>Über den Author</target>
+            </trans-unit>
+            <trans-unit id="blog.authors.about.males">
+                <source>About the authors</source>
+                <target>Über die Authoren</target>
+            </trans-unit>
+            <trans-unit id="blog.authors.about.female">
+                <source>About the author</source>
+                <target>Über die Authorin</target>
+            </trans-unit>
+            <trans-unit id="blog.authors.about.females">
+                <source>About the authors</source>
+                <target>Über die Authorinnen</target>
+            </trans-unit>
+            <trans-unit id="blog.authors.about.mixed">
+                <source>About the authors</source>
+                <target>Über die Authoren/Authorinnen</target>
+            </trans-unit>
+            <trans-unit id="blog.pagination.aria_label">
+                <source>Browse through blog articles</source>
+                <target>Liste der Blogbeiträge durchblättern</target>
+            </trans-unit>
+            <trans-unit id="blog.pagination.first">
+                <source>First page</source>
+                <target>Erste Seite</target>
+            </trans-unit>
+            <trans-unit id="blog.pagination.previous">
+                <source>Previous page</source>
+                <target>Vorherige Seite</target>
+            </trans-unit>
+            <trans-unit id="blog.pagination.page">
+                <source>Page %s of %s</source>
+                <target>Seite %s von %s</target>
+            </trans-unit>
+            <trans-unit id="blog.pagination.next">
+                <source>Next page</source>
+                <target>Nächste Seite</target>
+            </trans-unit>
+            <trans-unit id="blog.pagination.last">
+                <source>Last page</source>
+                <target>Letzte Seite</target>
+            </trans-unit>
+            <trans-unit id="blog.prevnext.next">
+                <source>More recent article</source>
+                <target>Neuerer Beitrag</target>
+            </trans-unit>
+            <trans-unit id="blog.prevnext.prev">
+                <source>Older article</source>
+                <target>Älterer Beitrag</target>
+            </trans-unit>
+            <trans-unit id="blog.prevnext.aria_label">
+                <source>Older and more recent articles</source>
+                <target>Ältere und neuere Beiträge</target>
+            </trans-unit>
+
+            <!-- Crop variants -->
+            <trans-unit id="cropVariants.blog_thumbnail">
+                <source>Blog Thumbnail</source>
+                <target>Blog Vorschaubild</target>
+            </trans-unit>
+            <trans-unit id="cropVariants.blog_teaser">
+                <source>Blog Teaser</source>
+                <target>Blog Teaserbild</target>
+            </trans-unit>
+            <trans-unit id="cropVariants.blog_featured_teaser">
+                <source>Featured Blog Article Teaser</source>
+                <target>Featured Blog Teaserbild</target>
+            </trans-unit>
+            <trans-unit id="cropVariants.blog_header">
+                <source>Blog Page Header</source>
+                <target>Blog Seiten-Kopfbereich</target>
+            </trans-unit>
+        </body>
+    </file>
+</xliff>

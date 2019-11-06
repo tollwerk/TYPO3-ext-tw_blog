@@ -1,0 +1,236 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<xliff version="1.0">
+    <file source-language="en" datatype="plaintext" original="messages" date="2016-12-08T10:17:19Z"
+          product-name="tw_blog">
+        <header/>
+        <body>
+            <trans-unit id="file" xml:space="preserve">
+				<source>Files &amp; directories</source>
+                <target>Dateien &amp; Verzeichnisse</target>
+			</trans-unit>
+            <trans-unit id="file.templateRootPath" xml:space="preserve">
+				<source>Path to template files (FE)</source>
+                <target>Template Root Path (FE)</target>
+			</trans-unit>
+            <trans-unit id="file.partialRootPath" xml:space="preserve">
+				<source>Path to template partials (FE)</source>
+                <target>Partial Root Path (FE)</target>
+			</trans-unit>
+            <trans-unit id="file.layoutRootPath" xml:space="preserve">
+				<source>Path to template layouts (FE)</source>
+                <target>Layout Root Path (FE)</target>
+			</trans-unit>
+            <trans-unit id="common" xml:space="preserve">
+				<source>Common settings</source>
+                <target>Allgemeine Einstellungen</target>
+			</trans-unit>
+            <trans-unit id="common.enable" xml:space="preserve">
+				<source>Enable this extension</source>
+                <target>Diese Erweiterung aktivieren</target>
+			</trans-unit>
+            <trans-unit id="backendLayout.blogArticle">
+                <source>Blog article</source>
+                <target>Blogartikel</target>
+            </trans-unit>
+            <trans-unit id="backendLayout.blogArticle.col.content">
+                <source>Content</source>
+                <target>Inhalt</target>
+            </trans-unit>
+
+
+            <!-- Blog -->
+            <trans-unit id="blog">
+                <source>Blog</source>
+                <target>Blog</target>
+            </trans-unit>
+            <trans-unit id="plugin.blog">
+                <source>Blog</source>
+                <target>Blog</target>
+            </trans-unit>
+            <trans-unit id="plugin.blog.action">
+                <source>View action</source>
+                <target>Betriebsmodus</target>
+            </trans-unit>
+            <trans-unit id="plugin.blog.list">
+                <source>Blog article list</source>
+                <target>Liste von Blogartikeln</target>
+            </trans-unit>
+            <trans-unit id="plugin.blog.filter">
+                <source>Blog category filter</source>
+                <target>Menü mit Kategorien für Blogartikel</target>
+            </trans-unit>
+            <trans-unit id="plugin.blog.comments">
+                <source>Blog comments</source>
+                <target>Blog-Kommentare</target>
+            </trans-unit>
+            <trans-unit id="plugin.blog.display_mode">
+                <source>Display Mode</source>
+                <target>Anzeigemodus</target>
+            </trans-unit>
+            <trans-unit id="plugin.blog.selection_mode">
+                <source>Selection Mode</source>
+                <target>Auswahl der Blogartikel</target>
+            </trans-unit>
+            <trans-unit id="plugin.blog.selection_mode.pages">
+                <source>Storage Page(s)</source>
+                <target>Automatisch</target>
+            </trans-unit>
+            <trans-unit id="plugin.blog.selection_mode.manual">
+                <source>Manual selection</source>
+                <target>Von Hand</target>
+            </trans-unit>
+            <trans-unit id="plugin.blog.articles">
+                <source>Blog articles to show</source>
+                <target>Einzelne Blogartikel wählen</target>
+            </trans-unit>
+            <trans-unit id="plugin.blog.order_by">
+                <source>Order by</source>
+                <target>Sortierung</target>
+            </trans-unit>
+            <trans-unit id="plugin.blog.order_by.starttime">
+                <source>Start time</source>
+                <target>Datum</target>
+            </trans-unit>
+            <trans-unit id="plugin.blog.order_by.sorting">
+                <source>Manual sorting</source>
+                <target>Von Hand</target>
+            </trans-unit>
+            <trans-unit id="plugin.blog.listPid">
+                <source>Blog article list page (ID)</source>
+                <target>ID der Blogartikel-Liste</target>
+            </trans-unit>
+            <trans-unit id="plugin.blog.listContent">
+                <source>Blog article list content element (ID)</source>
+                <target>ID des Inhaltselements mit der Blogartikel-Liste</target>
+            </trans-unit>
+            <trans-unit id="plugin.blog.articles_per_page">
+                <source>Articles per page</source>
+                <target>Artikel pro Seite</target>
+            </trans-unit>
+            <trans-unit id="plugin.blog.show_pagination">
+                <source>Show pagination</source>
+                <target>Paginierung anzeigen</target>
+            </trans-unit>
+            <trans-unit id="plugin.blog.categories">
+                <source>Categories (none = all)</source>
+                <target>Kategorien (keine = alle)</target>
+            </trans-unit>
+            <trans-unit id="plugin.blog.show_disabled">
+                <source>Show disabled articles in list view</source>
+                <target>Deaktivierte Blogartikel in Liste anzeigen</target>
+            </trans-unit>
+            <trans-unit id="plugin.blog.storagePid">
+                <source>Storage page for blog articles (ID)</source>
+                <target>ID der Seite mit Blogartikeln</target>
+            </trans-unit>
+            <trans-unit id="plugin.blog.rootCategory">
+                <source>Blog root category (ID)</source>
+                <target>ID der Hauptkategorie für Blogbeiträge</target>
+            </trans-unit>
+            <trans-unit id="plugin.blog.width.article">
+                <source>Max. image width in articles</source>
+                <target>Max. Bildbreite in Blogartikeln</target>
+            </trans-unit>
+            <trans-unit id="plugin.blog.width.regular">
+                <source>Max. preview image width for regular articles (px)</source>
+                <target>Max. Breite des Vorschaubildes in normalen Artikeln (px)</target>
+            </trans-unit>
+            <trans-unit id="plugin.blog.width.featured">
+                <source>Max. preview image width for featured articles (px)</source>
+                <target>Max. Breite des Vorschaubildes in Top-Artikeln</target>
+            </trans-unit>
+            <trans-unit id="plugin.blog.display_mode.default">
+                <source>Regular</source>
+                <target>Standard</target>
+            </trans-unit>
+            <trans-unit id="plugin.blog.display_mode.featured">
+                <source>Featured Articles</source>
+                <target>Top-Artikel</target>
+            </trans-unit>
+
+            <!-- Table: be_users -->
+            <trans-unit id="be_users.tx_twblog_frontend_name" approved="yes">
+                <source>Frontend Name</source>
+                <target>Name im Frontend</target>
+            </trans-unit>
+            <trans-unit id="be_users.tx_twblog_frontend_image" approved="yes">
+                <source>Frontend Image</source>
+                <target>Bild im Frontend</target>
+            </trans-unit>
+
+            <!-- Table: Pages -->
+            <trans-unit id="pages.tx_twblog_blog_featured" approved="yes">
+                <source>Is featured article?</source>
+                <target>Ist es ein Top-Artikel?</target>
+            </trans-unit>
+            <trans-unit id="pages.tx_twblog_blog_teaser_image" approved="yes">
+                <source>Teaser Image</source>
+                <target>Teaser-Bild</target>
+            </trans-unit>
+            <trans-unit id="pages.tx_twblog_blog_teaser_text" approved="yes">
+                <source>Teaser Text</source>
+                <target>Teaser-Text</target>
+            </trans-unit>
+            <trans-unit id="pages.tx_twblog_blog_authors" approved="yes">
+                <source>Authors</source>
+                <target>Authoren</target>
+            </trans-unit>
+            <trans-unit id="pages.tx_twblog_blog_series" approved="yes">
+                <source>Blog Series</source>
+                <target>Blog-Serie</target>
+            </trans-unit>
+            <trans-unit id="pages.tx_twblog_blog_related_articles" approved="yes">
+                <source>Related Articles</source>
+                <target>Verwandte Blogartikel</target>
+            </trans-unit>
+            <trans-unit id="pages.tx_twblog_blog_comments" approved="yes">
+                <source>Comments</source>
+                <target>Kommentare</target>
+            </trans-unit>
+            <trans-unit id="pages.tx_twblog_blog_date" approved="yes">
+                <source>Blog date for sorting</source>
+                <target>Blogdatum für Sortierung</target>
+            </trans-unit>
+            <trans-unit id="pages.legacy_url" approved="yes">
+                <source>Legacy URL</source>
+                <target>Legacy URL</target>
+            </trans-unit>
+
+            <!-- Blog Series -->
+            <trans-unit id="tx_twblog_domain_model_blogseries">
+                <source>Blog series</source>
+                <target>Blogserie</target>
+            </trans-unit>
+            <trans-unit id="tx_twblog_domain_model_blogseries.title">
+                <source>Title</source>
+                <target>Titel</target>
+            </trans-unit>
+
+            <!-- Comment -->
+            <trans-unit id="tx_twblog_domain_model_comment">
+                <source>Comment</source>
+                <target>Kommentar</target>
+            </trans-unit>
+            <trans-unit id="tx_twblog_domain_model_comment.name">
+                <source>Name</source>
+                <target>Name</target>
+            </trans-unit>
+            <trans-unit id="tx_twblog_domain_model_comment.email">
+                <source>Email address</source>
+                <target>E-Mail-Adresse</target>
+            </trans-unit>
+            <trans-unit id="tx_twblog_domain_model_comment.url">
+                <source>URL</source>
+                <target>URL</target>
+            </trans-unit>
+            <trans-unit id="tx_twblog_domain_model_comment.text">
+                <source>Text</source>
+                <target>Text</target>
+            </trans-unit>
+            <trans-unit id="tx_twblog_domain_model_comment.replies">
+                <source>Replies</source>
+                <target>Antworten</target>
+            </trans-unit>
+        </body>
+    </file>
+</xliff>
