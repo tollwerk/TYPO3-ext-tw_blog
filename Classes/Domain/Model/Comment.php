@@ -211,7 +211,7 @@ class  Comment extends AbstractEntity
      *
      * @return int Creation date
      */
-    public function getCrdate(): int
+    public function getCrdate(): ?int
     {
         return $this->crdate;
     }

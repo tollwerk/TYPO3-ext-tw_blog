@@ -40,6 +40,7 @@ use Tollwerk\TwBlog\Domain\Model\BlogArticle;
 use Tollwerk\TwBlog\Domain\Model\BlogAuthor;
 use Tollwerk\TwBlog\Domain\Model\Category;
 use Tollwerk\TwBlog\Domain\Model\Content;
+use Tollwerk\TwBlog\Domain\Model\Comment;
 
 return [
     Content::class     => [
@@ -107,5 +108,5 @@ return [
     ],
     Category::class    => [
         'tableName' => 'sys_category',
-    ]
+    ],
 ];
