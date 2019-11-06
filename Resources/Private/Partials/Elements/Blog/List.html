@@ -27,15 +27,17 @@
 
         --></f:comment>
         <f:section name="Main">
-            <ol class="BlogList BlogList--{settings.display_mode}">
+            <ol class="BlogList BlogList--{settings.display_mode}" itemscope itemtype="http://schema.org/ItemList">
                 <f:for each="{blogArticles}" as="blogArticle">
-                    <li class="BlogListItem BlogListItem--{settings.display_mode}">
-                        <f:render section="ItemContent--{settings.display_mode}" arguments="{blogArticle: blogArticle}"/>
+                    <li class="BlogListItem BlogListItem--{settings.display_mode}" itemprop="itemListElement" itemscope
+                        itemtype="http://schema.org/ListItem">
+                        <f:render section="ItemContent--{settings.display_mode}"
+                                  arguments="{blogArticle: blogArticle}"/>
                     </li>
                 </f:for>
             </ol>
             <f:if condition="{settings.show_pagination}">
-                <f:render partial="Elements/Navigation/Pagination" arguments="{
+                <f:render partial="Elements/Blog/Pagination" arguments="{
                     label: '{f:translate(key:\'LLL:EXT:tw_blog/Resources/Private/Language/locallang.xlf:blog.pagination.aria_label\')}',
                     section: 'c{settings.blog.listContent}',
                     countAll: countAll,
@@ -49,8 +51,6 @@
         </f:section>
 
 
-
-
         <f:comment><!--
 
             Render the content of a default article
@@ -61,17 +61,17 @@
         <f:section name="ItemContent--default">
             <div class="BlogListItem BlogListItem--default">
 
-                    <div class="BlogListItem__image">
-                        <f:if condition="{blogArticle.teaserImage}">
-                            <base:image image="{blogArticle.teaserImage}" />
-                        </f:if>
-                    </div>
-                    <f:link.page tabindex="-1" pageUid="{blogArticle.uid}" additionalAttributes="{itemprop: 'url'}">
-                        <base:heading content="{blogArticle.title}" class="BlogListItem__title"/>
-                    </f:link.page>
-                    <p class="BlogListItem__text">
-                        <f:format.nl2br>{blogArticle.teaserText}</f:format.nl2br>
-                    </p>
+                <div class="BlogListItem__image">
+                    <f:if condition="{blogArticle.teaserImage}">
+                        <base:image image="{blogArticle.teaserImage}"/>
+                    </f:if>
+                </div>
+                <f:link.page tabindex="-1" pageUid="{blogArticle.uid}" additionalAttributes="{itemprop: 'url'}">
+                    <base:heading content="{blogArticle.title}" class="BlogListItem__title"/>
+                </f:link.page>
+                <p class="BlogListItem__text">
+                    <f:format.nl2br>{blogArticle.teaserText}</f:format.nl2br>
+                </p>
             </div>
         </f:section>
 

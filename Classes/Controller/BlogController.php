@@ -39,6 +39,7 @@ namespace Tollwerk\TwBlog\Controller;
 use Tollwerk\TwBlog\Domain\Model\Category;
 use Tollwerk\TwBlog\Domain\Repository\BlogArticleRepository;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Extbase\Configuration\Exception\InvalidConfigurationTypeException;
 use TYPO3\CMS\Extbase\Domain\Repository\CategoryRepository;
 use TYPO3\CMS\Extbase\Mvc\Controller\ActionController;
 use TYPO3\CMS\Extbase\Mvc\View\ViewInterface;
@@ -91,7 +92,7 @@ class BlogController extends ActionController
     protected $uid;
 
     /**
-     * Inject the person repository
+     * Inject the blog article repository
      *
      * @param BlogArticleRepository $blogArticleRepository
      *
@@ -145,7 +146,7 @@ class BlogController extends ActionController
         }
 
         // Offset & pagination
-        $offset          = intval($showFeatured ? 0 : $offset);
+        $offset = intval($showFeatured ? 0 : $offset);
         $articlesPerPage = intval($this->settings['articles_per_page'] ?? $this->settings['blog']['articlesPerPage']);
 
         // Select blog articles
@@ -173,33 +174,15 @@ class BlogController extends ActionController
 
         $this->view->assignMultiple([
             'articlesPerPage' => $articlesPerPage,
-            'orderBy'         => $orderBy,
-            'showDisabled'    => $showDisabled,
-            'countAll'        => $countAll,
-            'blogArticles'    => $blogArticles,
-            'pagination'      => $showFeatured ? null : static::pagination($offset, $articlesPerPage, $countAll),
-            'offset'          => $offset,
-            'uid'             => $this->uid
+            'orderBy' => $orderBy,
+            'showDisabled' => $showDisabled,
+            'countAll' => $countAll,
+            'blogArticles' => $blogArticles,
+            'pagination' => $showFeatured ? null : static::pagination($offset, $articlesPerPage, $countAll),
+            'offset' => $offset,
+            'uid' => $this->uid,
+            'categories' => $categories
         ]);
-    }
-
-    /**
-     * Blog category filter action
-     *
-     * @param array $categories Categories
-     */
-    public function filterAction(array $categories = [])
-    {
-        $rootCategory  = intval($this->settings['blog']['rootCategory']);
-        $allCategories = [];
-        /** @var Category $category */
-        foreach ($this->objectManager->get(CategoryRepository::class)->findByParent($rootCategory) as $category) {
-            if (in_array($category->getUid(), $categories)) {
-                $category->setActive(true);
-            }
-            $allCategories[] = $category;
-        }
-        $this->view->assign('categories', $allCategories);
     }
 
     /**
@@ -214,9 +197,9 @@ class BlogController extends ActionController
     public static function pagination(int $currentOffset, int $itemsPerPage, int $numberOfItems): array
     {
         // Get all pages of items for further calculation
-        $pageIndex        = 1;
-        $allPages         = [$pageIndex => 0];
-        $offsetCounter    = 0;
+        $pageIndex = 1;
+        $allPages = [$pageIndex => 0];
+        $offsetCounter = 0;
         $currentPageIndex = $pageIndex;
         while ($offsetCounter < $numberOfItems) {
             ++$offsetCounter;
@@ -230,10 +213,10 @@ class BlogController extends ActionController
         }
 
         return [
-            'allPages'         => $allPages,
+            'allPages' => $allPages,
             'currentPageIndex' => $currentPageIndex,
-            'pages'            => self::getPaginationPages($allPages, $currentPageIndex),
-            'offsets'          => self::getPaginationOffsets($currentOffset, $itemsPerPage, $allPages),
+            'pages' => self::getPaginationPages($allPages, $currentPageIndex),
+            'offsets' => self::getPaginationOffsets($currentOffset, $itemsPerPage, $allPages),
         ];
     }
 
@@ -248,14 +231,14 @@ class BlogController extends ActionController
     protected static function getPaginationPages(array $allPages, int $currentPageIndex): array
     {
         // Prepare $pages array
-        $showPrevNext  = 1;
+        $showPrevNext = 1;
         $showFirstLast = 2;
-        $pages         = [
-            'first'   => [],
-            'prev'    => [],
+        $pages = [
+            'first' => [],
+            'prev' => [],
             'current' => [$currentPageIndex => $allPages[$currentPageIndex]],
-            'next'    => [],
-            'last'    => [],
+            'next' => [],
+            'last' => [],
         ];
 
         // Get current->previous pages
@@ -302,12 +285,47 @@ class BlogController extends ActionController
     protected static function getPaginationOffsets(int $currentOffset, int $itemsPerPage, array $allPages): array
     {
         return [
-            'first'   => 0,
-            'prev'    => $currentOffset - $itemsPerPage,
+            'first' => 0,
+            'prev' => $currentOffset - $itemsPerPage,
             'current' => $currentOffset,
-            'next'    => $currentOffset + $itemsPerPage,
-            'last'    => $allPages[count($allPages)]
+            'next' => $currentOffset + $itemsPerPage,
+            'last' => $allPages[count($allPages)]
         ];
+    }
+
+    /**
+     * Blog category filter action
+     *
+     * @param int[] $categories Categories
+     */
+    public function filterAction(array $categories = [])
+    {
+        $rootCategory = intval($this->settings['blog']['rootCategory']);
+        $allCategories = [];
+        /** @var Category $category */
+        foreach ($this->objectManager->get(CategoryRepository::class)->findByParent($rootCategory) as $category) {
+            if (in_array($category->getUid(), $categories)) {
+                $category->setActive(true);
+            }
+            $allCategories[] = $category;
+        }
+        $this->view->assign('categories', $allCategories);
+    }
+
+    /**
+     * Navigate action
+     *
+     * @param int[] $categories Categories
+     *
+     * @throws InvalidConfigurationTypeException
+     */
+    public function navigationAction(array $categories = [])
+    {
+        $current = $this->blogArticleRepository->findByIdentifier($GLOBALS['TSFE']->id);
+        $this->view->assign('current', $current);
+        $this->view->assign('previous', $this->blogArticleRepository->findPrevious($current, $categories));
+        $this->view->assign('next', $this->blogArticleRepository->findNext($current, $categories));
+        $this->view->assign('categories', $categories);
     }
 
     /**

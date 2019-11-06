@@ -19,7 +19,7 @@ call_user_func(
         \TYPO3\CMS\Extbase\Utility\ExtensionUtility::configurePlugin(
             'TwBlog',
             'Blog',
-            [\Tollwerk\TwBlog\Controller\BlogController::class => 'list, filter'],
+            [\Tollwerk\TwBlog\Controller\BlogController::class => 'list, filter, navigation'],
             []
         );
 

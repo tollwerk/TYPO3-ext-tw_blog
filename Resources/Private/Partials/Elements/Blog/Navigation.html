@@ -1,0 +1,67 @@
+<f:comment><!--
+
+    Render the blog article navigation
+
+    @param BlogArticle current          Current blog article
+    @param BlogArticle next             Next blog article
+    @param BlogArticle previous         Previous blog article
+    @param int[] categories             Categories
+
+--></f:comment>
+<html xmlns:f="https://xsd.helhum.io/ns/typo3/cms-fluid/master/ViewHelpers" data-namespace-typo3-fluid="true">
+    <f:render section="BlogNavigation" contentAs="content">
+        <f:if condition="{previous}">
+            <li>
+                <f:if condition="{categories}">
+                    <f:then>
+                        <f:link.action pageUid="{previous.uid}" pluginName="Blog" extensionName="TwBlog"
+                                       arguments="{categories: categories}"
+                                       class="BlogNavigate__item BlogNavigate__item--previous">
+                            {previous.title}
+                        </f:link.action>
+                    </f:then>
+                    <f:else>
+                        <f:link.page pageUid="{previous.uid}" class="BlogNavigate__item BlogNavigate__item--previous">
+                            {previous.title}
+                        </f:link.page>
+                    </f:else>
+                </f:if>
+            </li>
+        </f:if>
+        <f:if condition="{next}">
+            <li>
+                <f:if condition="{categories}">
+                    <f:then>
+                        <f:link.action pageUid="{next.uid}" pluginName="Blog" extensionName="TwBlog"
+                                       arguments="{categories: categories}"
+                                       class="BlogNavigate__item BlogNavigate__item--next">
+                            {next.title}
+                        </f:link.action>
+                    </f:then>
+                    <f:else>
+                        <f:link.page pageUid="{next.uid}" class="BlogNavigate__item BlogNavigate__item--next">
+                            {next.title}
+                        </f:link.page>
+                    </f:else>
+                </f:if>
+            </li>
+        </f:if>
+    </f:render>
+
+    <f:comment><!--
+
+        Render the blog article navigation
+
+        @param string content           Content
+
+    --></f:comment>
+    <f:section name="BlogNavigation">
+        <f:if condition="{content -> v:format.trim()}">
+            <nav class="BlogNavigation">
+                <ul>
+                    <f:format.raw>{content}</f:format.raw>
+                </ul>
+            </nav>
+        </f:if>
+    </f:section>
+</html>

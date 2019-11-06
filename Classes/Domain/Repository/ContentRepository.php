@@ -36,6 +36,9 @@
 
 namespace Tollwerk\TwBlog\Domain\Repository;
 
+use Tollwerk\TwBlog\Domain\Model\BlogArticle;
+use TYPO3\CMS\Extbase\Persistence\QueryResultInterface;
+
 /**
  * Content Element Repository
  *
@@ -44,5 +47,19 @@ namespace Tollwerk\TwBlog\Domain\Repository;
  */
 class ContentRepository extends AbstractRepository
 {
+    /**
+     * Return all content elements belonging to a particular blog post
+     *
+     * @param BlogArticle $blogArticle Blog Article
+     *
+     * @return QueryResultInterface Content elements
+     */
+    public function findByBlogArticle(BlogArticle $blogArticle): QueryResultInterface
+    {
+        $query = $this->createQuery();
+        $query->getQuerySettings()->setStoragePageIds([$blogArticle->getUid()]);
+        $query->getQuerySettings()->setIncludeDeleted(true);
 
+        return $query->execute();
+    }
 }

@@ -41,7 +41,7 @@ use TYPO3\CMS\Extbase\Configuration\ConfigurationManager;
 use TYPO3\CMS\Extbase\Configuration\ConfigurationManagerInterface;
 
 /**
- * Storag PIDs trait
+ * Storage PIDs trait
  */
 trait StoragePidsTrait
 {
