@@ -282,7 +282,7 @@ class BlogController extends ActionController
             [],
             false,
             BlogPostRepository::ORDER_BY_STARTTIME,
-            [$this->settings['blog']['listPid']]
+            [$this->settings['blog']['storagePid']]
         );
 
         $lastUpdated = max(array_map(function(BlogPost $post) {
