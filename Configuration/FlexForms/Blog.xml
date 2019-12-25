@@ -60,7 +60,7 @@
                             </config>
                         </TCEforms>
                     </settings.selection_mode>
-                    <settings.articles>
+                    <settings.posts>
                         <TCEforms>
                             <exclude>1</exclude>
                             <displayCond>
@@ -70,7 +70,7 @@
                                 </AND>
                             </displayCond>
                             <label>
-                                LLL:EXT:tw_blog/Resources/Private/Language/locallang_db.xlf:plugin.blog.articles
+                                LLL:EXT:tw_blog/Resources/Private/Language/locallang_db.xlf:plugin.blog.posts
                             </label>
                             <config>
                                 <type>select</type>
@@ -83,7 +83,7 @@
                                 <enableMultiSelectFilterTextfield>true</enableMultiSelectFilterTextfield>
                             </config>
                         </TCEforms>
-                    </settings.articles>
+                    </settings.posts>
                     <settings.display_mode>
                         <TCEforms>
                             <exclude>1</exclude>
@@ -143,11 +143,11 @@
                             </config>
                         </TCEforms>
                     </settings.order_by>
-                    <settings.articles_per_page>
+                    <settings.posts_per_page>
                         <exclude>1</exclude>
                         <displayCond>FIELD:switchableControllerActions:=:Blog->list;Blog->filter</displayCond>
                         <label>
-                            LLL:EXT:tw_blog/Resources/Private/Language/locallang_db.xlf:plugin.blog.articles_per_page
+                            LLL:EXT:tw_blog/Resources/Private/Language/locallang_db.xlf:plugin.blog.posts_per_page
                         </label>
                         <config>
                             <type>input</type>
@@ -158,7 +158,7 @@
                             <size>3</size>
                             <max>2</max>
                         </config>
-                    </settings.articles_per_page>
+                    </settings.posts_per_page>
                     <settings.show_disabled>
                         <exclude>1</exclude>
                         <displayCond>FIELD:switchableControllerActions:=:Blog->list;Blog->filter</displayCond>

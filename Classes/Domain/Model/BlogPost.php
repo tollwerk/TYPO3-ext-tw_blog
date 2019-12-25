@@ -36,15 +36,16 @@
 
 namespace Tollwerk\TwBlog\Domain\Model;
 
+use Ramsey\Uuid\Uuid;
 use TYPO3\CMS\Extbase\DomainObject\AbstractEntity;
 use TYPO3\CMS\Extbase\Persistence\ObjectStorage;
 
 /**
- * Blog Article
+ * Blog Post
  *
  * @package Tollwerk\TwBlog\Domain\Model
  */
-class BlogArticle extends AbstractEntity
+class BlogPost extends AbstractEntity
 {
     /**
      * Blog document type
@@ -54,7 +55,7 @@ class BlogArticle extends AbstractEntity
     const DOKTYPE = 116;
 
     /**
-     * Blog article ID
+     * Blog post ID
      *
      * @var int
      */
@@ -113,12 +114,12 @@ class BlogArticle extends AbstractEntity
     protected $media = null;
 
     /**
-     * Related articles
+     * Related posts
      *
-     * @var \TYPO3\CMS\Extbase\Persistence\ObjectStorage<\Tollwerk\TwBlog\Domain\Model\BlogArticle> relatedArticles
+     * @var \TYPO3\CMS\Extbase\Persistence\ObjectStorage<\Tollwerk\TwBlog\Domain\Model\BlogPost> relatedPosts
      * @TYPO3\CMS\Extbase\Annotation\ORM\Lazy
      */
-    protected $relatedArticles = null;
+    protected $relatedPosts = null;
 
     /**
      * Blog publishing date
@@ -167,12 +168,12 @@ class BlogArticle extends AbstractEntity
      *
      * @var \Tollwerk\TwBlog\Domain\Model\BlogSeries
      */
-    protected $blogSeries = null;
+    protected $series = null;
 
     /**
      * Categories
      *
-     * @var \TYPO3\CMS\Extbase\Persistence\ObjectStorage<\TYPO3\CMS\Extbase\Domain\Model\Category>
+     * @var \TYPO3\CMS\Extbase\Persistence\ObjectStorage<\Tollwerk\TwBlog\Domain\Model\Category>
      * @TYPO3\CMS\Extbase\Annotation\ORM\Lazy
      */
     protected $categories = null;
@@ -475,9 +476,9 @@ class BlogArticle extends AbstractEntity
      *
      * @return \Tollwerk\TwBlog\Domain\Model\BlogSeries
      */
-    public function getBlogSeries(): ?BlogSeries
+    public function getSeries(): ?BlogSeries
     {
-        return $this->blogSeries;
+        return $this->series;
     }
 
     /**
@@ -485,9 +486,9 @@ class BlogArticle extends AbstractEntity
      *
      * @param \Tollwerk\TwBlog\Domain\Model\BlogSeries $series
      */
-    public function setBlogSeries(BlogSeries $blogSeries): void
+    public function setSeries(BlogSeries $series): void
     {
-        $this->blogSeries = $blogSeries;
+        $this->series = $series;
     }
 
     /**
@@ -580,48 +581,58 @@ class BlogArticle extends AbstractEntity
 
 
     /**
-     * Add a relatedArticle
+     * Add a relatedPost
      *
-     * @param \Tollwerk\TwBlog\Domain\Model\BlogArticle $relatedArticle
-     *
-     * @return void
-     */
-    public function addRelatedArticles(BlogArticle $relatedArticle): void
-    {
-        $this->relatedArticles->attach($relatedArticle);
-    }
-
-    /**
-     * Remove a relatedArticle
-     *
-     * @param \Tollwerk\TwBlog\Domain\Model\BlogArticle $relatedArticleToRemove The related article to be removed
+     * @param \Tollwerk\TwBlog\Domain\Model\BlogPost $relatedPost
      *
      * @return void
      */
-    public function removeRelatedArticle(BlogArticle $relatedArticleToRemove): void
+    public function addRelatedPosts(BlogPost $relatedPost): void
     {
-        $this->relatedArticles->detach($relatedArticleToRemove);
+        $this->relatedPosts->attach($relatedPost);
     }
 
     /**
-     * Return all relatedArticles
+     * Remove a relatedPost
      *
-     * @return \TYPO3\CMS\Extbase\Persistence\ObjectStorage<\Tollwerk\TwBlog\Domain\Model\BlogArticle> relatedArticles
-     */
-    public function getRelatedArticles(): ObjectStorage
-    {
-        return $this->relatedArticles;
-    }
-
-    /**
-     * Set the relatedArticles
-     *
-     * @param \TYPO3\CMS\Extbase\Persistence\ObjectStorage<\Tollwerk\TwBlog\Domain\Model\BlogArticle> $relatedArticles
+     * @param \Tollwerk\TwBlog\Domain\Model\BlogPost $relatedPostToRemove The related post to be removed
      *
      * @return void
      */
-    public function setRelatedArticles(ObjectStorage $relatedArticles): void
+    public function removeRelatedPost(BlogPost $relatedPostToRemove): void
     {
-        $this->relatedArticles = $relatedArticles;
+        $this->relatedPosts->detach($relatedPostToRemove);
+    }
+
+    /**
+     * Return all relatedPosts
+     *
+     * @return \TYPO3\CMS\Extbase\Persistence\ObjectStorage<\Tollwerk\TwBlog\Domain\Model\BlogPost> relatedPosts
+     */
+    public function getRelatedPosts(): ObjectStorage
+    {
+        return $this->relatedPosts;
+    }
+
+    /**
+     * Set the relatedPosts
+     *
+     * @param \TYPO3\CMS\Extbase\Persistence\ObjectStorage<\Tollwerk\TwBlog\Domain\Model\BlogPost> $relatedPosts
+     *
+     * @return void
+     */
+    public function setRelatedPosts(ObjectStorage $relatedPosts): void
+    {
+        $this->relatedPosts = $relatedPosts;
+    }
+
+    /**
+     * Return the last modification date (as UNIX timestamp)
+     *
+     * @return int
+     */
+    public function getLastUpdated(): int
+    {
+        return max($this->getCreated(), $this->getTstamp(), $this->getStarttime());
     }
 }

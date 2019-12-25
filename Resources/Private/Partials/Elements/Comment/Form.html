@@ -1,6 +1,9 @@
 <f:comment><!--
-    No parameters
-    @param comment[] comments      Array with comments
+
+    Render a comment form
+
+    @param comment[] comments      Comments
+
 --></f:comment>
 <html xmlns:f="https://xsd.helhum.io/ns/typo3/cms-fluid/master/ViewHelpers"
       xmlns:base="http://typo3.org/ns/Tollwerk/TwBase/ViewHelpers"
@@ -40,10 +43,8 @@
                 <f:form.textfield property="url"/>
             </label>
 
-
             <f:form.submit
                     value="{f:translate(key: 'LLL:EXT:tw_blog/Resources/Private/Language/locallang.xlf:comment.form.submit')}"/>
         </f:form>
     </div>
-
 </html>

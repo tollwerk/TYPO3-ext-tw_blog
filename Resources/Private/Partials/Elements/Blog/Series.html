@@ -1,39 +1,39 @@
 <f:comment><!--
 
-    @param BlogArticle blogArticle     The blog article
+    @param BlogPost blogPost     The blog post
 
 --></f:comment>
 <html xmlns:f="https://xsd.helhum.io/ns/typo3/cms-fluid/master/ViewHelpers"
       xmlns:base="http://typo3.org/ns/Tollwerk/TwBase/ViewHelpers"
       data-namespace-typo3-fluid="true">
-    <f:variable name="articlesBySeries" value="{blog:blogArticle.bySeries(
-            series: blogArticle.blogSeries,
+    <f:variable name="postsBySeries" value="{blog:post.bySeries(
+            series: blogPost.blogSeries,
             storagePid: settings.blog.storagePid,
-            exclude: blogArticle
+            exclude: blogPost
         )}"/>
 
-    <f:variable name="sponsors" value="{blog:blogSeries.sponsors(uid: blogArticle.blogSeries.uid)}"/>
-    <f:if condition="{articlesBySeries}">
+    <f:variable name="sponsors" value="{blog:blogSeries.sponsors(uid: blogPost.blogSeries.uid)}"/>
+    <f:if condition="{postsBySeries}">
         <div class="BlogSeries">
             <base:heading type="4" class="BlogSeries__header"
-                          content="{f:translate(key: 'LLL:EXT:tw_blog/Resources/Private/Language/locallang.xlf:blog.more_by_series', arguments: '{0: blogArticle.blogSeries.title}')}"/>
+                          content="{f:translate(key: 'LLL:EXT:tw_blog/Resources/Private/Language/locallang.xlf:blog.more_by_series', arguments: '{0: blogPost.blogSeries.title}')}"/>
             <f:render partial="Elements/Sponsors/Default"
-                      arguments="{sponsors: '{blog:blogSeries.sponsors(uid: blogArticle.blogSeries.uid)}'}"/>
+                      arguments="{sponsors: '{blog:blogSeries.sponsors(uid: blogPost.blogSeries.uid)}'}"/>
 
             <ol class="BlogSeries__items" itemscope itemtype="http://schema.org/ItemList">
-                <f:for each="{articlesBySeries}" as="seriesArticle" key="itemkey">
-                    <f:variable name="blogAuthors" value="{blog:blogArticle.authors(article: seriesArticle)}"/>
+                <f:for each="{postsBySeries}" as="seriesPost" key="itemkey">
+                    <f:variable name="blogAuthors" value="{blog:post.authors(post: seriesPost)}"/>
                     <li class="BlogSeries__item" itemprop="itemListElement" itemscope
                         itemtype="http://schema.org/ListItem">
                         <meta itemprop="position" content="{itemkey}"/>
                         <f:spaceless>
-                            <f:link.page pageUid="{seriesArticle.uid}" class="BlogSeries__item-link"
+                            <f:link.page pageUid="{seriesPost.uid}" class="BlogSeries__item-link"
                                          additionalAttributes="{itemprop: 'url'}">
-                                <f:render section="Image" arguments="{image: seriesArticle.teaserImage}"/>
+                                <f:render section="Image" arguments="{image: seriesPost.teaserImage}"/>
                                 <div class="BlogSeries__item-text">
-                                    {seriesArticle.title}
-                                    <f:render partial="Elements/Blog/Article" section="DateAuthors"
-                                              arguments="{blogArticle: seriesArticle, blogAuthors: blogAuthors}"/>
+                                    {seriesPost.title}
+                                    <f:render partial="Elements/Blog/Post" section="DateAuthors"
+                                              arguments="{blogPost: seriesPost, blogAuthors: blogAuthors}"/>
                                 </div>
                             </f:link.page>
                         </f:spaceless>
@@ -46,9 +46,9 @@
 
     <f:comment><!--
 
-        Render the Image 
+        Render the Image
 
-        @param BlogArticle blogArticle              Blog article
+        @param BlogPost blogPost              Blog post
 
     --></f:comment>
     <f:section name="Image">

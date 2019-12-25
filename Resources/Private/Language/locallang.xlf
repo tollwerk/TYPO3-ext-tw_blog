@@ -4,11 +4,11 @@
           product-name="tw_blog">
         <header/>
         <body>
-            <trans-unit id="blog.readArticle">
-                <source>Read article</source>
+            <trans-unit id="blog.readPost">
+                <source>Read post</source>
             </trans-unit>
             <trans-unit id="blog.more_by_series">
-                <source>Other articles the series «%s»</source>
+                <source>Other posts the series «%s»</source>
             </trans-unit>
             <trans-unit id="blog.authors.about.male">
                 <source>About the author</source>
@@ -26,7 +26,7 @@
                 <source>About the authors</source>
             </trans-unit>
             <trans-unit id="blog.pagination.aria_label">
-                <source>Browse through blog articles</source>
+                <source>Browse through blog posts</source>
             </trans-unit>
             <trans-unit id="blog.pagination.first">
                 <source>First page</source>
@@ -44,13 +44,13 @@
                 <source>Last page</source>
             </trans-unit>
             <trans-unit id="blog.prevnext.next">
-                <source>More recent article</source>
+                <source>More recent post</source>
             </trans-unit>
             <trans-unit id="blog.prevnext.prev">
-                <source>Older article</source>
+                <source>Older post</source>
             </trans-unit>
             <trans-unit id="blog.prevnext.aria_label">
-                <source>Older and more recent articles</source>
+                <source>Older and more recent posts</source>
             </trans-unit>
 
             <!-- Crop variants -->
@@ -61,7 +61,7 @@
                 <source>Blog Teaser</source>
             </trans-unit>
             <trans-unit id="cropVariants.blog_featured_teaser">
-                <source>Featured Blog Article Teaser</source>
+                <source>Featured Blog Post Teaser</source>
             </trans-unit>
             <trans-unit id="cropVariants.blog_header">
                 <source>Blog Page Header</source>

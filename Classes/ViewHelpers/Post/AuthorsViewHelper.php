@@ -34,12 +34,9 @@
  *  CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  ***********************************************************************************/
 
-namespace Tollwerk\TwBlog\ViewHelpers\BlogArticle;
+namespace Tollwerk\TwBlog\ViewHelpers\Post;
 
-use Tollwerk\TwBlog\Domain\Model\BlogArticle;
-use Tollwerk\TwBlog\Domain\Repository\BlogArticleRepository;
-use TYPO3\CMS\Core\Utility\GeneralUtility;
-use TYPO3\CMS\Extbase\Object\ObjectManager;
+use Tollwerk\TwBlog\Utility\ContactUtility;
 use TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper;
 
 /**
@@ -48,9 +45,8 @@ use TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper;
  * @package    Tollwerk\TwBlog
  * @subpackage Tollwerk\TwBlog\ViewHelpers\Page
  */
-class GetViewHelper extends AbstractViewHelper
+class AuthorsViewHelper extends AbstractViewHelper
 {
-
     /**
      * Initialize arguments
      *
@@ -59,7 +55,8 @@ class GetViewHelper extends AbstractViewHelper
     public function initializeArguments()
     {
         parent::initializeArguments();
-        $this->registerArgument('uid', 'integer', 'The uid of the blog article ( = of the page) ', false, null);
+        $this->registerArgument('post', '\\Tollwerk\\TwBlog\\Domain\\Model\\BlogPost', 'A Blog post', false,
+            null);
     }
 
     /**
@@ -70,9 +67,7 @@ class GetViewHelper extends AbstractViewHelper
      */
     public function render()
     {
-        $pageUid = $this->arguments['uid'] ? : $GLOBALS['TSFE']->id;
-        $objectManager = GeneralUtility::makeInstance(ObjectManager::class);
-        $blogArticleRepository = $objectManager->get(BlogArticleRepository::class);
-        return $blogArticleRepository->findByUid($pageUid);
+        return ContactUtility::getByMM('tx_twblog_blog_post_author_mm',
+            $this->arguments['post']->getUid() ?: $GLOBALS['TSFE']->id);
     }
 }

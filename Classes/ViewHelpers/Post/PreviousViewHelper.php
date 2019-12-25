@@ -34,54 +34,46 @@
  *  CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  ***********************************************************************************/
 
-namespace Tollwerk\TwBlog\ViewHelpers\BlogArticle\Authors;
+namespace Tollwerk\TwBlog\ViewHelpers\Post;
 
-use Tollwerk\TwBlog\Domain\Model\Person;
+use Tollwerk\TwBlog\Domain\Repository\BlogPostRepository;
+use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Extbase\Object\ObjectManager;
+use TYPO3\CMS\Extbase\Persistence\Exception\InvalidQueryException;
 use TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper;
 
 /**
- * Return the gender for a list of blog authors / interview partners
+ * Select a layout by document type
  *
  * @package    Tollwerk\TwBlog
  * @subpackage Tollwerk\TwBlog\ViewHelpers\Page
  */
-class GenderViewHelper extends AbstractViewHelper
+class PreviousViewHelper extends AbstractViewHelper
 {
     /**
      * Initialize arguments
      *
      * @api
      */
-    public function initializeArguments()
+    public function initializeArguments(): void
     {
         parent::initializeArguments();
-        $this->registerArgument('persons', 'array', 'List of blog authors / interview partners', true);
+        $this->registerArgument('blogPost', '\Tollwerk\TwBlog\Domain\Model\BlogPost', 'The current blog post',
+            true);
     }
 
     /**
-     * Return the gender for a list of blog authors / interview partners
+     * Select a layout by document type
      *
-     * @return string Gender string
+     * @return array|null
+     * @throws InvalidQueryException
      * @api
      */
     public function render()
     {
-        $genders = ['male' => 0, 'female' => 0];
-        /** @var Person $person */
-        foreach ($this->arguments['persons'] as $person) {
-            ++$genders[($person->getGender() == 2) ? 'female' : 'male'];
-        }
+        $objectManager         = GeneralUtility::makeInstance(ObjectManager::class);
+        $blogPostRepository = $objectManager->get(BlogPostRepository::class);
 
-        if ($genders['male'] && $genders['female']) {
-            return 'mixed';
-        } elseif ($genders['male'] > 1) {
-            return 'males';
-        } elseif ($genders['male']) {
-            return 'male';
-        } elseif ($genders['female'] > 1) {
-            return 'females';
-        }
-
-        return 'female';
+        return $blogPostRepository->findPrevious($this->arguments['blogPost']);
     }
 }

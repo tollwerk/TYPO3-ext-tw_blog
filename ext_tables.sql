@@ -2,7 +2,7 @@ CREATE TABLE pages
 (
     tx_twblog_blog_teaser_image     INT(11) UNSIGNED NOT NULL DEFAULT '0',
     tx_twblog_blog_teaser_text      TEXT             NOT NULL DEFAULT '',
-    tx_twblog_blog_related_articles VARCHAR(32)               DEFAULT '' NOT NULL,
+    tx_twblog_blog_related_posts VARCHAR(32)               DEFAULT '' NOT NULL,
     tx_twblog_blog_authors          INT(11) UNSIGNED NOT NULL DEFAULT '0',
     tx_twblog_blog_series           INT(11) UNSIGNED NOT NULL DEFAULT '0',
     tx_twblog_blog_comments         VARCHAR(255)              DEFAULT '' NOT NULL
@@ -14,7 +14,7 @@ CREATE TABLE be_users
     tx_twblog_frontend_image INT(11) UNSIGNED NOT NULL DEFAULT '0'
 );
 
-CREATE TABLE tx_twblog_blog_article_author_mm
+CREATE TABLE tx_twblog_blog_post_author_mm
 (
     uid_local   INT(11) UNSIGNED DEFAULT '0' NOT NULL,
     uid_foreign INT(11) UNSIGNED DEFAULT '0' NOT NULL,

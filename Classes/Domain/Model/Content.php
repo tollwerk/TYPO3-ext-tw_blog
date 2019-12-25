@@ -62,7 +62,7 @@ class Content extends AbstractEntity
     /**
      * Images
      *
-     * @var \TYPO3\CMS\Extbase\Persistence\ObjectStorage<\TYPO3\CMS\Extbase\Domain\Model\FileReference> media
+     * @var ObjectStorage media
      */
     protected $image;
     /**
@@ -137,7 +137,7 @@ class Content extends AbstractEntity
     /**
      * Return the images
      *
-     * @return \TYPO3\CMS\Extbase\Persistence\ObjectStorage Images
+     * @return ObjectStorage Images
      */
     public function getImage(): ObjectStorage
     {
@@ -147,7 +147,7 @@ class Content extends AbstractEntity
     /**
      * Set the images
      *
-     * @param \TYPO3\CMS\Extbase\Persistence\ObjectStorage $image Images
+     * @param ObjectStorage $image Images
      */
     public function setImage(ObjectStorage $image): void
     {

@@ -22,13 +22,42 @@
             <trans-unit id="common.enable" xml:space="preserve">
 				<source>Enable this extension</source>
 			</trans-unit>
-            <trans-unit id="backendLayout.blogArticle">
-                <source>Blog article</source>
+            <trans-unit id="backendLayout.blogPost">
+                <source>Blog post</source>
             </trans-unit>
-            <trans-unit id="backendLayout.blogArticle.col.content">
+            <trans-unit id="backendLayout.blogPost.col.content">
                 <source>Content</source>
             </trans-unit>
-
+            <trans-unit id="blog" xml:space="preserve">
+				<source>Blog</source>
+			</trans-unit>
+            <trans-unit id="atom" xml:space="preserve">
+				<source>Atom Feed</source>
+			</trans-unit>
+            <trans-unit id="atom.pid" xml:space="preserve">
+				<source>Atom feed page (ID)</source>
+			</trans-unit>
+            <trans-unit id="atom.title" xml:space="preserve">
+				<source>Feed title</source>
+			</trans-unit>
+            <trans-unit id="atom.subtitle" xml:space="preserve">
+				<source>Feed subtitle</source>
+			</trans-unit>
+            <trans-unit id="atom.authorName" xml:space="preserve">
+				<source>Feed author name</source>
+			</trans-unit>
+            <trans-unit id="atom.authorEmail" xml:space="preserve">
+				<source>Feed author email address</source>
+			</trans-unit>
+            <trans-unit id="atom.authorUri" xml:space="preserve">
+				<source>Feed author URI</source>
+			</trans-unit>
+            <trans-unit id="atom.logo" xml:space="preserve">
+				<source>Feed logo</source>
+			</trans-unit>
+            <trans-unit id="atom.icon" xml:space="preserve">
+				<source>Feed icon</source>
+			</trans-unit>
 
             <!-- Blog -->
             <trans-unit id="blog">
@@ -41,7 +70,7 @@
                 <source>View action</source>
             </trans-unit>
             <trans-unit id="plugin.blog.list">
-                <source>Blog article list</source>
+                <source>Blog post list</source>
             </trans-unit>
             <trans-unit id="plugin.blog.filter">
                 <source>Blog category filter</source>
@@ -61,8 +90,8 @@
             <trans-unit id="plugin.blog.selection_mode.manual">
                 <source>Manual selection</source>
             </trans-unit>
-            <trans-unit id="plugin.blog.articles">
-                <source>Blog articles to show</source>
+            <trans-unit id="plugin.blog.posts">
+                <source>Blog posts to show</source>
             </trans-unit>
             <trans-unit id="plugin.blog.order_by">
                 <source>Order by</source>
@@ -74,13 +103,13 @@
                 <source>Manual sorting</source>
             </trans-unit>
             <trans-unit id="plugin.blog.listPid">
-                <source>Blog article list page (ID)</source>
+                <source>Blog post list page (ID)</source>
             </trans-unit>
             <trans-unit id="plugin.blog.listContent">
-                <source>Blog article list content element (ID)</source>
+                <source>Blog post list content element (ID)</source>
             </trans-unit>
-            <trans-unit id="plugin.blog.articles_per_page">
-                <source>Articles per page</source>
+            <trans-unit id="plugin.blog.posts_per_page">
+                <source>Posts per page</source>
             </trans-unit>
             <trans-unit id="plugin.blog.show_pagination">
                 <source>Show pagination</source>
@@ -89,28 +118,28 @@
                 <source>Categories (none = all)</source>
             </trans-unit>
             <trans-unit id="plugin.blog.show_disabled">
-                <source>Show disabled articles in list view</source>
+                <source>Show disabled posts in list view</source>
             </trans-unit>
             <trans-unit id="plugin.blog.storagePid">
-                <source>Storage page for blog articles (ID)</source>
+                <source>Storage page for blog posts (ID)</source>
             </trans-unit>
             <trans-unit id="plugin.blog.rootCategory">
                 <source>Blog root category (ID)</source>
             </trans-unit>
-            <trans-unit id="plugin.blog.width.article">
-                <source>Max. image width in articles</source>
+            <trans-unit id="plugin.blog.width.post">
+                <source>Max. image width in posts</source>
             </trans-unit>
             <trans-unit id="plugin.blog.width.regular">
-                <source>Max. preview image width for regular articles (px)</source>
+                <source>Max. preview image width for regular posts (px)</source>
             </trans-unit>
             <trans-unit id="plugin.blog.width.featured">
-                <source>Max. preview image width for featured articles (px)</source>
+                <source>Max. preview image width for featured posts (px)</source>
             </trans-unit>
             <trans-unit id="plugin.blog.display_mode.default">
                 <source>Regular</source>
             </trans-unit>
             <trans-unit id="plugin.blog.display_mode.featured">
-                <source>Featured Articles</source>
+                <source>Featured Posts</source>
             </trans-unit>
 
             <!-- Table: be_users -->
@@ -123,7 +152,7 @@
 
             <!-- Table: Pages -->
             <trans-unit id="pages.tx_twblog_blog_featured" approved="yes">
-                <source>Is featured article?</source>
+                <source>Is featured post?</source>
             </trans-unit>
             <trans-unit id="pages.tx_twblog_blog_teaser_image" approved="yes">
                 <source>Teaser Image</source>
@@ -137,8 +166,8 @@
             <trans-unit id="pages.tx_twblog_blog_series" approved="yes">
                 <source>Blog Series</source>
             </trans-unit>
-            <trans-unit id="pages.tx_twblog_blog_related_articles" approved="yes">
-                <source>Related Articles</source>
+            <trans-unit id="pages.tx_twblog_blog_related_posts" approved="yes">
+                <source>Related Posts</source>
             </trans-unit>
             <trans-unit id="pages.tx_twblog_blog_comments" approved="yes">
                 <source>Comments</source>

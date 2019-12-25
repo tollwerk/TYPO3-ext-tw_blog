@@ -37,6 +37,7 @@
 namespace Tollwerk\TwBlog\Domain\Repository;
 
 use TYPO3\CMS\Beuser\Domain\Repository\BackendUserRepository;
+use TYPO3\CMS\Extbase\Persistence\Generic\Typo3QuerySettings;
 
 /**
  * Blog Author Repository
@@ -46,5 +47,13 @@ use TYPO3\CMS\Beuser\Domain\Repository\BackendUserRepository;
  */
 class BlogAuthorRepository extends BackendUserRepository
 {
-
+    /**
+     * Default query settings
+     */
+    public function initializeObject()
+    {
+        $defaultQuerySettings = $this->objectManager->get(Typo3QuerySettings::class);
+        $defaultQuerySettings->setIgnoreEnableFields(true);
+        $this->setDefaultQuerySettings($defaultQuerySettings);
+    }
 }

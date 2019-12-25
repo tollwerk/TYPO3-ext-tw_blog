@@ -6,7 +6,8 @@
   "license": "GPL-2.0+",
   "version": "1.0",
   "require": {
-    "typo3/cms-core": "^10.0"
+    "typo3/cms-core": "^10.0",
+    "ramsey/uuid": "^3.9"
   },
   "autoload": {
     "psr-4": {

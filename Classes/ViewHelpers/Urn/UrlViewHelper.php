@@ -3,9 +3,7 @@
 /**
  * tollwerk
  *
- * @category   Tollwerk
- * @package    Tollwerk\TwBlog
- * @subpackage Tollwerk\TwBlog\Domain
+ * @subpackage ${NAMESPACE}
  * @author     Joschi Kuphal <joschi@tollwerk.de> / @jkphl
  * @copyright  Copyright © 2019 Joschi Kuphal <joschi@tollwerk.de> / @jkphl
  * @license    http://opensource.org/licenses/MIT The MIT License (MIT)
@@ -34,43 +32,61 @@
  *  CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  ***********************************************************************************/
 
-namespace Tollwerk\TwBlog\Domain\Repository\Traits;
+namespace Tollwerk\TwBlog\ViewHelpers\Urn;
 
-use InvalidArgumentException;
-use TYPO3\CMS\Core\Utility\GeneralUtility;
-use TYPO3\CMS\Extbase\Configuration\ConfigurationManager;
-use TYPO3\CMS\Extbase\Configuration\ConfigurationManagerInterface;
-use TYPO3\CMS\Extbase\Configuration\Exception\InvalidConfigurationTypeException;
+use Ramsey\Uuid\Uuid;
+use TYPO3Fluid\Fluid\Core\Rendering\RenderingContextInterface;
+use TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper;
+use TYPO3Fluid\Fluid\Core\ViewHelper\Exception;
+use TYPO3Fluid\Fluid\Core\ViewHelper\Traits\CompileWithContentArgumentAndRenderStatic;
 
 /**
- * Storage PIDs trait
+ * URL URN View Helper
  */
-trait StoragePidsTrait
+class UrlViewHelper extends AbstractViewHelper
 {
+    use CompileWithContentArgumentAndRenderStatic;
+
     /**
-     * Return the event storage page IDs
+     * Output is escaped already. We must not escape children, to avoid double encoding.
      *
-     * @return array $key TypoScript constant key path
-     * @return array Storage page IDs
-     * @throws InvalidConfigurationTypeException
+     * @var bool
      */
-    protected function getStoragePids(array $typoScriptKeys)
+    protected $escapeChildren = false;
+
+    /**
+     * Initialize ViewHelper arguments
+     *
+     * @throws Exception
+     */
+    public function initializeArguments()
     {
-        $configurationManager = $this->objectManager->get(ConfigurationManager::class);
-        $setup                = $configurationManager->getConfiguration(
-            ConfigurationManagerInterface::CONFIGURATION_TYPE_SETTINGS,
-            'TwBlog'
-        );
+        $this->registerArgument('value', 'string', 'URL to create a URN for');
+    }
 
-        foreach ($typoScriptKeys as $typoScriptKey) {
-            if (array_key_exists($typoScriptKey, $setup)) {
-                $setup = $setup[$typoScriptKey];
-                continue;
-            }
-
-            throw new InvalidArgumentException(sprintf('Invalid TypoScript key "%s"', $typoScriptKey), 1534428109);
+    /**
+     * Escapes special characters with their escaped counterparts as needed using PHPs rawurlencode() function.
+     *
+     * @see https://www.php.net/manual/function.rawurlencode.php
+     *
+     * @param array $arguments
+     * @param \Closure $renderChildrenClosure
+     * @param RenderingContextInterface $renderingContext
+     *
+     * @return mixed
+     */
+    public static function renderStatic(
+        array $arguments,
+        \Closure $renderChildrenClosure,
+        RenderingContextInterface $renderingContext
+    ) {
+        $value = $renderChildrenClosure();
+        if (!is_string($value) && !(is_object($value) && method_exists($value, '__toString'))) {
+            return $value;
         }
 
-        return GeneralUtility::trimExplode(',', $setup, true);
+        $uuid5 = Uuid::uuid5(Uuid::NAMESPACE_URL, (string)$value);
+
+        return $uuid5->toString();
     }
 }

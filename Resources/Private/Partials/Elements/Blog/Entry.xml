@@ -1,0 +1,28 @@
+<f:comment><!--
+
+    Render an atom feed blog post entry
+
+    @param BlogPost blogPost                 Blog post
+
+--></f:comment><entry>
+<title>{blogPost.title}</title>
+<summary>{blogPost.teaserText}</summary>
+<updated>{f:format.date(format: 'c', date: blogPost.lastUpdated)}</updated>
+<link rel="alternate" href="{f:uri.page(pageUid: blogPost.uid, absolute: 1)}"/>
+<id>urn:uuid:{f:uri.page(pageUid: blogPost.uid, absolute: 1) -> blog:urn.url()}</id>
+<f:for each="{blogPost.authors}" as="author">
+    <author>
+        <name><f:if condition="{author.frontendName}">
+                <f:then>{author.frontendName}</f:then>
+                <f:else if="{author.realName}">{author.realName}</f:else>
+            </f:if></name>
+        <f:if condition="{author.isDisabled}">
+            <f:else>
+                <f:if condition="{author.email}">
+                    <email>{author.email}</email>
+                </f:if>
+            </f:else>
+        </f:if>
+    </author>
+</f:for>
+</entry>

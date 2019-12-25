@@ -34,11 +34,9 @@
  *  CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  ***********************************************************************************/
 
-namespace Tollwerk\TwBlog\ViewHelpers\BlogArticle;
+namespace Tollwerk\TwBlog\ViewHelpers\Post;
 
-use Tollwerk\TwBlog\Domain\Repository\BlogArticleRepository;
-use TYPO3\CMS\Core\Utility\GeneralUtility;
-use TYPO3\CMS\Extbase\Object\ObjectManager;
+use Tollwerk\TwBlog\Utility\ContactUtility;
 use TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper;
 
 /**
@@ -47,7 +45,7 @@ use TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper;
  * @package    Tollwerk\TwBlog
  * @subpackage Tollwerk\TwBlog\ViewHelpers\Page
  */
-class PreviousViewHelper extends AbstractViewHelper
+class IntervieweesViewHelper extends AbstractViewHelper
 {
     /**
      * Initialize arguments
@@ -57,22 +55,18 @@ class PreviousViewHelper extends AbstractViewHelper
     public function initializeArguments(): void
     {
         parent::initializeArguments();
-        $this->registerArgument('blogArticle', '\Tollwerk\TwBlog\Domain\Model\BlogArticle', 'The current blog article',
-            true);
+        $this->registerArgument('uid', 'integer', 'The uid of the blog post ( = of the page) ', false, null);
     }
 
     /**
      * Select a layout by document type
      *
      * @return array|null
-     * @throws \TYPO3\CMS\Extbase\Persistence\Exception\InvalidQueryException
      * @api
      */
     public function render()
     {
-        $objectManager         = GeneralUtility::makeInstance(ObjectManager::class);
-        $blogArticleRepository = $objectManager->get(BlogArticleRepository::class);
-
-        return $blogArticleRepository->findPrevious($this->arguments['blogArticle']);
+        return ContactUtility::getByMM('tx_twblog_blog_post_interviewee_mm',
+            $this->arguments['uid'] ?: $GLOBALS['TSFE']->id);
     }
 }

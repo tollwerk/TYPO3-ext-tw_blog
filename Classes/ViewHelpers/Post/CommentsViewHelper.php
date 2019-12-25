@@ -1,20 +1,20 @@
 <?php
 
 /**
- * tollwerk
+ * data
  *
  * @category   Tollwerk
  * @package    Tollwerk\TwBlog
- * @subpackage Tollwerk\TwBlog\Domain
+ * @subpackage Tollwerk\TwBlog\ViewHelpers
  * @author     Joschi Kuphal <joschi@tollwerk.de> / @jkphl
- * @copyright  Copyright © 2019 Joschi Kuphal <joschi@tollwerk.de> / @jkphl
+ * @copyright  Copyright © 2018 Joschi Kuphal <joschi@tollwerk.de> / @jkphl
  * @license    http://opensource.org/licenses/MIT The MIT License (MIT)
  */
 
 /***********************************************************************************
  *  The MIT License (MIT)
  *
- *  Copyright © 2019 Joschi Kuphal <joschi@tollwerk.de>
+ *  Copyright © 2018 tollwerk GmbH <info@tollwerk.de>
  *
  *  Permission is hereby granted, free of charge, to any person obtaining a copy of
  *  this software and associated documentation files (the "Software"), to deal in
@@ -34,43 +34,46 @@
  *  CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  ***********************************************************************************/
 
-namespace Tollwerk\TwBlog\Domain\Repository\Traits;
+namespace Tollwerk\TwBlog\ViewHelpers\Post;
 
-use InvalidArgumentException;
+use Tollwerk\TwBlog\Domain\Repository\CommentRepository;
+use Tollwerk\TwBlog\Domain\Repository\OrganizationRepository;
+use Tollwerk\TwBlog\Domain\Repository\PersonRepository;
+use Tollwerk\TwBlog\Utility\ContactUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
-use TYPO3\CMS\Extbase\Configuration\ConfigurationManager;
-use TYPO3\CMS\Extbase\Configuration\ConfigurationManagerInterface;
-use TYPO3\CMS\Extbase\Configuration\Exception\InvalidConfigurationTypeException;
+use TYPO3\CMS\Extbase\Object\ObjectManager;
+use TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper;
 
 /**
- * Storage PIDs trait
+ * Select a layout by document type
+ *
+ * @package    Tollwerk\TwBlog
+ * @subpackage Tollwerk\TwBlog\ViewHelpers\Page
  */
-trait StoragePidsTrait
+class CommentsViewHelper extends AbstractViewHelper
 {
     /**
-     * Return the event storage page IDs
+     * Initialize arguments
      *
-     * @return array $key TypoScript constant key path
-     * @return array Storage page IDs
-     * @throws InvalidConfigurationTypeException
+     * @api
      */
-    protected function getStoragePids(array $typoScriptKeys)
+    public function initializeArguments(): void
     {
-        $configurationManager = $this->objectManager->get(ConfigurationManager::class);
-        $setup                = $configurationManager->getConfiguration(
-            ConfigurationManagerInterface::CONFIGURATION_TYPE_SETTINGS,
-            'TwBlog'
-        );
+        parent::initializeArguments();
+        $this->registerArgument('uid', 'integer', 'The uid of the blog series', true, null);
+    }
 
-        foreach ($typoScriptKeys as $typoScriptKey) {
-            if (array_key_exists($typoScriptKey, $setup)) {
-                $setup = $setup[$typoScriptKey];
-                continue;
-            }
+    /**
+     * Select a layout by document type
+     *
+     * @return array|null
+     * @api
+     */
+    public function render()
+    {
+        $objectManager     = GeneralUtility::makeInstance(ObjectManager::class);
+        $commentRepository = $objectManager->get(CommentRepository::class);
 
-            throw new InvalidArgumentException(sprintf('Invalid TypoScript key "%s"', $typoScriptKey), 1534428109);
-        }
-
-        return GeneralUtility::trimExplode(',', $setup, true);
+        return $commentRepository->findByParent($this->arguments['uid'] ?: $GLOBALS['TSFE']->id, 'pages');
     }
 }

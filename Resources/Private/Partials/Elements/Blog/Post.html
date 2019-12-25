@@ -1,0 +1,23 @@
+<f:comment><!--
+
+    Render a blog post
+
+    @param BlogPost blogPost       The blog post
+
+--></f:comment>
+<html xmlns:f="https://xsd.helhum.io/ns/typo3/cms-fluid/master/ViewHelpers"
+      xmlns:base="http://typo3.org/ns/Tollwerk/TwBase/ViewHelpers" data-namespace-typo3-fluid="true">
+    <article class="BlogPost">
+        <div class="BlogPost__content">
+            <f:variable name="content" value="{v:content.render(column: 0, pageUid: blogPost.uid)}"/>
+            <f:format.raw>{content}</f:format.raw>
+        </div>
+        <footer class="BlogPost__meta">
+            <ul>
+                <f:for each="{blogPost.authors}" as="author">
+                    <li>{author.realName}</li>
+                </f:for>
+            </ul>
+        </footer>
+    </article>
+</html>

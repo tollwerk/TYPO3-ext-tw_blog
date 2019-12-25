@@ -26,12 +26,68 @@ plugin.tx_twblog {
         blog {
             listPid = {$plugin.tx_twblog.settings.blog.listPid}
             listContent = {$plugin.tx_twblog.settings.blog.listContent}
-            articlesPerPage = {$plugin.tx_twblog.settings.blog.articlesPerPage}
+            postsPerPage = {$plugin.tx_twblog.settings.blog.postsPerPage}
             imageWidth = {$plugin.tx_twblog.settings.blog.imageWidth}
             regularWidth = {$plugin.tx_twblog.settings.blog.regularWidth}
             featuredWidth = {$plugin.tx_twblog.settings.blog.featuredWidth}
             storagePid = {$plugin.tx_twblog.settings.blog.storagePid}
             rootCategory = {$plugin.tx_twblog.settings.blog.rootCategory}
         }
+
+        atom {
+            pid = {$plugin.tx_twblog.settings.atom.pid}
+            title = {$plugin.tx_twblog.settings.atom.title}
+            subtitle = {$plugin.tx_twblog.settings.atom.subtitle}
+            authorName = {$plugin.tx_twblog.settings.atom.authorName}
+            authorEmail = {$plugin.tx_twblog.settings.atom.authorEmail}
+            authorUri = {$plugin.tx_twblog.settings.atom.authorUri}
+            logo = {$plugin.tx_twblog.settings.atom.logo}
+            icon = {$plugin.tx_twblog.settings.atom.icon}
+        }
+    }
+}
+
+[{$plugin.tx_twblog.settings.atom.pid} != '0']
+    page.headerData.2900 = TEXT
+    page.headerData.2900 {
+        typolink {
+            parameter = {$plugin.tx_twblog.settings.atom.pid},2900
+            returnLast = url
+            forceAbsoluteUrl = 1
+        }
+        wrap = <link rel="alternate" type="application/atom+xml" href="|" title="Atom Feed">
+    }
+[global]
+
+# Render a single component
+twBlogRss = PAGE
+twBlogRss {
+    typeNum = 2900
+    10 = USER
+    10 {
+        userFunc = TYPO3\CMS\Extbase\Core\Bootstrap->run
+        settings < plugin.tx_twcomponentlibrary.settings
+        persistence < plugin.tx_twcomponentlibrary.persistence
+        view < plugin.tx_twcomponentlibrary.view
+        vendorName = Tollwerk
+        pluginName = Blog
+        extensionName = TwBlog
+        controller = Blog
+        action = atom
+        switchableControllerActions {
+            Blog {
+                1 = atom
+            }
+        }
+    }
+
+    config {
+        no_cache = 1
+        disableAllHeaderCode = 1
+        xhtml_cleaning = 0
+        admPanel = 0
+        index_enable = 0
+        additionalHeaders = Content-type: application/atom+xml
+        debug = 0
     }
 }

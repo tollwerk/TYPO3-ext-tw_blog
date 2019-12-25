@@ -34,9 +34,10 @@
  *  CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  ***********************************************************************************/
 
-namespace Tollwerk\TwBlog\ViewHelpers\BlogArticle;
+namespace Tollwerk\TwBlog\ViewHelpers\Post;
 
-use Tollwerk\TwBlog\Domain\Repository\BlogArticleRepository;
+use Tollwerk\TwBlog\Domain\Repository\BlogPostRepository;
+use TYPO3\CMS\Core\Database\QueryGenerator;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Object\ObjectManager;
 use TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper;
@@ -47,32 +48,54 @@ use TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper;
  * @package    Tollwerk\TwBlog
  * @subpackage Tollwerk\TwBlog\ViewHelpers\Page
  */
-class NextViewHelper extends AbstractViewHelper
+class BySeriesViewHelper extends AbstractViewHelper
 {
+
     /**
      * Initialize arguments
      *
      * @api
      */
-    public function initializeArguments(): void
+    public function initializeArguments()
     {
         parent::initializeArguments();
-        $this->registerArgument('blogArticle', '\Tollwerk\TwBlog\Domain\Model\BlogArticle', 'The current blog article',
-            true);
+        $this->registerArgument('series', '\\Tollwerk\\TwBlog\\Domain\\Model\\BlogSeries', 'A blog series',
+            false);
+        $this->registerArgument('storagePid', 'string', 'The blog post storage pages', false, 0);
+        $this->registerArgument('recursive', 'int', 'Recursion level of storage pages', false, 99);
+        $this->registerArgument('exclude', '\\Tollwerk\\TwBlog\\Domain\\Model\\BlogPost',
+            'Blog post to exclude from the result', false, null);
     }
 
     /**
      * Select a layout by document type
      *
      * @return array|null
-     * @throws \TYPO3\CMS\Extbase\Persistence\Exception\InvalidQueryException
      * @api
      */
     public function render()
     {
-        $objectManager         = GeneralUtility::makeInstance(ObjectManager::class);
-        $blogArticleRepository = $objectManager->get(BlogArticleRepository::class);
+        if ($this->arguments['series']) {
+            $objectManager  = GeneralUtility::makeInstance(ObjectManager::class);
+            $queryGenerator = $objectManager->get(QueryGenerator::class);
+            $storagePids    = [];
+            foreach (GeneralUtility::trimExplode(',', $this->arguments['storagePid'], true) as $pid) {
+                $storagePids = array_merge(
+                    $storagePids,
+                    GeneralUtility::trimExplode(',', $queryGenerator->getTreeList($pid, $this->arguments['recursive']))
+                );
+            }
+            $blogPostRepository = $objectManager->get(BlogPostRepository::class);
 
-        return $blogArticleRepository->findNext($this->arguments['blogArticle']);
+            return $blogPostRepository->findByBlogSeries(
+                $this->arguments['series'],
+                $this->arguments['exclude'],
+                $storagePids
+            );
+        }
+
+        return [];
     }
+
+
 }

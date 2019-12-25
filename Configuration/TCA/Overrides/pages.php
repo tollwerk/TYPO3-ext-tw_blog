@@ -45,7 +45,7 @@ call_user_func(
         $GLOBALS['TCA'][$table]['columns']['title']['config']['eval'] = 'trim,required';
 
         // Add new doktype as possible select item:
-        $GLOBALS['TCA'][$table]['types'][\Tollwerk\TwBlog\Domain\Model\BlogArticle::DOKTYPE] = $GLOBALS['TCA'][$table]['types']['1'];
+        $GLOBALS['TCA'][$table]['types'][\Tollwerk\TwBlog\Domain\Model\BlogPost::DOKTYPE] = $GLOBALS['TCA'][$table]['types']['1'];
 
         // Add new columns
         $newColumns = [
@@ -96,20 +96,20 @@ call_user_func(
                     'renderType' => 'selectMultipleSideBySide',
                     'foreign_table' => 'be_users',
                     'foreign_table_where' => 'AND be_users.username NOT LIKE "\_cli%" ORDER BY be_users.realName ASC',
-                    'MM' => 'tx_twblog_blog_article_author_mm',
+                    'MM' => 'tx_twblog_blog_post_author_mm',
                     'size' => 3,
                     'minitems' => 0,
                     'enableMultiSelectFilterTextfield' => true,
                 ],
             ],
-            'tx_twblog_blog_related_articles' => [
+            'tx_twblog_blog_related_posts' => [
                 'exclude' => true,
-                'label' => 'LLL:EXT:tw_blog/Resources/Private/Language/locallang_db.xlf:pages.tx_twblog_blog_related_articles',
+                'label' => 'LLL:EXT:tw_blog/Resources/Private/Language/locallang_db.xlf:pages.tx_twblog_blog_related_posts',
                 'config' => [
                     'type' => 'select',
                     'renderType' => 'selectMultipleSideBySide',
                     'foreign_table' => 'pages',
-                    'foreign_table_where' => 'AND pages.doktype = '.\Tollwerk\TwBlog\Domain\Model\BlogArticle::DOKTYPE.' AND sys_language_uid IN (-1,0)',
+                    'foreign_table_where' => 'AND pages.doktype = '.\Tollwerk\TwBlog\Domain\Model\BlogPost::DOKTYPE.' AND sys_language_uid IN (-1,0)',
                     'size' => 10,
                     'minitems' => 0,
                     'enableMultiSelectFilterTextfield' => true,
@@ -152,9 +152,9 @@ call_user_func(
         \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addToAllTCAtypes(
             $table,
             '--div--;LLL:EXT:tw_blog/Resources/Private/Language/locallang_db.xlf:plugin.blog,
-            tx_twblog_blog_teaser_text, tx_twblog_blog_teaser_image, tx_twblog_blog_related_articles, tx_twblog_blog_authors,tx_twblog_blog_series,
+            tx_twblog_blog_teaser_text, tx_twblog_blog_teaser_image, tx_twblog_blog_related_posts, tx_twblog_blog_authors,tx_twblog_blog_series,
             --div--;LLL:EXT:tw_blog/Resources/Private/Language/locallang_db.xlf:plugin.blog.comments, tx_twblog_blog_comments',
-            \Tollwerk\TwBlog\Domain\Model\BlogArticle::DOKTYPE
+            \Tollwerk\TwBlog\Domain\Model\BlogPost::DOKTYPE
         );
 
         // Add new page type as possible select item:
@@ -163,7 +163,7 @@ call_user_func(
             'doktype',
             [
                 'LLL:EXT:'.$extKey.'/Resources/Private/Language/locallang_db.xlf:plugin.blog',
-                \Tollwerk\TwBlog\Domain\Model\BlogArticle::DOKTYPE,
+                \Tollwerk\TwBlog\Domain\Model\BlogPost::DOKTYPE,
                 'EXT:'.$extKey.'/Resources/Public/Icons/Extension/apps-pagetree-page-blogpage.svg'
             ],
             '1',
@@ -176,7 +176,7 @@ call_user_func(
             [
                 'ctrl' => [
                     'typeicon_classes' => [
-                        \Tollwerk\TwBlog\Domain\Model\BlogArticle::DOKTYPE => 'apps-pagetree-blog',
+                        \Tollwerk\TwBlog\Domain\Model\BlogPost::DOKTYPE => 'apps-pagetree-blog',
                     ],
                 ],
             ]

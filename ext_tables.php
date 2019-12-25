@@ -15,7 +15,7 @@ call_user_func(
         // Allow records on standard pages
         \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::allowTableOnStandardPages('tx_twblog_domain_model_comment');
 
-        // Register blog article list plugin
+        // Register blog post list plugin
         \TYPO3\CMS\Extbase\Utility\ExtensionUtility::registerPlugin(
             'Tollwerk.TwBlog',
             'Blog',
@@ -30,7 +30,7 @@ call_user_func(
         );
 
         // Add new doktypes
-        $archiveDoktype                          = \Tollwerk\TwBlog\Domain\Repository\BlogArticleRepository::DOKTYPE;
+        $archiveDoktype                          = \Tollwerk\TwBlog\Domain\Repository\BlogPostRepository::DOKTYPE;
         $GLOBALS['PAGES_TYPES'][$archiveDoktype] = [
             'type'          => 'web',
             'allowedTables' => '*',

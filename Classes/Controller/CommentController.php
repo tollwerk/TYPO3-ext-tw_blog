@@ -37,6 +37,7 @@
 namespace Tollwerk\TwBlog\Controller;
 
 use Tollwerk\TwBlog\Domain\Model\Comment;
+use Tollwerk\TwBlog\Domain\Repository\CommentRepository;
 use TYPO3\CMS\Extbase\Mvc\Controller\ActionController;
 use TYPO3\CMS\Extbase\Mvc\Exception\StopActionException;
 use TYPO3\CMS\Extbase\Mvc\Exception\UnsupportedRequestTypeException;
@@ -53,19 +54,19 @@ class CommentController extends ActionController
     /**
      * Comment repository
      *
-     * @var \Tollwerk\TwBlog\Domain\Repository\CommentRepository
+     * @var CommentRepository
      */
     protected $commentRepository;
 
     /**
      * Inject the comment repository
      *
-     * @param \Tollwerk\TwBlog\Domain\Repository\CommentRepository $commentRepository
+     * @param CommentRepository $commentRepository
      *
      * @return void
      */
-    public function injectCommentRepository(\Tollwerk\TwBlog\Domain\Repository\CommentRepository $commentRepository
-    ): void {
+    public function injectCommentRepository(CommentRepository $commentRepository): void
+    {
         $this->commentRepository = $commentRepository;
     }
 

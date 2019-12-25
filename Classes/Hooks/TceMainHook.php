@@ -26,7 +26,9 @@
 
 namespace Tollwerk\TwBlog\Hooks;
 
-use Tollwerk\TwBlog\Domain\Model\BlogArticle;
+use DateTimeImmutable;
+use Doctrine\DBAL\Driver\Mysqli\MysqliStatement;
+use Tollwerk\TwBlog\Domain\Model\BlogPost;
 use TYPO3\CMS\Core\Database\ConnectionPool;
 use TYPO3\CMS\Core\DataHandling\DataHandler;
 use TYPO3\CMS\Core\Messaging\FlashMessage;
@@ -41,6 +43,38 @@ use TYPO3\CMS\Extbase\Utility\LocalizationUtility;
  */
 class TceMainHook
 {
+    /**
+     * Pre-process hook
+     *
+     * @param array $fieldArray
+     * @param $table
+     * @param $id
+     * @param DataHandler $pObj
+     */
+    public function processDatamap_preProcessFieldArray(array &$fieldArray, $table, $id, DataHandler &$pObj)
+    {
+        switch ($table) {
+            // Pages
+            case 'pages':
+                if ((intval($fieldArray['doktype']) == BlogPost::DOKTYPE) && empty($fieldArray['starttime'])) {
+                    if (is_int($id)) {
+                        $queryBuilder = GeneralUtility::makeInstance(ConnectionPool::class)
+                                                      ->getQueryBuilderForTable('pages');
+                        /** @var MysqliStatement $result */
+                        $statement               = $queryBuilder->select('uid', 'starttime', 'crdate')
+                                                                ->from('pages')
+                                                                ->where($queryBuilder->expr()->eq('uid', $id))
+                                                                ->execute();
+                        $row                     = $statement->fetch();
+                        $fieldArray['starttime'] = (new DateTimeImmutable('@'.(intval($row['crdate']) ?: time())))->format('c');
+                    } else {
+                        $fieldArray['starttime'] = (new DateTimeImmutable())->format('c');
+                    }
+                }
+                break;
+        }
+    }
+
     protected function checkMultiFuzzyUnique($table, $columns, $id, &$fieldArray)
     {
         $recordFound = Evaluator::multiFuzzyUnique($table, $columns, $id);
@@ -57,37 +91,5 @@ class TceMainHook
         }
 
         return null;
-    }
-
-    /**
-     * Pre-process hook
-     *
-     * @param array $fieldArray
-     * @param $table
-     * @param $id
-     * @param DataHandler $pObj
-     */
-    public function processDatamap_preProcessFieldArray(array &$fieldArray, $table, $id, DataHandler &$pObj)
-    {
-        switch ($table) {
-            // Pages
-            case 'pages':
-                if ((intval($fieldArray['doktype']) == BlogArticle::DOKTYPE) && empty($fieldArray['starttime'])) {
-                    if (is_int($id)) {
-                        $queryBuilder = GeneralUtility::makeInstance(ConnectionPool::class)
-                                                      ->getQueryBuilderForTable('pages');
-                        /** @var \Doctrine\DBAL\Driver\Mysqli\MysqliStatement $result */
-                        $statement               = $queryBuilder->select('uid', 'starttime', 'crdate')
-                                                                ->from('pages')
-                                                                ->where($queryBuilder->expr()->eq('uid', $id))
-                                                                ->execute();
-                        $row                     = $statement->fetch();
-                        $fieldArray['starttime'] = (new \DateTimeImmutable('@'.(intval($row['crdate']) ?: time())))->format('c');
-                    } else {
-                        $fieldArray['starttime'] = (new \DateTimeImmutable())->format('c');
-                    }
-                }
-                break;
-        }
     }
 }

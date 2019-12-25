@@ -34,9 +34,12 @@
  *  CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  ***********************************************************************************/
 
-namespace Tollwerk\TwBlog\ViewHelpers\BlogArticle;
+namespace Tollwerk\TwBlog\ViewHelpers\Post;
 
-use Tollwerk\TwBlog\Utility\ContactUtility;
+use Tollwerk\TwBlog\Domain\Repository\BlogPostRepository;
+use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Extbase\Object\ObjectManager;
+use TYPO3\CMS\Extbase\Persistence\Exception\InvalidQueryException;
 use TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper;
 
 /**
@@ -45,29 +48,32 @@ use TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper;
  * @package    Tollwerk\TwBlog
  * @subpackage Tollwerk\TwBlog\ViewHelpers\Page
  */
-class AuthorsViewHelper extends AbstractViewHelper
+class NextViewHelper extends AbstractViewHelper
 {
     /**
      * Initialize arguments
      *
      * @api
      */
-    public function initializeArguments()
+    public function initializeArguments(): void
     {
         parent::initializeArguments();
-        $this->registerArgument('article', '\\Tollwerk\\TwBlog\\Domain\\Model\\BlogArticle', 'A Blog article', false,
-            null);
+        $this->registerArgument('blogPost', '\Tollwerk\TwBlog\Domain\Model\BlogPost', 'The current blog post',
+            true);
     }
 
     /**
      * Select a layout by document type
      *
-     * @return string Layout name
+     * @return array|null
+     * @throws InvalidQueryException
      * @api
      */
     public function render()
     {
-        return ContactUtility::getByMM('tx_twblog_blog_article_author_mm',
-            $this->arguments['article']->getUid() ?: $GLOBALS['TSFE']->id);
+        $objectManager         = GeneralUtility::makeInstance(ObjectManager::class);
+        $blogPostRepository = $objectManager->get(BlogPostRepository::class);
+
+        return $blogPostRepository->findNext($this->arguments['blogPost']);
     }
 }

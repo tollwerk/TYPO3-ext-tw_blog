@@ -37,7 +37,7 @@
 namespace Tollwerk\TwBlog\Domain\Repository;
 
 use Doctrine\DBAL\FetchMode;
-use Tollwerk\TwBlog\Domain\Model\BlogArticle;
+use Tollwerk\TwBlog\Domain\Model\BlogPost;
 use TYPO3\CMS\Core\Database\ConnectionPool;
 use TYPO3\CMS\Core\Database\Query\QueryBuilder;
 use TYPO3\CMS\Core\Database\Query\Restriction\EndTimeRestriction;
@@ -53,19 +53,19 @@ use TYPO3\CMS\Extbase\Persistence\QueryInterface;
 use TYPO3\CMS\Extbase\Persistence\QueryResultInterface;
 
 /**
- * Blog Article Repository
+ * Blog Post Repository
  *
  * @package    Tollwerk\TwBlog
  * @subpackage Tollwerk\TwBlog\Domain\Repository
  */
-class BlogArticleRepository extends AbstractRepository
+class BlogPostRepository extends AbstractRepository
 {
     const DOKTYPE = 116;
     const ORDER_BY_STARTTIME = 1;
     const ORDER_BY_SORTING = 2;
 
     /**
-     * Blog article storage PIDs
+     * Blog post storage PIDs
      *
      * @var int[]
      */
@@ -78,7 +78,7 @@ class BlogArticleRepository extends AbstractRepository
      */
     protected $defaultOrderings = array(
         'starttime' => QueryInterface::ORDER_DESCENDING,
-        'uid' => QueryInterface::ORDER_DESCENDING
+        'uid'       => QueryInterface::ORDER_DESCENDING
     );
 
     /**
@@ -117,20 +117,20 @@ class BlogArticleRepository extends AbstractRepository
     }
 
     /**
-     * Finds an blog article matching the given identifier even if it's deleted
+     * Finds an blog post matching the given identifier even if it's deleted
      *
      * @param mixed $identifier The identifier of the object to find
      *
-     * @return BlogArticle Blog article
+     * @return BlogPost Blog post
      * @api
      */
-    public function findOneByIdentifierDeleted($identifier): ?BlogArticle
+    public function findOneByIdentifierDeleted($identifier): ?BlogPost
     {
         $query = $this->createQuery();
         $query->getQuerySettings()->setRespectStoragePage(false);
         $query->getQuerySettings()->setIgnoreEnableFields(true);
 
-        $constraints = $this->getDefaultConstraints($query);
+        $constraints   = $this->getDefaultConstraints($query);
         $constraints[] = $query->equals('uid', $identifier);
         $query->matching($query->logicalAnd($constraints));
 
@@ -138,16 +138,16 @@ class BlogArticleRepository extends AbstractRepository
     }
 
     /**
-     * Find a limited number of blog articles by their uids
+     * Find a limited number of blog posts by their uids
      *
-     * @param array $uids        Article IDs
+     * @param array $uids        Post IDs
      * @param int $offset        Pagination offset
      * @param int $limit         Pagination limit
      * @param array $categories  Categories
-     * @param bool $showDisabled Include disabled articles
-     * @param int $count         Overall article count (set by reference)
+     * @param bool $showDisabled Include disabled posts
+     * @param int $count         Overall post count (set by reference)
      *
-     * @return QueryResultInterface Blog articles
+     * @return QueryResultInterface Blog posts
      * @throws InvalidQueryException
      */
     public function findLimitedByUids(
@@ -181,14 +181,14 @@ class BlogArticleRepository extends AbstractRepository
     /**
      * Create a query statement
      *
-     * @param int[] $ids          Article IDs
+     * @param int[] $ids          Post IDs
      * @param int $offset         Pagination offset
      * @param int $limit          Pagination limit
      * @param int[] $categories   Categories
-     * @param bool $showDisabled  Include disabled articles
+     * @param bool $showDisabled  Include disabled posts
      * @param string[] $orderings Ordering
      * @param int[] $storagePids  Storage PIDs
-     * @param int $count          Overall article count (set by reference)
+     * @param int $count          Overall post count (set by reference)
      *
      * @return QueryBuilder Query
      */
@@ -202,18 +202,18 @@ class BlogArticleRepository extends AbstractRepository
         array $orderings,
         int &$count = null
     ): QueryBuilder {
-        // Query the blog article IDs first
+        // Query the blog post IDs first
         $connection = GeneralUtility::makeInstance(ConnectionPool::class)
-            ->getConnectionForTable('pages');
-        $query = $connection->createQueryBuilder();
+                                    ->getConnectionForTable('pages');
+        $query      = $connection->createQueryBuilder();
         if ($showDisabled) {
             $query->getRestrictions()->removeByType(HiddenRestriction::class);
             $query->getRestrictions()->removeByType(StartTimeRestriction::class);
             $query->getRestrictions()->removeByType(EndTimeRestriction::class);
         }
         $query->select('p.*')
-            ->from('pages', 'p')
-            ->where($query->expr()->eq('p.doktype', static::DOKTYPE));
+              ->from('pages', 'p')
+              ->where($query->expr()->eq('p.doktype', static::DOKTYPE));
 
         // IDs
         if (count($ids)) {
@@ -248,15 +248,15 @@ class BlogArticleRepository extends AbstractRepository
                     $query->expr()->in('s.uid_foreign', $query->quoteIdentifier('p.uid'))
                 )
             );
-            $count = $this->countArticles($query);
+            $count = $this->countPosts($query);
             $query->groupBy('p.uid');
         } else {
-            $count = $this->countArticles($query);
+            $count = $this->countPosts($query);
         }
 
         // Offset & limit
         if (intval($limit)) {
-            $query->setFirstResult($offset * $limit)->setMaxResults($limit);
+            $query->setFirstResult($offset)->setMaxResults($limit);
         }
 
         // Ordering
@@ -268,32 +268,36 @@ class BlogArticleRepository extends AbstractRepository
     }
 
     /**
-     * Run an article count query
+     * Run an post count query
      *
      * @param QueryBuilder $query Query
      *
      * @return int Number of results
      */
-    protected function countArticles(QueryBuilder $query): int
+    protected function countPosts(QueryBuilder $query): int
     {
         $countQuery = clone $query;
         $countQuery->selectLiteral('COUNT(DISTINCT '.$countQuery->quoteIdentifier('p.uid').')');
+
+        if ($GLOBALS['DEBUG']) {
+            echo $countQuery->getSQL().PHP_EOL;
+        }
 
         return intval($countQuery->execute()->fetch(FetchMode::COLUMN));
     }
 
     /**
-     * Find a limited number of blog articles
+     * Find a limited number of blog posts
      *
      * @param int $offset        Pagination offset
      * @param int $limit         Pagination limit
      * @param array $categories  Categories
-     * @param bool $showDisabled Include disabled articles
+     * @param bool $showDisabled Include disabled posts
      * @param int $orderBy       Ordering
      * @param array $storagePids Storage PIDs
-     * @param int $count         Overall article count (set by reference)
+     * @param int $count         Overall post count (set by reference)
      *
-     * @return QueryResultInterface Blog articles
+     * @return QueryResultInterface Blog posts
      * @throws InvalidQueryException
      */
     public function findLimited(
@@ -305,14 +309,14 @@ class BlogArticleRepository extends AbstractRepository
         array $storagePids = [],
         int &$count = null
     ): ?QueryResultInterface {
-        $count = 0;
-        $query = $this->createQuery();
-        $orderings = ($orderBy == self::ORDER_BY_SORTING) ?
+        $count       = 0;
+        $query       = $this->createQuery();
+        $orderings   = ($orderBy == self::ORDER_BY_SORTING) ?
             [
                 'sorting' => QueryInterface::ORDER_ASCENDING
             ] : [
                 'starttime' => QueryInterface::ORDER_DESCENDING,
-                'uid' => QueryInterface::ORDER_DESCENDING,
+                'uid'       => QueryInterface::ORDER_DESCENDING,
             ];
         $storagePids = $storagePids ?: $query->getQuerySettings()->getStoragePageIds();
         $query->statement($this->createQueryStatement(
@@ -330,26 +334,26 @@ class BlogArticleRepository extends AbstractRepository
     }
 
     /**
-     * Get next blog article by starttime or uid
+     * Get next blog post by starttime or uid
      *
-     * @param BlogArticle $blogArticle Current blog article
-     * @param array $categories        Categories
+     * @param BlogPost $blogPost Current blog post
+     * @param array $categories  Categories
      *
-     * @return null|BlogArticle Next blog article
+     * @return null|BlogPost Next blog post
      * @throws InvalidConfigurationTypeException
      */
-    public function findNext(BlogArticle $blogArticle, array $categories = []): ?BlogArticle
+    public function findNext(BlogPost $blogPost, array $categories = []): ?BlogPost
     {
-        $startTime = $blogArticle->getStarttime();
-        $orderings = $startTime ?
+        $startTime    = $blogPost->getStarttime();
+        $orderings    = $startTime ?
             ['starttime' => QueryInterface::ORDER_ASCENDING, 'uid' => QueryInterface::ORDER_ASCENDING] :
             ['uid' => QueryInterface::ORDER_ASCENDING];
-        $storagePids = $this->getStoragePids(['blog', 'storagePid']);
+        $storagePids  = $this->getStoragePids(['blog', 'storagePid']);
         $queryBuilder = $this->createQueryStatement([], 0, 1, $categories, false, $storagePids, $orderings);
         if ($startTime) {
             $queryBuilder->andWhere($queryBuilder->expr()->gt('p.starttime', $startTime));
         } else {
-            $queryBuilder->andWhere($queryBuilder->expr()->gt('p.uid', $blogArticle->getUid()));
+            $queryBuilder->andWhere($queryBuilder->expr()->gt('p.uid', $blogPost->getUid()));
         }
         $query = $this->createQuery();
         $query->statement($queryBuilder->getSQL());
@@ -358,31 +362,59 @@ class BlogArticleRepository extends AbstractRepository
     }
 
     /**
-     * Get previous blog article by starttime or uid
+     * Get previous blog post by starttime or uid
      *
-     * @param BlogArticle $blogArticle Current blog article
-     * @param array $categories        Categories
+     * @param BlogPost $blogPost Current blog post
+     * @param array $categories  Categories
      *
-     * @return null|BlogArticle Previous Blog article
+     * @return null|BlogPost Previous Blog post
      * @throws InvalidConfigurationTypeException
      */
-    public function findPrevious(BlogArticle $blogArticle, array $categories = []): ?BlogArticle
+    public function findPrevious(BlogPost $blogPost, array $categories = []): ?BlogPost
     {
-        $startTime = $blogArticle->getStarttime();
-        $orderings = $startTime ?
+        $startTime    = $blogPost->getStarttime();
+        $orderings    = $startTime ?
             ['starttime' => QueryInterface::ORDER_DESCENDING, 'uid' => QueryInterface::ORDER_DESCENDING] :
             ['uid' => QueryInterface::ORDER_DESCENDING];
-        $storagePids = $this->getStoragePids(['blog', 'storagePid']);
+        $storagePids  = $this->getStoragePids(['blog', 'storagePid']);
         $queryBuilder = $this->createQueryStatement([], 0, 1, $categories, false, $storagePids, $orderings);
         if ($startTime) {
             $queryBuilder->andWhere($queryBuilder->expr()->lt('p.starttime', $startTime));
         } else {
-            $queryBuilder->andWhere($queryBuilder->expr()->lt('p.uid', $blogArticle->getUid()));
+            $queryBuilder->andWhere($queryBuilder->expr()->lt('p.uid', $blogPost->getUid()));
         }
         $query = $this->createQuery();
         $query->statement($queryBuilder->getSQL());
 
         return $query->execute()->getFirst();
+    }
+
+    /**
+     * Return the list offset for the current blog post
+     *
+     * @param BlogPost $blogPost Current blog post
+     * @param array $categories  Categories
+     * @param int $itemsPerPage  Items per page
+     *
+     * @return int List offset
+     * @throws InvalidConfigurationTypeException
+     */
+    public function findCurrentOffset(BlogPost $blogPost, array $categories, int $itemsPerPage): int
+    {
+        $startTime    = $blogPost->getStarttime();
+        $orderings    = $startTime ?
+            ['starttime' => QueryInterface::ORDER_ASCENDING, 'uid' => QueryInterface::ORDER_ASCENDING] :
+            ['uid' => QueryInterface::ORDER_ASCENDING];
+        $storagePids  = $this->getStoragePids(['blog', 'storagePid']);
+        $queryBuilder = $this->createQueryStatement([], 0, 0, $categories, false, $storagePids, $orderings);
+        if ($startTime) {
+            $queryBuilder->andWhere($queryBuilder->expr()->gt('p.starttime', $startTime));
+        } else {
+            $queryBuilder->andWhere($queryBuilder->expr()->gt('p.uid', $blogPost->getUid()));
+        }
+        $queryBuilder->resetQueryParts(['orderBy', 'groupBy']);
+
+        return floor(($this->countPosts($queryBuilder) + 1) / $itemsPerPage) * $itemsPerPage;
     }
 
     /**
@@ -395,7 +427,7 @@ class BlogArticleRepository extends AbstractRepository
     public function countAll(bool $showDisabled = false): int
     {
         $queryBuilder = GeneralUtility::makeInstance(ConnectionPool::class)->getQueryBuilderForTable('pages');
-        $query = $this->createQuery();
+        $query        = $this->createQuery();
         if ($showDisabled) {
             $query->getQuerySettings()->setEnableFieldsToBeIgnored(['hidden']);
         }
@@ -422,7 +454,7 @@ class BlogArticleRepository extends AbstractRepository
      */
     protected function getStoragePidsRecursive($storagePid = 1, $recursive = 99): array
     {
-        $objectManager = GeneralUtility::makeInstance(ObjectManager::class);
+        $objectManager  = GeneralUtility::makeInstance(ObjectManager::class);
         $queryGenerator = $objectManager->get(QueryGenerator::class);
 
         return GeneralUtility::trimExplode(',', $queryGenerator->getTreeList($storagePid, $recursive));

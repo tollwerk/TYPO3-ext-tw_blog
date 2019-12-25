@@ -1,0 +1,30 @@
+<f:comment><!--
+
+    Render an atom feed of blog posts
+
+    @param BlogPost[] blogPosts                 Blog posts
+    @param DateTimeImmutable lastUpdated        Last modification date
+    @param string icon                          Icon file name
+    @param string logo                          Logo file name
+
+--></f:comment><f:spaceless><?xml version="1.0"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+    <title>{settings.atom.title}</title>
+    <f:if condition="{settings.atom.subtitle}"><subtitle>{settings.atom.subtitle}</subtitle></f:if>
+    <author>
+        <f:if condition="{settings.atom.authorName}"><name>{settings.atom.authorName}</name></f:if>
+        <f:if condition="{settings.atom.authorEmail}"><email>{settings.atom.authorEmail}</email></f:if>
+        <f:if condition="{settings.atom.authorUri}"><uri>{settings.atom.authorUri}</uri></f:if>
+    </author>
+    <updated>{lastUpdated -> f:format.date(format: 'c')}</updated>
+    <link rel="alternate" href="{f:uri.page(pageUid: settings.blog.listPid, absolute: 1)}"/>
+    <link rel="self" href="{f:uri.page(pageUid: settings.atom.pid, pageType: 2900, absolute: 1)}"/>
+    <id>urn:uuid:{f:uri.page(pageUid: settings.atom.pid, pageType: 2900, absolute: 1) -> blog:urn.url()}</id>
+    <generator>tollwerk Blog TYPO3 extensions</generator>
+    <f:if condition="{icon}"><icon>{icon}</icon></f:if>
+    <f:if condition="{logo}"><logo>{logo}</logo></f:if>
+    <f:if condition="{settings.atom.authorName}"><rights>© {f:format.date(format: 'Y', date: 'now')} {settings.atom.authorName}</rights></f:if>
+    <f:for each="{blogPosts}" as="blogPost">
+        <f:render partial="Elements/Blog/Entry" arguments="{blogPost: blogPost}"/>
+    </f:for>
+</feed></f:spaceless>

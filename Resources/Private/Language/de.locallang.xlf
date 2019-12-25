@@ -4,12 +4,12 @@
           product-name="tw_blog">
         <header/>
         <body>
-            <trans-unit id="blog.readArticle">
-                <source>Read article</source>
+            <trans-unit id="blog.readPost">
+                <source>Read post</source>
                 <target>Weiterlesen</target>
             </trans-unit>
             <trans-unit id="blog.more_by_series">
-                <source>Other articles the series «%s»</source>
+                <source>Other posts the series «%s»</source>
                 <target>Andere Beiträge dieser Serie</target>
             </trans-unit>
             <trans-unit id="blog.authors.about.male">
@@ -33,7 +33,7 @@
                 <target>Über die Authoren/Authorinnen</target>
             </trans-unit>
             <trans-unit id="blog.pagination.aria_label">
-                <source>Browse through blog articles</source>
+                <source>Browse through blog posts</source>
                 <target>Liste der Blogbeiträge durchblättern</target>
             </trans-unit>
             <trans-unit id="blog.pagination.first">
@@ -57,15 +57,15 @@
                 <target>Letzte Seite</target>
             </trans-unit>
             <trans-unit id="blog.prevnext.next">
-                <source>More recent article</source>
+                <source>More recent post</source>
                 <target>Neuerer Beitrag</target>
             </trans-unit>
             <trans-unit id="blog.prevnext.prev">
-                <source>Older article</source>
+                <source>Older post</source>
                 <target>Älterer Beitrag</target>
             </trans-unit>
             <trans-unit id="blog.prevnext.aria_label">
-                <source>Older and more recent articles</source>
+                <source>Older and more recent posts</source>
                 <target>Ältere und neuere Beiträge</target>
             </trans-unit>
 
@@ -79,7 +79,7 @@
                 <target>Blog Teaserbild</target>
             </trans-unit>
             <trans-unit id="cropVariants.blog_featured_teaser">
-                <source>Featured Blog Article Teaser</source>
+                <source>Featured Blog Post Teaser</source>
                 <target>Featured Blog Teaserbild</target>
             </trans-unit>
             <trans-unit id="cropVariants.blog_header">

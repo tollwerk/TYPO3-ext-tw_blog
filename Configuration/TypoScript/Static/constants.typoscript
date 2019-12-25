@@ -1,4 +1,6 @@
 # customsubcategory=file=LLL:EXT:tw_blog/Resources/Private/Language/locallang_db.xlf:file
+# customsubcategory=blog=LLL:EXT:tw_blog/Resources/Private/Language/locallang_db.xlf:blog
+# customsubcategory=atom=LLL:EXT:tw_blog/Resources/Private/Language/locallang_db.xlf:atom
 
 plugin.tx_twblog {
     view {
@@ -16,9 +18,9 @@ plugin.tx_twblog {
             listPid =
             # cat=plugin.tx_blog/blog/002; type=int+; label=LLL:EXT:tw_blog/Resources/Private/Language/locallang_db.xlf:plugin.blog.listContent
             listContent =
-            # cat=plugin.tx_blog/blog/003; type=int+; label=LLL:EXT:tw_blog/Resources/Private/Language/locallang_db.xlf:plugin.blog.articles_per_page
-            articlesPerPage = 12
-            # cat=plugin.tx_blog/blog/004; type=int+; label=LLL:EXT:tw_blog/Resources/Private/Language/locallang_db.xlf:plugin.blog.width.article
+            # cat=plugin.tx_blog/blog/003; type=int+; label=LLL:EXT:tw_blog/Resources/Private/Language/locallang_db.xlf:plugin.blog.posts_per_page
+            postsPerPage = 12
+            # cat=plugin.tx_blog/blog/004; type=int+; label=LLL:EXT:tw_blog/Resources/Private/Language/locallang_db.xlf:plugin.blog.width.post
             imageWidth = 1000
             # cat=plugin.tx_blog/blog/005; type=int+; label=LLL:EXT:tw_blog/Resources/Private/Language/locallang_db.xlf:plugin.blog.width.regular
             regularWidth = 500
@@ -28,6 +30,25 @@ plugin.tx_twblog {
             storagePid =
             # cat=plugin.tx_blog/blog/008; type=string; label=LLL:EXT:tw_blog/Resources/Private/Language/locallang_db.xlf:plugin.blog.rootCategory
             rootCategory =
+        }
+
+        atom {
+            # cat=plugin.tx_blog/atom/001; type=int+; label=LLL:EXT:tw_blog/Resources/Private/Language/locallang_db.xlf:atom.pid
+            pid = 0
+            # cat=plugin.tx_blog/atom/002; type=string; label=LLL:EXT:tw_blog/Resources/Private/Language/locallang_db.xlf:atom.title
+            title =
+            # cat=plugin.tx_blog/atom/003; type=string; label=LLL:EXT:tw_blog/Resources/Private/Language/locallang_db.xlf:atom.subtitle
+            subtitle =
+            # cat=plugin.tx_blog/atom/004; type=string; label=LLL:EXT:tw_blog/Resources/Private/Language/locallang_db.xlf:atom.authorName
+            authorName =
+            # cat=plugin.tx_blog/atom/005; type=string; label=LLL:EXT:tw_blog/Resources/Private/Language/locallang_db.xlf:atom.authorEmail
+            authorEmail =
+            # cat=plugin.tx_blog/atom/006; type=string; label=LLL:EXT:tw_blog/Resources/Private/Language/locallang_db.xlf:atom.authorUri
+            authorUri =
+            # cat=plugin.tx_blog/atom/007; type=string; label=LLL:EXT:tw_blog/Resources/Private/Language/locallang_db.xlf:atom.logo
+            logo =
+            # cat=plugin.tx_blog/atom/008; type=string; label=LLL:EXT:tw_blog/Resources/Private/Language/locallang_db.xlf:atom.icon
+            icon =
         }
     }
 }

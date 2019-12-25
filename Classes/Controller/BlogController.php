@@ -36,8 +36,10 @@
 
 namespace Tollwerk\TwBlog\Controller;
 
+use Tollwerk\TwBlog\Domain\Model\BlogPost;
 use Tollwerk\TwBlog\Domain\Model\Category;
-use Tollwerk\TwBlog\Domain\Repository\BlogArticleRepository;
+use Tollwerk\TwBlog\Domain\Repository\BlogPostRepository;
+use TYPO3\CMS\Core\Core\Environment;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Configuration\Exception\InvalidConfigurationTypeException;
 use TYPO3\CMS\Extbase\Domain\Repository\CategoryRepository;
@@ -54,53 +56,53 @@ use TYPO3\CMS\Extbase\Persistence\Exception\InvalidQueryException;
 class BlogController extends ActionController
 {
     /**
-     * Featured blog article
+     * Featured blog post
      *
      * @var string
      */
     const DISPLAY_MODE_FEATURED = 'featured';
     /**
-     * Standard blog article
+     * Standard blog post
      *
      * @var string
      */
     const DISPLAY_MODE_DEFAULT = 'default';
     /**
-     * Select blog articles by storage PID
+     * Select blog posts by storage PID
      *
      * @var int
      */
     const SELECTION_MODE_PAGES = 1;
     /**
-     * Select blog articles manually
+     * Select blog posts manually
      *
      * @var int
      */
     const SELECTION_MODE_MANUAL = 2;
 
     /**
-     * Blog article repository
+     * Blog post repository
      *
-     * @var BlogArticleRepository
+     * @var BlogPostRepository
      */
-    protected $blogArticleRepository;
+    protected $blogPostRepository;
     /**
-     * The current blog article ID
+     * The current blog post ID
      *
      * @var int
      */
     protected $uid;
 
     /**
-     * Inject the blog article repository
+     * Inject the blog post repository
      *
-     * @param BlogArticleRepository $blogArticleRepository
+     * @param BlogPostRepository $blogPostRepository
      *
      * @return void
      */
-    public function injectBlogArticleRepository(BlogArticleRepository $blogArticleRepository): void
+    public function injectBlogPostRepository(BlogPostRepository $blogPostRepository): void
     {
-        $this->blogArticleRepository = $blogArticleRepository;
+        $this->blogPostRepository = $blogPostRepository;
     }
 
     /**
@@ -119,14 +121,14 @@ class BlogController extends ActionController
      *
      * @param int[]|null $categories Categories
      * @param int $offset            Pagination offset
-     * @param int|null $orderBy      Article sorting
-     * @param bool $showDisabled     Show disabled articles
+     * @param int|null $orderBy      Post sorting
+     * @param bool $showDisabled     Show disabled posts
      *
      * @throws InvalidQueryException
      */
     public function listAction(
         array $categories = null,
-        $offset = 0,
+        int $offset = 0,
         int $orderBy = null,
         bool $showDisabled = false
     ): void {
@@ -134,36 +136,36 @@ class BlogController extends ActionController
         $showCategories = ($categories === null) ?
             GeneralUtility::trimExplode(',', $this->settings['categories'], true) : $categories;
 
-        // Show featured articles?
+        // Show featured posts?
         $showFeatured = ($this->settings['display_mode'] == self::DISPLAY_MODE_FEATURED);
 
-        // Show disabled articles?
+        // Show disabled posts?
         $showDisabled = ($showDisabled === true) ? true : !empty($this->settings['show_disabled']);
 
-        // Article ordering
+        // Post ordering
         if ($orderBy === null) {
-            $orderBy = isset($this->settings['order_by']) ? intval($this->settings['order_by']) : BlogArticleRepository::ORDER_BY_STARTTIME;
+            $orderBy = isset($this->settings['order_by']) ? intval($this->settings['order_by']) : BlogPostRepository::ORDER_BY_STARTTIME;
         }
 
         // Offset & pagination
-        $offset = intval($showFeatured ? 0 : $offset);
-        $articlesPerPage = intval($this->settings['articles_per_page'] ?? $this->settings['blog']['articlesPerPage']);
+        $offset       = intval($showFeatured ? 0 : $offset);
+        $postsPerPage = intval($this->settings['posts_per_page'] ?? $this->settings['blog']['postsPerPage']);
 
-        // Select blog articles
+        // Select blog posts
         $countAll = null;
         if ($this->settings['selection_mode'] == self::SELECTION_MODE_MANUAL) {
-            $blogArticles = $this->blogArticleRepository->findLimitedByUids(
-                GeneralUtility::trimExplode(',', $this->settings['articles'], true),
+            $blogPosts = $this->blogPostRepository->findLimitedByUids(
+                GeneralUtility::trimExplode(',', $this->settings['posts'], true),
                 $offset,
-                $articlesPerPage,
+                $postsPerPage,
                 $showCategories,
                 $showDisabled,
                 $countAll
             );
         } else {
-            $blogArticles = $this->blogArticleRepository->findLimited(
+            $blogPosts = $this->blogPostRepository->findLimited(
                 $offset,
-                $articlesPerPage,
+                $postsPerPage,
                 $showCategories,
                 $showDisabled,
                 $orderBy,
@@ -173,15 +175,14 @@ class BlogController extends ActionController
         }
 
         $this->view->assignMultiple([
-            'articlesPerPage' => $articlesPerPage,
-            'orderBy' => $orderBy,
+            'postsPerPage' => $postsPerPage,
+            'orderBy'      => $orderBy,
             'showDisabled' => $showDisabled,
-            'countAll' => $countAll,
-            'blogArticles' => $blogArticles,
-            'pagination' => $showFeatured ? null : static::pagination($offset, $articlesPerPage, $countAll),
-            'offset' => $offset,
-            'uid' => $this->uid,
-            'categories' => $categories
+            'blogPosts'    => $blogPosts,
+            'pagination'   => $showFeatured ? null : static::pagination($offset, $postsPerPage, $countAll),
+            'uid'          => $this->uid,
+            'categories'   => $categories,
+            'offset'       => $offset,
         ]);
     }
 
@@ -196,100 +197,29 @@ class BlogController extends ActionController
      */
     public static function pagination(int $currentOffset, int $itemsPerPage, int $numberOfItems): array
     {
-        // Get all pages of items for further calculation
-        $pageIndex = 1;
-        $allPages = [$pageIndex => 0];
-        $offsetCounter = 0;
-        $currentPageIndex = $pageIndex;
-        while ($offsetCounter < $numberOfItems) {
-            ++$offsetCounter;
-            if (($offsetCounter % $itemsPerPage) == 0) {
-                ++$pageIndex;
-                $allPages[$pageIndex] = $offsetCounter;
-            }
-            if ($offsetCounter == $currentOffset) {
-                $currentPageIndex = $pageIndex;
-            }
-        }
-
-        return [
-            'allPages' => $allPages,
-            'currentPageIndex' => $currentPageIndex,
-            'pages' => self::getPaginationPages($allPages, $currentPageIndex),
-            'offsets' => self::getPaginationOffsets($currentOffset, $itemsPerPage, $allPages),
-        ];
-    }
-
-    /**
-     * Return the pagination pages
-     *
-     * @param array $allPages       All pages
-     * @param int $currentPageIndex Current page index
-     *
-     * @return array Pagination pages
-     */
-    protected static function getPaginationPages(array $allPages, int $currentPageIndex): array
-    {
-        // Prepare $pages array
-        $showPrevNext = 1;
-        $showFirstLast = 2;
-        $pages = [
-            'first' => [],
-            'prev' => [],
-            'current' => [$currentPageIndex => $allPages[$currentPageIndex]],
-            'next' => [],
-            'last' => [],
+        $currentPage  = floor($currentOffset / $itemsPerPage) + 1;
+        $pages        = array_map(
+            function($page) use ($itemsPerPage) {
+                return $page * $itemsPerPage;
+            },
+            array_flip(array_map('intval', range(1, floor($numberOfItems / $itemsPerPage) + 1)))
+        );
+        $destinations = [
+            'first'    => 1,
+            'previous' => $currentPage - 1,
+            'current'  => $currentPage,
+            'next'     => ($currentPage < count($pages)) ? ($currentPage + 1) : 0,
+            'last'     => count($pages)
         ];
 
-        // Get current->previous pages
-        for ($i = $currentPageIndex - 1; $i > ($currentPageIndex - 1 - $showPrevNext); --$i) {
-            if (($i > 0) && ($i < $currentPageIndex)) {
-                $pages['prev'][$i] = $allPages[$i];
-            }
-        }
-
-        // Get first pages (only if not already included in previous pages)
-        for ($i = 0; $i < $showFirstLast; ++$i) {
-            $index = $i + 1;
-            if (($index > 0) && ($index < $currentPageIndex) && !array_key_exists($index, $pages['prev'])) {
-                $pages['first'][$index] = $allPages[$index];
-            }
-        }
-
-        // Get current->next pages
-        for ($i = $currentPageIndex + 1; $i < ($currentPageIndex + 1 + $showPrevNext); $i++) {
-            if (($i > $currentPageIndex) && ($i <= count($allPages))) {
-                $pages['next'][$i] = $allPages[$i];
-            }
-        }
-
-        // Get last pages
-        for ($i = count($allPages); $i > (count($allPages) - $showFirstLast); $i--) {
-            if (($i > $currentPageIndex) && ($i <= count($allPages)) && !array_key_exists($i, $pages['next'])) {
-                $pages['last'][$i] = $allPages[$i];
-            }
-        }
-
-        return array_filter($pages);
-    }
-
-    /**
-     * Return the pagination offsets
-     *
-     * @param int $currentOffset Current offset
-     * @param int $itemsPerPage  Items per page
-     * @param array $allPages    All pages
-     *
-     * @return array Pagination offsets
-     */
-    protected static function getPaginationOffsets(int $currentOffset, int $itemsPerPage, array $allPages): array
-    {
         return [
-            'first' => 0,
-            'prev' => $currentOffset - $itemsPerPage,
-            'current' => $currentOffset,
-            'next' => $currentOffset + $itemsPerPage,
-            'last' => $allPages[count($allPages)]
+            'pages'        => $pages,
+            'destinations' => $destinations,
+            'range'        => [
+                'from' => $currentOffset + 1,
+                'to'   => min($currentOffset + $itemsPerPage, $numberOfItems),
+            ],
+            'total'        => $numberOfItems
         ];
     }
 
@@ -300,7 +230,7 @@ class BlogController extends ActionController
      */
     public function filterAction(array $categories = [])
     {
-        $rootCategory = intval($this->settings['blog']['rootCategory']);
+        $rootCategory  = intval($this->settings['blog']['rootCategory']);
         $allCategories = [];
         /** @var Category $category */
         foreach ($this->objectManager->get(CategoryRepository::class)->findByParent($rootCategory) as $category) {
@@ -316,16 +246,82 @@ class BlogController extends ActionController
      * Navigate action
      *
      * @param int[] $categories Categories
+     * @param int $offset       Pagination offset
      *
      * @throws InvalidConfigurationTypeException
      */
-    public function navigationAction(array $categories = [])
+    public function navigationAction(array $categories = [], int $offset = 0)
     {
-        $current = $this->blogArticleRepository->findByIdentifier($GLOBALS['TSFE']->id);
+        $current       = $this->blogPostRepository->findByIdentifier($GLOBALS['TSFE']->id);
+        $postsPerPage  = intval($this->settings['blog']['postsPerPage']);
+        $currentOffset = $this->blogPostRepository->findCurrentOffset($current, $categories, $postsPerPage);
         $this->view->assign('current', $current);
-        $this->view->assign('previous', $this->blogArticleRepository->findPrevious($current, $categories));
-        $this->view->assign('next', $this->blogArticleRepository->findNext($current, $categories));
+        $this->view->assign('currentOffset', $currentOffset);
+        $this->view->assign('previous', $this->blogPostRepository->findPrevious($current, $categories));
+        $this->view->assign('next', $this->blogPostRepository->findNext($current, $categories));
         $this->view->assign('categories', $categories);
+        $this->view->assign('offset', $offset);
+    }
+
+    /**
+     * Use the XML format for the atom action
+     */
+    public function initializeAtomAction()
+    {
+        $this->request->setFormat('xml');
+    }
+
+    /**
+     * Atom feed
+     */
+    public function atomAction()
+    {
+        $blogPosts = $this->blogPostRepository->findLimited(
+            0,
+            0,
+            [],
+            false,
+            BlogPostRepository::ORDER_BY_STARTTIME,
+            [$this->settings['blog']['listPid']]
+        );
+
+        $lastUpdated = max(array_map(function(BlogPost $post) {
+            return $post->getLastUpdated();
+        }, $blogPosts->toArray()));
+
+        $this->view->assignMultiple([
+            'blogPosts'   => $blogPosts,
+            'lastUpdated' => new \DateTimeImmutable('@'.$lastUpdated),
+            'icon'        => $this->graphicResourceUrl($this->settings['atom']['icon']),
+            'logo'        => $this->graphicResourceUrl($this->settings['atom']['logo']),
+        ]);
+
+        $this->response->setHeader('Content-Type', 'application/atom+xml; charset=UTF-8');
+        $this->response->setContent($this->view->render());
+        $this->response->send();
+        $this->response->shutdown();
+        exit;
+    }
+
+    /**
+     * Return a root relative graphic URL
+     *
+     * @param string $graphic Graphic resource
+     *
+     * @return string|null Relative graphic URL
+     */
+    protected function graphicResourceUrl(string $graphic): ?string
+    {
+        $graphic = trim($graphic);
+        if (strlen($graphic)) {
+            $absGraphic = GeneralUtility::getFileAbsFileName($graphic);
+            $sitePath   = Environment::getPublicPath();
+            if (strlen($absGraphic) && !strncmp($sitePath, $absGraphic, strlen($sitePath))) {
+                return substr($absGraphic, strlen($sitePath));
+            }
+        }
+
+        return null;
     }
 
     /**

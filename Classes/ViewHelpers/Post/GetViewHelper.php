@@ -34,17 +34,10 @@
  *  CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  ***********************************************************************************/
 
-namespace Tollwerk\TwBlog\ViewHelpers\BlogArticle;
+namespace Tollwerk\TwBlog\ViewHelpers\Post;
 
-use Tollwerk\TwBlog\Domain\Model\BlogArticle;
-use Tollwerk\TwBlog\Domain\Repository\BlogArticleRepository;
-use Tollwerk\TwBlog\Domain\Repository\CommentRepository;
-use Tollwerk\TwBlog\Domain\Repository\OrganizationRepository;
-use Tollwerk\TwBlog\Domain\Repository\PersonRepository;
-use Tollwerk\TwBlog\Utility\ContactUtility;
-use TYPO3\CMS\Core\Database\RelationHandler;
+use Tollwerk\TwBlog\Domain\Repository\BlogPostRepository;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
-use TYPO3\CMS\Extbase\DomainObject\AbstractEntity;
 use TYPO3\CMS\Extbase\Object\ObjectManager;
 use TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper;
 
@@ -54,29 +47,32 @@ use TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper;
  * @package    Tollwerk\TwBlog
  * @subpackage Tollwerk\TwBlog\ViewHelpers\Page
  */
-class CommentsViewHelper extends AbstractViewHelper
+class GetViewHelper extends AbstractViewHelper
 {
+
     /**
      * Initialize arguments
      *
      * @api
      */
-    public function initializeArguments() : void
+    public function initializeArguments()
     {
         parent::initializeArguments();
-        $this->registerArgument('uid', 'integer', 'The uid of the blog series', true, null);
+        $this->registerArgument('uid', 'integer', 'The uid of the blog post ( = of the page) ', false, null);
     }
 
     /**
      * Select a layout by document type
      *
-     * @return array|null
+     * @return string Layout name
      * @api
      */
     public function render()
     {
-        $objectManager = GeneralUtility::makeInstance(ObjectManager::class);
-        $commentRepository = $objectManager->get(CommentRepository::class);
-        return $commentRepository->findByParent($this->arguments['uid'] ? : $GLOBALS['TSFE']->id, 'pages');
+        $pageUid               = $this->arguments['uid'] ?: $GLOBALS['TSFE']->id;
+        $objectManager         = GeneralUtility::makeInstance(ObjectManager::class);
+        $blogPostRepository = $objectManager->get(BlogPostRepository::class);
+
+        return $blogPostRepository->findByUid($pageUid);
     }
 }

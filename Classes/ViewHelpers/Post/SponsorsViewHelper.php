@@ -34,7 +34,7 @@
  *  CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  ***********************************************************************************/
 
-namespace Tollwerk\TwBlog\ViewHelpers\BlogArticle;
+namespace Tollwerk\TwBlog\ViewHelpers\Post;
 
 use Tollwerk\TwBlog\Utility\ContactUtility;
 use TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper;
@@ -66,7 +66,7 @@ class SponsorsViewHelper extends AbstractViewHelper
      */
     public function render()
     {
-        return ContactUtility::getByMM('tx_twblog_blog_article_sponsor_mm',
+        return ContactUtility::getByMM('tx_twblog_blog_post_sponsor_mm',
             $this->arguments['uid'] ?: $GLOBALS['TSFE']->id);
     }
 }

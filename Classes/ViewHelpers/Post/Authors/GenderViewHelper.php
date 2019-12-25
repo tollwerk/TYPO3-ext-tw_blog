@@ -34,23 +34,19 @@
  *  CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  ***********************************************************************************/
 
-namespace Tollwerk\TwBlog\ViewHelpers\BlogArticle;
+namespace Tollwerk\TwBlog\ViewHelpers\Post\Authors;
 
-use Tollwerk\TwBlog\Domain\Repository\BlogArticleRepository;
-use TYPO3\CMS\Core\Database\QueryGenerator;
-use TYPO3\CMS\Core\Utility\GeneralUtility;
-use TYPO3\CMS\Extbase\Object\ObjectManager;
+use Tollwerk\TwBlog\Domain\Model\Person;
 use TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper;
 
 /**
- * Select a layout by document type
+ * Return the gender for a list of blog authors / interview partners
  *
  * @package    Tollwerk\TwBlog
  * @subpackage Tollwerk\TwBlog\ViewHelpers\Page
  */
-class BySeriesViewHelper extends AbstractViewHelper
+class GenderViewHelper extends AbstractViewHelper
 {
-
     /**
      * Initialize arguments
      *
@@ -59,43 +55,33 @@ class BySeriesViewHelper extends AbstractViewHelper
     public function initializeArguments()
     {
         parent::initializeArguments();
-        $this->registerArgument('series', '\\Tollwerk\\TwBlog\\Domain\\Model\\BlogSeries', 'A blog series',
-            false);
-        $this->registerArgument('storagePid', 'string', 'The blog article storage pages', false, 0);
-        $this->registerArgument('recursive', 'int', 'Recursion level of storage pages', false, 99);
-        $this->registerArgument('exclude', '\\Tollwerk\\TwBlog\\Domain\\Model\\BlogArticle',
-            'Blog article to exclude from the result', false, null);
+        $this->registerArgument('persons', 'array', 'List of blog authors / interview partners', true);
     }
 
     /**
-     * Select a layout by document type
+     * Return the gender for a list of blog authors / interview partners
      *
-     * @return array|null
+     * @return string Gender string
      * @api
      */
     public function render()
     {
-        if ($this->arguments['series']) {
-            $objectManager  = GeneralUtility::makeInstance(ObjectManager::class);
-            $queryGenerator = $objectManager->get(QueryGenerator::class);
-            $storagePids    = [];
-            foreach (GeneralUtility::trimExplode(',', $this->arguments['storagePid'], true) as $pid) {
-                $storagePids = array_merge(
-                    $storagePids,
-                    GeneralUtility::trimExplode(',', $queryGenerator->getTreeList($pid, $this->arguments['recursive']))
-                );
-            }
-            $blogArticleRepository = $objectManager->get(BlogArticleRepository::class);
-
-            return $blogArticleRepository->findByBlogSeries(
-                $this->arguments['series'],
-                $this->arguments['exclude'],
-                $storagePids
-            );
+        $genders = ['male' => 0, 'female' => 0];
+        /** @var Person $person */
+        foreach ($this->arguments['persons'] as $person) {
+            ++$genders[($person->getGender() == 2) ? 'female' : 'male'];
         }
 
-        return [];
+        if ($genders['male'] && $genders['female']) {
+            return 'mixed';
+        } elseif ($genders['male'] > 1) {
+            return 'males';
+        } elseif ($genders['male']) {
+            return 'male';
+        } elseif ($genders['female'] > 1) {
+            return 'females';
+        }
+
+        return 'female';
     }
-
-
 }

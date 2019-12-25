@@ -36,14 +36,13 @@ declare(strict_types=1);
  *  CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  ***********************************************************************************/
 
-use Tollwerk\TwBlog\Domain\Model\BlogArticle;
 use Tollwerk\TwBlog\Domain\Model\BlogAuthor;
+use Tollwerk\TwBlog\Domain\Model\BlogPost;
 use Tollwerk\TwBlog\Domain\Model\Category;
 use Tollwerk\TwBlog\Domain\Model\Content;
-use Tollwerk\TwBlog\Domain\Model\Comment;
 
 return [
-    Content::class     => [
+    Content::class    => [
         'tableName'  => 'tt_content',
         'properties' => [
             'type'     => [
@@ -63,7 +62,7 @@ return [
             ],
         ],
     ],
-    BlogArticle::class => [
+    BlogPost::class   => [
         'tableName'  => 'pages',
         'properties' => [
             'created'            => [
@@ -84,18 +83,18 @@ return [
             'authors'            => [
                 'fieldName' => 'tx_twblog_blog_authors'
             ],
-            'blogSeries'         => [
+            'series'             => [
                 'fieldName' => 'tx_twblog_blog_series'
             ],
             'comments'           => [
                 'fieldName' => 'tx_twblog_blog_comments'
             ],
-            'relatedArticles'    => [
-                'fieldName' => 'tx_twblog_blog_related_articles'
+            'relatedPosts'       => [
+                'fieldName' => 'tx_twblog_blog_related_posts'
             ],
         ],
     ],
-    BlogAuthor::class  => [
+    BlogAuthor::class => [
         'tableName'  => 'be_users',
         'properties' => [
             'frontendImage' => [
@@ -106,7 +105,7 @@ return [
             ],
         ],
     ],
-    Category::class    => [
+    Category::class   => [
         'tableName' => 'sys_category',
     ],
 ];

@@ -3,7 +3,7 @@
     Render a list of blog posts
 
     @param string settings.display_mode         Allowed values: default, featured
-    @param BlogArticle[] blogArticles           The blog articles
+    @param BlogPost[] blogPosts           The blog posts
     @param int countAll                         Total number of blog posts
     @param array pagination                     Pagination settings
     @param int offset                           Offset
@@ -19,7 +19,7 @@
             Render a list of blog posts
 
             @param string settings.display_mode         Allowed values: default, featured
-            @param BlogArticle[] blogArticles           The blog articles
+            @param BlogPost[] blogPosts           The blog posts
             @param int countAll                         Total number of blog posts
             @param array pagination                     Pagination settings
             @param int offset                           Offset
@@ -28,11 +28,11 @@
         --></f:comment>
         <f:section name="Main">
             <ol class="BlogList BlogList--{settings.display_mode}" itemscope itemtype="http://schema.org/ItemList">
-                <f:for each="{blogArticles}" as="blogArticle">
+                <f:for each="{blogPosts}" as="blogPost">
                     <li class="BlogListItem BlogListItem--{settings.display_mode}" itemprop="itemListElement" itemscope
                         itemtype="http://schema.org/ListItem">
                         <f:render section="ItemContent--{settings.display_mode}"
-                                  arguments="{blogArticle: blogArticle}"/>
+                                  arguments="{blogPost: blogPost}"/>
                     </li>
                 </f:for>
             </ol>
@@ -53,43 +53,41 @@
 
         <f:comment><!--
 
-            Render the content of a default article
+            Render the content of a default post
 
-            @param BlogArticle blogArticle              Blog article
+            @param BlogPost blogPost              Blog post
 
         --></f:comment>
         <f:section name="ItemContent--default">
             <div class="BlogListItem BlogListItem--default">
 
                 <div class="BlogListItem__image">
-                    <f:if condition="{blogArticle.teaserImage}">
-                        <base:image image="{blogArticle.teaserImage}"/>
+                    <f:if condition="{blogPost.teaserImage}">
+                        <base:image image="{blogPost.teaserImage}"/>
                     </f:if>
                 </div>
-                <f:link.page tabindex="-1" pageUid="{blogArticle.uid}" additionalAttributes="{itemprop: 'url'}">
-                    <base:heading content="{blogArticle.title}" class="BlogListItem__title"/>
+                <f:link.page tabindex="-1" pageUid="{blogPost.uid}" additionalAttributes="{itemprop: 'url'}">
+                    <base:heading content="{blogPost.title}" class="BlogListItem__title"/>
                 </f:link.page>
                 <p class="BlogListItem__text">
-                    <f:format.nl2br>{blogArticle.teaserText}</f:format.nl2br>
+                    <f:format.nl2br>{blogPost.teaserText}</f:format.nl2br>
                 </p>
             </div>
         </f:section>
 
         <f:comment><!--
 
-            Render the content of a default article
+            Render the content of a featured post
 
-            @param BlogArticle blogArticle              Blog article
+            @param BlogPost blogPost              Blog post
 
         --></f:comment>
         <f:section name="ItemContent--featured">
             <div class="BlogListItem BlogListItem--default">
-                <f:link.page tabindex="-1" pageUid="{blogArticle.uid}" additionalAttributes="{itemprop: 'url'}">
-                    <base:heading content="{blogArticle.title}" class="BlogList__item-title"/>
+                <f:link.page tabindex="-1" pageUid="{blogPost.uid}" additionalAttributes="{itemprop: 'url'}">
+                    <base:heading content="{blogPost.title}" class="BlogList__item-title"/>
                 </f:link.page>
             </div>
         </f:section>
-
-
     </f:spaceless>
 </html>

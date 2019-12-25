@@ -1,20 +1,18 @@
 <?php
 
 /**
- * data
+ * tollwerk
  *
- * @category   Tollwerk
- * @package    Tollwerk\TwBlog
- * @subpackage Tollwerk\TwBlog\ViewHelpers
+ * @subpackage ${NAMESPACE}
  * @author     Joschi Kuphal <joschi@tollwerk.de> / @jkphl
- * @copyright  Copyright © 2018 Joschi Kuphal <joschi@tollwerk.de> / @jkphl
+ * @copyright  Copyright © 2019 Joschi Kuphal <joschi@tollwerk.de> / @jkphl
  * @license    http://opensource.org/licenses/MIT The MIT License (MIT)
  */
 
 /***********************************************************************************
  *  The MIT License (MIT)
  *
- *  Copyright © 2018 tollwerk GmbH <info@tollwerk.de>
+ *  Copyright © 2019 Joschi Kuphal <joschi@tollwerk.de>
  *
  *  Permission is hereby granted, free of charge, to any person obtaining a copy of
  *  this software and associated documentation files (the "Software"), to deal in
@@ -34,39 +32,34 @@
  *  CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  ***********************************************************************************/
 
-namespace Tollwerk\TwBlog\ViewHelpers\BlogArticle;
+namespace Tollwerk\TwBlog\Persistence;
 
-use Tollwerk\TwBlog\Utility\ContactUtility;
-use TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper;
+use Tollwerk\TwBlog\Domain\Model\BlogAuthor;
+use TYPO3\CMS\Extbase\Persistence\Generic\Exception;
+use TYPO3\CMS\Extbase\Persistence\QueryInterface;
 
 /**
- * Select a layout by document type
- *
- * @package    Tollwerk\TwBlog
- * @subpackage Tollwerk\TwBlog\ViewHelpers\Page
+ * Custom Query Factory
  */
-class IntervieweesViewHelper extends AbstractViewHelper
+class QueryFactory extends \TYPO3\CMS\Extbase\Persistence\Generic\QueryFactory
 {
     /**
-     * Initialize arguments
+     * Creates a query object working on the given class name
      *
-     * @api
+     * @param string $className The class name
+     *
+     * @return QueryInterface
+     * @throws Exception
      */
-    public function initializeArguments(): void
+    public function create($className)
     {
-        parent::initializeArguments();
-        $this->registerArgument('uid', 'integer', 'The uid of the blog article ( = of the page) ', false, null);
-    }
+        $query = parent::create($className);
+        if (is_a($className, BlogAuthor::class, true)) {
+            $querySettings = $query->getQuerySettings();
+            $querySettings->setIgnoreEnableFields(true);
+            $querySettings->setEnableFieldsToBeIgnored(['disabled']);
+        }
 
-    /**
-     * Select a layout by document type
-     *
-     * @return array|null
-     * @api
-     */
-    public function render()
-    {
-        return ContactUtility::getByMM('tx_twblog_blog_article_interviewee_mm',
-            $this->arguments['uid'] ?: $GLOBALS['TSFE']->id);
+        return $query;
     }
 }
