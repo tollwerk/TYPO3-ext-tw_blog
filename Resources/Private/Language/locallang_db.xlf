@@ -58,6 +58,30 @@
             <trans-unit id="atom.icon" xml:space="preserve">
 				<source>Feed icon</source>
 			</trans-unit>
+            <trans-unit id="opengraph" xml:space="preserve">
+				<source>Open Graph</source>
+			</trans-unit>
+            <trans-unit id="opengraph.facebook.fallback" xml:space="preserve">
+				<source>Facebook Fallback Image</source>
+			</trans-unit>
+            <trans-unit id="opengraph.facebook.width" xml:space="preserve">
+				<source>Facebook Image Width</source>
+			</trans-unit>
+            <trans-unit id="opengraph.facebook.height" xml:space="preserve">
+				<source>Facebook Image Height</source>
+			</trans-unit>
+            <trans-unit id="opengraph.twitter.fallback" xml:space="preserve">
+				<source>Twitter Fallback Image</source>
+			</trans-unit>
+            <trans-unit id="opengraph.twitter.width" xml:space="preserve">
+				<source>Twitter Image Width</source>
+			</trans-unit>
+            <trans-unit id="opengraph.twitter.height" xml:space="preserve">
+				<source>Twitter Image Height</source>
+			</trans-unit>
+            <trans-unit id="opengraph.twitter.creator" xml:space="preserve">
+				<source>Twitter Creator / Site</source>
+			</trans-unit>
 
             <!-- Blog -->
             <trans-unit id="blog">

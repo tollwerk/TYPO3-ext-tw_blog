@@ -44,6 +44,20 @@ plugin.tx_twblog {
             logo = {$plugin.tx_twblog.settings.atom.logo}
             icon = {$plugin.tx_twblog.settings.atom.icon}
         }
+
+        opengraph {
+            facebook {
+                fallback = {$plugin.tx_twblog.settings.opengraph.facebook.fallback}
+                width = {$plugin.tx_twblog.settings.opengraph.facebook.width}
+                height = {$plugin.tx_twblog.settings.opengraph.facebook.height}
+            }
+            twitter {
+                fallback = {$plugin.tx_twblog.settings.opengraph.twitter.fallback}
+                width = {$plugin.tx_twblog.settings.opengraph.twitter.width}
+                height = {$plugin.tx_twblog.settings.opengraph.twitter.height}
+                creator = {$plugin.tx_twblog.settings.opengraph.twitter.creator}
+            }
+        }
     }
 }
 

@@ -1,6 +1,7 @@
 # customsubcategory=file=LLL:EXT:tw_blog/Resources/Private/Language/locallang_db.xlf:file
 # customsubcategory=blog=LLL:EXT:tw_blog/Resources/Private/Language/locallang_db.xlf:blog
 # customsubcategory=atom=LLL:EXT:tw_blog/Resources/Private/Language/locallang_db.xlf:atom
+# customsubcategory=opengraph=LLL:EXT:tw_blog/Resources/Private/Language/locallang_db.xlf:opengraph
 
 plugin.tx_twblog {
     view {
@@ -49,6 +50,27 @@ plugin.tx_twblog {
             logo =
             # cat=plugin.tx_blog/atom/008; type=string; label=LLL:EXT:tw_blog/Resources/Private/Language/locallang_db.xlf:atom.icon
             icon =
+        }
+
+        opengraph {
+            facebook {
+                # cat=plugin.tx_blog/opengraph/001; type=string; label=LLL:EXT:tw_blog/Resources/Private/Language/locallang_db.xlf:opengraph.facebook.fallback
+                fallback =
+                # cat=plugin.tx_blog/opengraph/002; type=string; label=LLL:EXT:tw_blog/Resources/Private/Language/locallang_db.xlf:opengraph.facebook.width
+                width = 1200
+                # cat=plugin.tx_blog/opengraph/003; type=string; label=LLL:EXT:tw_blog/Resources/Private/Language/locallang_db.xlf:opengraph.facebook.height
+                height = 627
+            }
+            twitter {
+                # cat=plugin.tx_blog/opengraph/004; type=string; label=LLL:EXT:tw_blog/Resources/Private/Language/locallang_db.xlf:opengraph.twitter.fallback
+                fallback =
+                # cat=plugin.tx_blog/opengraph/005; type=string; label=LLL:EXT:tw_blog/Resources/Private/Language/locallang_db.xlf:opengraph.twitter.width
+                width = 1200
+                # cat=plugin.tx_blog/opengraph/006; type=string; label=LLL:EXT:tw_blog/Resources/Private/Language/locallang_db.xlf:opengraph.twitter.height
+                height = 675
+                # cat=plugin.tx_blog/opengraph/007; type=string; label=LLL:EXT:tw_blog/Resources/Private/Language/locallang_db.xlf:opengraph.twitter.creator
+                creator =
+            }
         }
     }
 }

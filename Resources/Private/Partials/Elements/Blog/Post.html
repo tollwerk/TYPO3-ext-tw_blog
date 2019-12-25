@@ -7,6 +7,8 @@
 --></f:comment>
 <html xmlns:f="https://xsd.helhum.io/ns/typo3/cms-fluid/master/ViewHelpers"
       xmlns:base="http://typo3.org/ns/Tollwerk/TwBase/ViewHelpers" data-namespace-typo3-fluid="true">
+    <f:variable name="url" value="{f:uri.page(absolute: 1)}"/>
+    <f:render partial="Elements/Blog/OpenGraph" arguments="{blogPost: post, url: url}"/>
     <article class="BlogPost">
         <div class="BlogPost__content">
             <f:variable name="content" value="{v:content.render(column: 0, pageUid: blogPost.uid)}"/>

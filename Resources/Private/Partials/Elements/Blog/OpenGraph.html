@@ -1,0 +1,81 @@
+<f:comment><!--
+
+    Add OpenGraph meta elements
+
+    @param BlogPost blogPost        The blog post
+    @param string url               Canonical URL of this blog post
+
+--></f:comment>
+<html xmlns:f="https://xsd.helhum.io/ns/typo3/cms-fluid/master/ViewHelpers"
+      xmlns:base="http://typo3.org/ns/Tollwerk/TwBase/ViewHelpers" data-namespace-typo3-fluid="true">
+    <f:render section="Facebook" arguments="{_all}"/>
+    <f:render section="Twitter" arguments="{_all}"/>
+
+    <f:comment><!--
+
+        Add OpenGraph meta elements for Facebook
+
+        @param BlogPost blogPost        The blog post
+        @param string url               Canonical URL of this blog post
+
+    --></f:comment>
+    <f:section name="Facebook">
+        <base:page.meta property="og:type" content="company"/>
+        <base:page.meta property="og:title" content="{blogPost.title}"/>
+        <base:page.meta property="og:url" content="{url}"/>
+        <base:page.meta property="og:description" content="{blogPost.teaserText}"/>
+        <f:if condition="{blogPost.teaserImage}">
+            <f:then>
+                <base:page.meta property="og:image">
+                    <f:uri.image image="{blogPost.teaserImage}" width="{settings.opengraph.facebook.width}c"
+                                 height="{settings.opengraph.facebook.height}c" absolute="1"/>
+                </base:page.meta>
+                <f:if condition="{blogPost.teaserImage.alternative}">
+                    <base:page.meta property="og:image:alt" content="{blogPost.teaserImage.alternative}"/>
+                </f:if>
+            </f:then>
+            <f:else>
+                <base:page.meta property="og:image">
+                    <f:uri.image src="{settings.opengraph.facebook.fallback}"
+                                 width="{settings.opengraph.facebook.width}c"
+                                 height="{settings.opengraph.facebook.height}c" absolute="1"/>
+                </base:page.meta>
+            </f:else>
+        </f:if>
+    </f:section>
+
+    <f:comment><!--
+
+        Add OpenGraph meta elements for Twitter
+
+        @param BlogPost blogPost        The blog post
+        @param string url               Canonical URL of this blog post
+
+    --></f:comment>
+    <f:section name="Twitter">
+        <base:page.meta property="twitter:card" content="summary"/>
+        <base:page.meta property="twitter:site" content="@{settings.opengraph.twitter.creator}"/>
+        <base:page.meta property="twitter:creator" content="@{settings.opengraph.twitter.creator}"/>
+        <base:page.meta property="twitter:title" content="{blogPost.title}"/>
+        <base:page.meta property="twitter:url" content="{url}"/>
+        <base:page.meta property="twitter:description" content="{blogPost.teaserText}"/>
+        <f:if condition="{blogPost.teaserImage}">
+            <f:then>
+                <base:page.meta property="twitter:image">
+                    <f:uri.image image="{blogPost.teaserImage}" width="{settings.opengraph.twitter.width}c"
+                                 height="{settings.opengraph.twitter.height}c" absolute="1"/>
+                </base:page.meta>
+                <f:if condition="{blogPost.teaserImage.alternative}">
+                    <base:page.meta property="twitter:image:alt" content="{blogPost.teaserImage.alternative}"/>
+                </f:if>
+            </f:then>
+            <f:else>
+                <base:page.meta property="twitter:image">
+                    <f:uri.image src="{settings.opengraph.twitter.fallback}"
+                                 width="{settings.opengraph.twitter.width}c"
+                                 height="{settings.opengraph.twitter.height}c" absolute="1"/>
+                </base:page.meta>
+            </f:else>
+        </f:if>
+    </f:section>
+</html>
