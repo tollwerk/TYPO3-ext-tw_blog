@@ -36,9 +36,12 @@
 
 namespace Tollwerk\TwBlog\ViewHelpers\Post;
 
+use Tollwerk\TwBlog\Domain\Model\BlogPost;
+use Tollwerk\TwBlog\Domain\Model\BlogSeries;
 use Tollwerk\TwBlog\Domain\Repository\BlogPostRepository;
 use TYPO3\CMS\Core\Database\QueryGenerator;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Extbase\Object\Exception;
 use TYPO3\CMS\Extbase\Object\ObjectManager;
 use TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper;
 
@@ -50,7 +53,6 @@ use TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper;
  */
 class BySeriesViewHelper extends AbstractViewHelper
 {
-
     /**
      * Initialize arguments
      *
@@ -59,18 +61,17 @@ class BySeriesViewHelper extends AbstractViewHelper
     public function initializeArguments()
     {
         parent::initializeArguments();
-        $this->registerArgument('series', '\\Tollwerk\\TwBlog\\Domain\\Model\\BlogSeries', 'A blog series',
-            false);
+        $this->registerArgument('series', BlogSeries::class, 'A blog series', false);
         $this->registerArgument('storagePid', 'string', 'The blog post storage pages', false, 0);
         $this->registerArgument('recursive', 'int', 'Recursion level of storage pages', false, 99);
-        $this->registerArgument('exclude', '\\Tollwerk\\TwBlog\\Domain\\Model\\BlogPost',
-            'Blog post to exclude from the result', false, null);
+        $this->registerArgument('exclude', BlogPost::class, 'Blog post to exclude from the result', false, null);
     }
 
     /**
      * Select a layout by document type
      *
      * @return array|null
+     * @throws Exception
      * @api
      */
     public function render()
@@ -96,6 +97,4 @@ class BySeriesViewHelper extends AbstractViewHelper
 
         return [];
     }
-
-
 }

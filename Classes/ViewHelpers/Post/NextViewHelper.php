@@ -36,10 +36,12 @@
 
 namespace Tollwerk\TwBlog\ViewHelpers\Post;
 
+use Tollwerk\TwBlog\Domain\Model\BlogPost;
 use Tollwerk\TwBlog\Domain\Repository\BlogPostRepository;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Extbase\Configuration\Exception\InvalidConfigurationTypeException;
+use TYPO3\CMS\Extbase\Object\Exception;
 use TYPO3\CMS\Extbase\Object\ObjectManager;
-use TYPO3\CMS\Extbase\Persistence\Exception\InvalidQueryException;
 use TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper;
 
 /**
@@ -58,20 +60,20 @@ class NextViewHelper extends AbstractViewHelper
     public function initializeArguments(): void
     {
         parent::initializeArguments();
-        $this->registerArgument('blogPost', '\Tollwerk\TwBlog\Domain\Model\BlogPost', 'The current blog post',
-            true);
+        $this->registerArgument('blogPost', BlogPost::class, 'The current blog post', true);
     }
 
     /**
      * Select a layout by document type
      *
      * @return array|null
-     * @throws InvalidQueryException
+     * @throws InvalidConfigurationTypeException
+     * @throws Exception
      * @api
      */
     public function render()
     {
-        $objectManager         = GeneralUtility::makeInstance(ObjectManager::class);
+        $objectManager      = GeneralUtility::makeInstance(ObjectManager::class);
         $blogPostRepository = $objectManager->get(BlogPostRepository::class);
 
         return $blogPostRepository->findNext($this->arguments['blogPost']);

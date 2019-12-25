@@ -41,6 +41,7 @@ use Tollwerk\TwBlog\Domain\Repository\OrganizationRepository;
 use Tollwerk\TwBlog\Domain\Repository\PersonRepository;
 use Tollwerk\TwBlog\Utility\ContactUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Extbase\Object\Exception;
 use TYPO3\CMS\Extbase\Object\ObjectManager;
 use TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper;
 
@@ -67,6 +68,7 @@ class CommentsViewHelper extends AbstractViewHelper
      * Select a layout by document type
      *
      * @return array|null
+     * @throws Exception
      * @api
      */
     public function render()

@@ -38,6 +38,7 @@ namespace Tollwerk\TwBlog\ViewHelpers\Post;
 
 use Tollwerk\TwBlog\Domain\Repository\BlogPostRepository;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Extbase\Object\Exception;
 use TYPO3\CMS\Extbase\Object\ObjectManager;
 use TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper;
 
@@ -58,21 +59,21 @@ class GetViewHelper extends AbstractViewHelper
     public function initializeArguments()
     {
         parent::initializeArguments();
-        $this->registerArgument('uid', 'integer', 'The uid of the blog post ( = of the page) ', false, null);
+        $this->registerArgument('uid', 'integer', 'The uid of the blog post (= page) ', false, null);
     }
 
     /**
      * Select a layout by document type
      *
      * @return string Layout name
+     * @throws Exception
      * @api
      */
     public function render()
     {
-        $pageUid               = $this->arguments['uid'] ?: $GLOBALS['TSFE']->id;
-        $objectManager         = GeneralUtility::makeInstance(ObjectManager::class);
+        $objectManager      = GeneralUtility::makeInstance(ObjectManager::class);
         $blogPostRepository = $objectManager->get(BlogPostRepository::class);
 
-        return $blogPostRepository->findByUid($pageUid);
+        return $blogPostRepository->findByUid($this->arguments['uid'] ?: $GLOBALS['TSFE']->id);
     }
 }
