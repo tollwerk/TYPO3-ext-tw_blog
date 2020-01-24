@@ -2,7 +2,7 @@
 
 Blog extension for TYPO3
 
-## Documentation t.b.d.
+## Overview t.b.d.
  
 * Basic feature
 * Doktype
@@ -10,12 +10,12 @@ Blog extension for TYPO3
 * Pagetree etc.
 
 
-### Hooks
+## Hooks
 For a well defined behaviour, the classes you provide to the hooks must implement
 corresponding interfaces. Also, this way you can see all available hooks by having a look
 into `tw_blog/Classes/Hooks/TwBlog/`.
 
-#### createQueryStatement
+### createQueryStatement
 
 Use this to manipulate the QueryBuilder object created by BlogArticleRepository and provided to
 all find-methods. You can, for example, add custom database restrictions or query constraints.
