@@ -5,7 +5,7 @@
  *
  * @category   Tollwerk
  * @package    Tollwerk\TwBlog
- * @subpackage Tollwerk\TwBlog\Hooks
+ * @subpackage Tollwerk\TwBlog\Domain\Model
  * @author     Joschi Kuphal <joschi@tollwerk.de> / @jkphl
  * @copyright  Copyright © 2019 Joschi Kuphal <joschi@tollwerk.de> / @jkphl
  * @license    http://opensource.org/licenses/MIT The MIT License (MIT)
@@ -34,35 +34,40 @@
  *  CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  ***********************************************************************************/
 
-namespace Tollwerk\TwBlog\Hooks;
-
-use TYPO3\CMS\Core\Authentication\BackendUserAuthentication as CoreBackendUserAuthentication;
-use TYPO3\CMS\Core\Resource\Folder;
+namespace Tollwerk\TwBlog\Domain\Model;
 
 /**
- * Backend User Authentication Hook
+ * Extended Category
  *
- * @package Tollwerk\TwBlog\Hooks
+ * @package    Tollwerk\TwBlog
+ * @subpackage Tollwerk\TwBlog\Domain\Model
  */
-class BackendUserAuthentication
+class Category extends \TYPO3\CMS\Extbase\Domain\Model\Category
 {
     /**
-     * Return a custom upload folder
+     * Active category filter
      *
-     * @param array $params
-     * @param CoreBackendUserAuthentication $backendUserAuthentication
-     *
-     * @return mixed|Folder
+     * @var bool
      */
-    public function getDefaultUploadFolder(Array $params, CoreBackendUserAuthentication $backendUserAuthentication)
+    protected $active = false;
+
+    /**
+     * Return whether this is an active category filter
+     *
+     * @return bool Active category filter
+     */
+    public function isActive(): bool
     {
-        // Change the upload folder for blog teaser images
-        if (($params['table'] == 'pages') && ($params['field'] == 'tx_twblog_blog_teaser_image')) {
-            $uploadFolder = new Folder($params['uploadFolder']->getStorage(), '/user_upload/blog/', 'blog');
+        return $this->active;
+    }
 
-            return $uploadFolder;
-        }
-
-        return $params['uploadFolder'];
+    /**
+     * Set whether this is an active category filter
+     *
+     * @param bool $active Active category filter
+     */
+    public function setActive(bool $active): void
+    {
+        $this->active = $active;
     }
 }

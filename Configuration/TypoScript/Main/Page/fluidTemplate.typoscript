@@ -1,0 +1,6 @@
+# We assume that page.10 is the main page FLUIDTEMPLATE set by some other extension or directly inside the root TypoScript template in the backend.
+page.10 {
+    layoutRootPaths.1563302473 = EXT:tw_blog/Resources/Private/Layouts/Page/
+    templateRootPaths.1563302473 = EXT:tw_blog/Resources/Private/Templates/Page/
+    partialRootPaths.1563302473 = EXT:tw_blog/Resources/Private/Partials/
+}

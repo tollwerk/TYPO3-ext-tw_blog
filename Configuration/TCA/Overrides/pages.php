@@ -1,7 +1,7 @@
 <?php
 
 /**
- * tollwerk
+ * Blog
  *
  * @category   Tollwerk
  * @package    Tollwerk\TwBlog
@@ -37,17 +37,23 @@ if (!defined('TYPO3_MODE')) {
     die('Access denied.');
 }
 
-// Add new doktype as possible select item:
 call_user_func(
-    function ($extKey, $table) {
+    function($extKey, $table) {
         $GLOBALS['TCA'][$table]['columns']['media']['config']['appearance']['fileUploadAllowed'] = false;
         $GLOBALS['TCA'][$table]['columns']['categories']['config']['foreign_table_where'] = 'AND sys_category.pid IN (###PAGE_TSCONFIG_IDLIST###) AND sys_category.sys_language_uid IN (-1, 0) ORDER BY sys_category.sorting ASC';
         $GLOBALS['TCA'][$table]['columns']['starttime']['config']['eval'] = 'datetime,int';
-        $GLOBALS['TCA'][$table]['columns']['title']['config']['eval'] = 'trim,required,uniqueInPid';
+        $GLOBALS['TCA'][$table]['columns']['title']['config']['eval'] = 'trim,required';
+
+        // Add new doktype as possible select item:
         $GLOBALS['TCA'][$table]['types'][\Tollwerk\TwBlog\Domain\Model\BlogArticle::DOKTYPE] = $GLOBALS['TCA'][$table]['types']['1'];
 
         // Add new columns
         $newColumns = [
+            'crdate' => [
+                'config' => [
+                    'type' => 'passthrough',
+                ]
+            ],
             'tx_twblog_blog_teaser_text' => [
                 'label' => 'LLL:EXT:tw_blog/Resources/Private/Language/locallang_db.xlf:pages.tx_twblog_blog_teaser_text',
                 'config' => [
@@ -103,7 +109,7 @@ call_user_func(
                     'type' => 'select',
                     'renderType' => 'selectMultipleSideBySide',
                     'foreign_table' => 'pages',
-                    'foreign_table_where' => 'AND pages.doktype = ' . \Tollwerk\TwBlog\Domain\Model\BlogArticle::DOKTYPE . ' AND sys_language_uid IN (-1,0)',
+                    'foreign_table_where' => 'AND pages.doktype = '.\Tollwerk\TwBlog\Domain\Model\BlogArticle::DOKTYPE.' AND sys_language_uid IN (-1,0)',
                     'size' => 10,
                     'minitems' => 0,
                     'enableMultiSelectFilterTextfield' => true,
@@ -156,9 +162,9 @@ call_user_func(
             $table,
             'doktype',
             [
-                'LLL:EXT:' . $extKey . '/Resources/Private/Language/locallang_db.xlf:plugin.blog',
+                'LLL:EXT:'.$extKey.'/Resources/Private/Language/locallang_db.xlf:plugin.blog',
                 \Tollwerk\TwBlog\Domain\Model\BlogArticle::DOKTYPE,
-                'EXT:' . $extKey . '/Resources/Public/Icons/Extension/apps-pagetree-page-blogpage.svg'
+                'EXT:'.$extKey.'/Resources/Public/Icons/Extension/apps-pagetree-page-blogpage.svg'
             ],
             '1',
             'after'
@@ -219,6 +225,12 @@ call_user_func(
             ],
         ];
         */
+
+        \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::registerPageTSConfigFile(
+            'tw_blog',
+            'Configuration/TypoScript/Main/TSconfig/page.tsconfig',
+            'Page Settings'
+        );
     },
     'tw_blog',
     'pages'

@@ -66,6 +66,11 @@ return [
         'user' => ['showitem' => 'name, email, url'],
     ],
     'columns'   => [
+        'crdate' => [
+          'config' => [
+            'type' => 'passthrough',
+          ],
+        ],
         'hidden'       => [
             'exclude' => true,
             'label'   => 'LLL:EXT:core/Resources/Private/Language/locallang_general.xlf:LGL.visible',

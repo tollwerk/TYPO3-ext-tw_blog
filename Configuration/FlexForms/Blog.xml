@@ -7,10 +7,36 @@
             <ROOT>
                 <type>array</type>
                 <el>
+                    <switchableControllerActions>
+                        <TCEforms>
+                            <label>LLL:EXT:tw_blog/Resources/Private/Language/locallang_db.xlf:plugin.blog.action
+                            </label>
+                            <onChange>reload</onChange>
+                            <config>
+                                <type>select</type>
+                                <renderType>selectSingle</renderType>
+                                <items type="array">
+                                    <numIndex index="1" type="array">
+                                        <numIndex index="0">
+                                            LLL:EXT:tw_blog/Resources/Private/Language/locallang_db.xlf:plugin.blog.list
+                                        </numIndex>
+                                        <numIndex index="1">Blog->list;Blog->filter</numIndex>
+                                    </numIndex>
+                                    <numIndex index="2" type="array">
+                                        <numIndex index="0">
+                                            LLL:EXT:tw_blog/Resources/Private/Language/locallang_db.xlf:plugin.blog.filter
+                                        </numIndex>
+                                        <numIndex index="1">Blog->filter;Blog->list</numIndex>
+                                    </numIndex>
+                                </items>
+                            </config>
+                        </TCEforms>
+                    </switchableControllerActions>
                     <settings.selection_mode>
                         <TCEforms>
                             <exclude>1</exclude>
                             <onChange>reload</onChange>
+                            <displayCond>FIELD:switchableControllerActions:=:Blog->list;Blog->filter</displayCond>
                             <label>
                                 LLL:EXT:tw_blog/Resources/Private/Language/locallang_db.xlf:plugin.blog.selection_mode
                             </label>
@@ -37,7 +63,12 @@
                     <settings.articles>
                         <TCEforms>
                             <exclude>1</exclude>
-                            <displayCond>FIELD:settings.selection_mode:=:2</displayCond>
+                            <displayCond>
+                                <AND>
+                                    <numIndex index="0">FIELD:switchableControllerActions:=:Blog->list;Blog->filter</numIndex>
+                                    <numIndex index="1">FIELD:settings.selection_mode:=:2</numIndex>
+                                </AND>
+                            </displayCond>
                             <label>
                                 LLL:EXT:tw_blog/Resources/Private/Language/locallang_db.xlf:plugin.blog.articles
                             </label>
@@ -45,7 +76,8 @@
                                 <type>select</type>
                                 <renderType>selectMultipleSideBySide</renderType>
                                 <foreign_table>pages</foreign_table>
-                                <foreign_table_where>AND pages.doktype = 116 AND sys_language_uid IN (-1,0)</foreign_table_where>
+                                <foreign_table_where>AND pages.doktype = 116 AND sys_language_uid IN (-1,0)
+                                </foreign_table_where>
                                 <size>10</size>
                                 <minitem>0</minitem>
                                 <enableMultiSelectFilterTextfield>true</enableMultiSelectFilterTextfield>
@@ -55,6 +87,7 @@
                     <settings.display_mode>
                         <TCEforms>
                             <exclude>1</exclude>
+                            <displayCond>FIELD:switchableControllerActions:=:Blog->list;Blog->filter</displayCond>
                             <label>
                                 LLL:EXT:tw_blog/Resources/Private/Language/locallang_db.xlf:plugin.blog.display_mode
                             </label>
@@ -81,6 +114,12 @@
                     <settings.order_by>
                         <TCEforms>
                             <exclude>1</exclude>
+                            <displayCond>
+                                <AND>
+                                    <numIndex index="0">FIELD:switchableControllerActions:=:Blog->list;Blog->filter</numIndex>
+                                    <numIndex index="1">FIELD:settings.selection_mode:=:1</numIndex>
+                                </AND>
+                            </displayCond>
                             <label>
                                 LLL:EXT:tw_blog/Resources/Private/Language/locallang_db.xlf:plugin.blog.order_by
                             </label>
@@ -106,6 +145,7 @@
                     </settings.order_by>
                     <settings.articles_per_page>
                         <exclude>1</exclude>
+                        <displayCond>FIELD:switchableControllerActions:=:Blog->list;Blog->filter</displayCond>
                         <label>
                             LLL:EXT:tw_blog/Resources/Private/Language/locallang_db.xlf:plugin.blog.articles_per_page
                         </label>
@@ -121,6 +161,7 @@
                     </settings.articles_per_page>
                     <settings.show_disabled>
                         <exclude>1</exclude>
+                        <displayCond>FIELD:switchableControllerActions:=:Blog->list;Blog->filter</displayCond>
                         <label>
                             LLL:EXT:tw_blog/Resources/Private/Language/locallang_db.xlf:plugin.blog.show_disabled
                         </label>
@@ -131,6 +172,7 @@
                     </settings.show_disabled>
                     <settings.show_pagination>
                         <exclude>1</exclude>
+                        <displayCond>FIELD:switchableControllerActions:=:Blog->list;Blog->filter</displayCond>
                         <label>
                             LLL:EXT:tw_blog/Resources/Private/Language/locallang_db.xlf:plugin.blog.show_pagination
                         </label>
@@ -139,7 +181,32 @@
                             <default>1</default>
                         </config>
                     </settings.show_pagination>
-
+                    <settings.categories>
+                        <TCEforms>
+                            <exclude>1</exclude>
+                            <displayCond>FIELD:switchableControllerActions:=:Blog->list;Blog->filter</displayCond>
+                            <label>LLL:EXT:tw_blog/Resources/Private/Language/locallang_db.xlf:plugin.blog.categories
+                            </label>
+                            <config>
+                                <type>select</type>
+                                <autoSizeMax>50</autoSizeMax>
+                                <foreign_table>sys_category</foreign_table>
+                                <foreign_table_where>AND sys_category.sys_language_uid IN (-1, 0) ORDER BY
+                                    sys_category.sorting ASC
+                                </foreign_table_where>
+                                <maxitems>9999</maxitems>
+                                <renderType>selectTree</renderType>
+                                <size>10</size>
+                                <treeConfig>
+                                    <appearance>
+                                        <expandAll>1</expandAll>
+                                        <showHeader>1</showHeader>
+                                    </appearance>
+                                    <parentField>parent</parentField>
+                                </treeConfig>
+                            </config>
+                        </TCEforms>
+                    </settings.categories>
                 </el>
             </ROOT>
         </main>

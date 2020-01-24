@@ -219,7 +219,7 @@ class Content extends AbstractEntity
      *
      * @return string Bodytext
      */
-    public function getBodytext(): string
+    public function getBodytext(): ?string
     {
         return $this->bodytext;
     }

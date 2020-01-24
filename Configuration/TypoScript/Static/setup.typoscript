@@ -1,9 +1,25 @@
-plugin.tx_twblog {
+<INCLUDE_TYPOSCRIPT: source="FILE:EXT:tw_blog/Configuration/TypoScript/Main/10_main.typoscript">
 
+plugin.tx_twblog {
     view {
         templateRootPath = {$plugin.tx_twblog.view.templateRootPath}
         partialRootPath = {$plugin.tx_twblog.view.partialRootPath}
         layoutRootPath = {$plugin.tx_twblog.view.layoutRootPath}
+
+        templateRootPaths {
+            10 = EXT:tw_blog/Resources/Private/Templates/
+            20 = {$plugin.tx_twblog.view.templateRootPath}
+        }
+
+        partialRootPaths {
+            10 = EXT:tw_blog/Resources/Private/Partials/
+            20 = {$plugin.tx_twblog.view.partialRootPath}
+        }
+
+        layoutRootPaths {
+            10 = EXT:tw_blog/Resources/Private/Layouts/
+            20 = {$plugin.tx_twblog.view.layoutRootPath}
+        }
     }
 
     settings {
@@ -19,5 +35,3 @@ plugin.tx_twblog {
         }
     }
 }
-
-<INCLUDE_TYPOSCRIPT: source="FILE:EXT:tw_blog/Configuration/TypoScript/Main/10_main.t3s">

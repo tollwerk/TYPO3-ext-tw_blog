@@ -48,16 +48,29 @@ use TYPO3\CMS\Extbase\Domain\Model\FileReference;
 class BlogAuthor extends BackendUser
 {
     /**
+     * Frontend name
+     *
      * @var string
      */
     protected $frontendName = '';
 
     /**
-     * @var \TYPO3\CMS\Extbase\Domain\Model\FileReference
+     * Frontend image
+     *
+     * @var FileReference
      */
     protected $frontendImage = null;
 
     /**
+     * Avatar image
+     *
+     * @var FileReference
+     */
+    protected $avatar = null;
+
+    /**
+     * Return the frontend name
+     *
      * @return string
      */
     public function getFrontendName(): string
@@ -66,6 +79,8 @@ class BlogAuthor extends BackendUser
     }
 
     /**
+     * Set the frontend name
+     *
      * @param string $frontendName
      */
     public function setFrontendName(string $frontendName): void
@@ -76,7 +91,7 @@ class BlogAuthor extends BackendUser
     /**
      * Get the avatar
      *
-     * @return \TYPO3\CMS\Extbase\Domain\Model\FileReference
+     * @return FileReference
      */
     public function getFrontendImage(): ?FileReference
     {
@@ -86,10 +101,30 @@ class BlogAuthor extends BackendUser
     /**
      * Set the avatar
      *
-     * @param \TYPO3\CMS\Extbase\Domain\Model\FileReference $frontendImage
+     * @param FileReference $frontendImage
      */
     public function setFrontendImage(FileReference $frontendImage): void
     {
         $this->frontendImage = $frontendImage;
+    }
+
+    /**
+     * Return the avatar image
+     *
+     * @return FileReference
+     */
+    public function getAvatar(): ?FileReference
+    {
+        return $this->avatar;
+    }
+
+    /**
+     * Set the avatar image
+     *
+     * @param FileReference $avatar
+     */
+    public function setAvatar(FileReference $avatar): void
+    {
+        $this->avatar = $avatar;
     }
 }

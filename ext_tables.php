@@ -3,6 +3,7 @@
 if (!defined('TYPO3_MODE')) {
     die('Access denied.');
 }
+
 call_user_func(
     function($extKey) {
         \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addStaticFile(
@@ -14,6 +15,7 @@ call_user_func(
         // Allow records on standard pages
         \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::allowTableOnStandardPages('tx_twblog_domain_model_comment');
 
+        // Register blog article list plugin
         \TYPO3\CMS\Extbase\Utility\ExtensionUtility::registerPlugin(
             'Tollwerk.TwBlog',
             'Blog',
