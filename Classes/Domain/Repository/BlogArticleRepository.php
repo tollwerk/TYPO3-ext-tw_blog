@@ -38,6 +38,8 @@ namespace Tollwerk\TwBlog\Domain\Repository;
 
 use Doctrine\DBAL\FetchMode;
 use Tollwerk\TwBlog\Domain\Model\BlogArticle;
+use Tollwerk\TwBlog\Hooks\TwBlog\CreateQueryStatementInterface;
+use TYPO3\CMS\Core\Context\Context;
 use TYPO3\CMS\Core\Database\ConnectionPool;
 use TYPO3\CMS\Core\Database\Query\QueryBuilder;
 use TYPO3\CMS\Core\Database\Query\Restriction\EndTimeRestriction;
@@ -211,9 +213,27 @@ class BlogArticleRepository extends AbstractRepository
             $query->getRestrictions()->removeByType(StartTimeRestriction::class);
             $query->getRestrictions()->removeByType(EndTimeRestriction::class);
         }
+
+        // Call hook for manipulating the central query builder
+        foreach ($GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['ext/tw_blog']['createQueryStatement'] ?? [] as $className) {
+            /** @var CreateQueryStatementInterface $_procObj */
+            $_procObj = GeneralUtility::makeInstance($className);
+            if (!($_procObj instanceof CreateQueryStatementInterface)) {
+                throw new \TYPO3\CMS\Extbase\Exception(
+                    sprintf('The registered class %s for hook [ext/tw_blog][createQueryStatement] does not implement CreateQueryStatementInterface', $className),
+                    1579850816
+                );
+            }
+            $_procObj->createQueryStatement($query);
+        }
+
         $query->select('p.*')
             ->from('pages', 'p')
             ->where($query->expr()->eq('p.doktype', static::DOKTYPE));
+
+        // Localization handling
+        $context = GeneralUtility::makeInstance(Context::class);
+        $query->andWhere($query->expr()->eq('p.sys_language_uid', $context->getPropertyFromAspect('language', 'id')));
 
         // IDs
         if (count($ids)) {
