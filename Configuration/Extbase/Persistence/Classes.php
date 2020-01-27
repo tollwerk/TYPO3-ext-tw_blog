@@ -75,6 +75,9 @@ return [
             'localizationConfig' => [
                 'fieldName' => 'l18n_cfg'
             ],
+            'navTitle' =>           [
+                'fieldName' => 'nav_title',
+            ],
             'teaserText'         => [
                 'fieldName' => 'tx_twblog_blog_teaser_text'
             ],

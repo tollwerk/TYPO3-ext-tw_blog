@@ -87,6 +87,13 @@ class BlogArticle extends AbstractEntity
     protected $title = '';
 
     /**
+     * Blog navigation title
+     *
+     * @var string
+     */
+    protected $navTitle = '';
+
+    /**
      * @var string
      */
     protected $subtitle = '';
@@ -294,7 +301,7 @@ class BlogArticle extends AbstractEntity
      */
     public function getTitle(): string
     {
-        return $this->title;
+        return $this->getNavTitle() ? : $this->title;
     }
 
     /**
@@ -305,6 +312,22 @@ class BlogArticle extends AbstractEntity
     public function setTitle(string $title): void
     {
         $this->title = $title;
+    }
+
+    /**
+     * @return string
+     */
+    public function getNavTitle(): string
+    {
+        return $this->navTitle;
+    }
+
+    /**
+     * @param string $navTitle
+     */
+    public function setNavTitle(string $navTitle): void
+    {
+        $this->navTitle = $navTitle;
     }
 
     /**

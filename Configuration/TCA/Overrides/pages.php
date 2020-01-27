@@ -60,8 +60,9 @@ call_user_func(
                     'type' => 'text',
                     'cols' => 24,
                     'rows' => 6,
-                    'eval' => 'trim'
-                ]
+                    'eval' => 'trim',
+                    'max' => 140,
+                ],
             ],
             'tx_twblog_blog_teaser_image' => [
                 'exclude' => 0,
