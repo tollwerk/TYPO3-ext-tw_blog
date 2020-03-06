@@ -276,7 +276,7 @@ class BlogArticleRepository extends AbstractRepository
 
         // Offset & limit
         if (intval($limit)) {
-            $query->setFirstResult($offset * $limit)->setMaxResults($limit);
+            $query->setFirstResult($offset)->setMaxResults($limit);
         }
 
         // Ordering
@@ -325,6 +325,7 @@ class BlogArticleRepository extends AbstractRepository
         array $storagePids = [],
         int &$count = null
     ): ?QueryResultInterface {
+
         $count = 0;
         $query = $this->createQuery();
         $orderings = ($orderBy == self::ORDER_BY_SORTING) ?
@@ -335,7 +336,7 @@ class BlogArticleRepository extends AbstractRepository
                 'uid' => QueryInterface::ORDER_DESCENDING,
             ];
         $storagePids = $storagePids ?: $query->getQuerySettings()->getStoragePageIds();
-        $query->statement($this->createQueryStatement(
+        $statement = $this->createQueryStatement(
             [],
             $offset,
             $limit,
@@ -344,8 +345,9 @@ class BlogArticleRepository extends AbstractRepository
             $storagePids,
             $orderings,
             $count
-        )->getSQL());
+        )->getSQL();
 
+        $query->statement($statement);
         return $query->execute();
     }
 
