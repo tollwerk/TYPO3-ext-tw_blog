@@ -29,6 +29,14 @@ call_user_func(
             'FILE:EXT:tw_blog/Configuration/FlexForms/Blog.xml'
         );
 
+        // Register comment confirmation plugin
+        \TYPO3\CMS\Extbase\Utility\ExtensionUtility::registerPlugin(
+            'Tollwerk.TwBlog',
+            'Comment',
+            'LLL:EXT:tw_blog/Resources/Private/Language/locallang_db.xlf:plugin.comment',
+            'EXT:tw_blog/Resources/Public/Icons/Extension/Blog.svg'
+        );
+
         // Add new doktypes
         $archiveDoktype                          = \Tollwerk\TwBlog\Domain\Repository\BlogPostRepository::DOKTYPE;
         $GLOBALS['PAGES_TYPES'][$archiveDoktype] = [

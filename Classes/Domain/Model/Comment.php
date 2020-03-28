@@ -46,6 +46,18 @@ use TYPO3\CMS\Extbase\DomainObject\AbstractEntity;
 class  Comment extends AbstractEntity
 {
     /**
+     * Hidden
+     *
+     * @var bool
+     */
+    protected $hidden;
+    /**
+     * Privacy policy confirmation date
+     *
+     * @var int
+     */
+    protected $privacy;
+    /**
      * Creation date
      *
      * @var int
@@ -92,6 +104,18 @@ class  Comment extends AbstractEntity
      * @var string
      */
     protected $replies = '';
+    /**
+     * Confirmation hash
+     *
+     * @var string
+     */
+    protected $confirmation = '';
+    /**
+     * IP address
+     *
+     * @var string
+     */
+    protected $ip = '';
 
     /**
      * @return int
@@ -124,7 +148,6 @@ class  Comment extends AbstractEntity
     {
         $this->parentTable = $parentTable;
     }
-
 
     /**
      * @return string
@@ -224,5 +247,85 @@ class  Comment extends AbstractEntity
     public function setCrdate(int $crdate): void
     {
         $this->crdate = $crdate;
+    }
+
+    /**
+     * Return the privacy policy confirmation date
+     *
+     * @return int Privacy policy confirmation date
+     */
+    public function getPrivacy(): ?int
+    {
+        return $this->privacy;
+    }
+
+    /**
+     * Set the privacy policy confirmation date
+     *
+     * @param int $privacy Privacy policy confirmation date
+     */
+    public function setPrivacy(int $privacy): void
+    {
+        $this->privacy = $privacy;
+    }
+
+    /**
+     * Return the confirmation hash
+     *
+     * @return string Confirmation hash
+     */
+    public function getConfirmation(): string
+    {
+        return $this->confirmation;
+    }
+
+    /**
+     * Set the confirmation hash
+     *
+     * @param string $confirmation Confirmation hash
+     */
+    public function setConfirmation(string $confirmation): void
+    {
+        $this->confirmation = $confirmation;
+    }
+
+    /**
+     * Return whether the comment is hidden
+     *
+     * @return bool Hidden
+     */
+    public function isHidden(): bool
+    {
+        return $this->hidden;
+    }
+
+    /**
+     * Set whether the comment is hidden
+     *
+     * @param bool $hidden Hidden
+     */
+    public function setHidden(bool $hidden): void
+    {
+        $this->hidden = $hidden;
+    }
+
+    /**
+     * Return the IP address
+     *
+     * @return string IP address
+     */
+    public function getIp(): string
+    {
+        return $this->ip;
+    }
+
+    /**
+     * Set the IP address
+     *
+     * @param string $ip IP address
+     */
+    public function setIp(string $ip): void
+    {
+        $this->ip = $ip;
     }
 }

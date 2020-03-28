@@ -1,0 +1,33 @@
+<f:comment><!--
+
+    Confirm a comment
+
+    @param Comment comment          Comment
+    @param BlogPost blogPost        Blog Post
+
+--></f:comment>
+<html xmlns:f="https://xsd.helhum.io/ns/typo3/cms-fluid/master/ViewHelpers"
+      data-namespace-typo3-fluid="true">
+    <f:if condition="{comment}">
+        <f:then>
+            <p>
+                <f:translate key="comment.confirmation.success"/>
+            </p>
+            <p>
+                <f:link.page pageUid="{blogPost.uid}">
+                    <f:translate key="comment.confirmation.proceed.post"/>
+                </f:link.page>
+            </p>
+        </f:then>
+        <f:else>
+            <p>
+                <f:translate key="comment.confirmation.failure"/>
+            </p>
+            <p>
+                <f:link.page pageUid="{settings.blog.listPid}">
+                    <f:translate key="comment.confirmation.proceed.blog"/>
+                </f:link.page>
+            </p>
+        </f:else>
+    </f:if>
+</html>

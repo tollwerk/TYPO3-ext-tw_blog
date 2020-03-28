@@ -1,91 +1,79 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<?xml version='1.0' encoding='utf-8'?>
 <xliff version="1.0">
-    <file source-language="en" datatype="plaintext" original="messages" date="2016-12-08T10:17:19Z"
-          product-name="tw_blog">
+    <file source-language="en" datatype="plaintext" original="messages" date="2016-12-08T10:17:19Z" product-name="tw_blog">
         <header/>
         <body>
-            <trans-unit id="blog.readPost">
-                <source>Read post</source>
-                <target>Weiterlesen</target>
-            </trans-unit>
-            <trans-unit id="blog.more_by_series">
+            <trans-unit id="blog.readPost" approved="no">
+                <source>Read post</source> <target state="needs-translation">Weiterlesen</target></trans-unit>
+            <trans-unit id="blog.more_by_series" approved="no">
                 <source>Other posts the series «%s»</source>
-                <target>Andere Beiträge dieser Serie</target>
-            </trans-unit>
-            <trans-unit id="blog.authors.about.male">
+            <target state="needs-translation">Andere Beiträge dieser Serie</target></trans-unit>
+            <trans-unit id="blog.authors.about.male" approved="no">
                 <source>About the author</source>
-                <target>Über den Author</target>
-            </trans-unit>
-            <trans-unit id="blog.authors.about.males">
+            <target state="needs-translation">Über den Author</target></trans-unit>
+            <trans-unit id="blog.authors.about.males" approved="no">
                 <source>About the authors</source>
-                <target>Über die Authoren</target>
-            </trans-unit>
-            <trans-unit id="blog.authors.about.female">
+            <target state="needs-translation">Über die Authoren</target></trans-unit>
+            <trans-unit id="blog.authors.about.female" approved="no">
                 <source>About the author</source>
-                <target>Über die Authorin</target>
-            </trans-unit>
-            <trans-unit id="blog.authors.about.females">
+            <target state="needs-translation">Über die Authorin</target></trans-unit>
+            <trans-unit id="blog.authors.about.females" approved="no">
                 <source>About the authors</source>
-                <target>Über die Authorinnen</target>
-            </trans-unit>
-            <trans-unit id="blog.authors.about.mixed">
+            <target state="needs-translation">Über die Authorinnen</target></trans-unit>
+            <trans-unit id="blog.authors.about.mixed" approved="no">
                 <source>About the authors</source>
-                <target>Über die Authoren/Authorinnen</target>
-            </trans-unit>
-            <trans-unit id="blog.pagination.aria_label">
+            <target state="needs-translation">Über die Authoren/Authorinnen</target></trans-unit>
+            <trans-unit id="blog.pagination.aria_label" approved="no">
                 <source>Browse through blog posts</source>
-                <target>Liste der Blogbeiträge durchblättern</target>
-            </trans-unit>
-            <trans-unit id="blog.pagination.first">
+            <target state="needs-translation">Liste der Blogbeiträge durchblättern</target></trans-unit>
+            <trans-unit id="blog.pagination.first" approved="no">
                 <source>First page</source>
-                <target>Erste Seite</target>
-            </trans-unit>
-            <trans-unit id="blog.pagination.previous">
+            <target state="needs-translation">Erste Seite</target></trans-unit>
+            <trans-unit id="blog.pagination.previous" approved="no">
                 <source>Previous page</source>
-                <target>Vorherige Seite</target>
-            </trans-unit>
-            <trans-unit id="blog.pagination.page">
+            <target state="needs-translation">Vorherige Seite</target></trans-unit>
+            <trans-unit id="blog.pagination.page" approved="no">
                 <source>Page %s of %s</source>
-                <target>Seite %s von %s</target>
-            </trans-unit>
-            <trans-unit id="blog.pagination.next">
+            <target state="needs-translation">Seite %s von %s</target></trans-unit>
+            <trans-unit id="blog.pagination.next" approved="no">
                 <source>Next page</source>
-                <target>Nächste Seite</target>
-            </trans-unit>
-            <trans-unit id="blog.pagination.last">
+            <target state="needs-translation">Nächste Seite</target></trans-unit>
+            <trans-unit id="blog.pagination.last" approved="no">
                 <source>Last page</source>
-                <target>Letzte Seite</target>
-            </trans-unit>
-            <trans-unit id="blog.prevnext.next">
+            <target state="needs-translation">Letzte Seite</target></trans-unit>
+            <trans-unit id="blog.prevnext.next" approved="no">
                 <source>More recent post</source>
-                <target>Neuerer Beitrag</target>
-            </trans-unit>
-            <trans-unit id="blog.prevnext.prev">
+            <target state="needs-translation">Neuerer Beitrag</target></trans-unit>
+            <trans-unit id="blog.prevnext.prev" approved="no">
                 <source>Older post</source>
-                <target>Älterer Beitrag</target>
-            </trans-unit>
-            <trans-unit id="blog.prevnext.aria_label">
+            <target state="needs-translation">Älterer Beitrag</target></trans-unit>
+            <trans-unit id="blog.prevnext.aria_label" approved="no">
                 <source>Older and more recent posts</source>
-                <target>Ältere und neuere Beiträge</target>
-            </trans-unit>
+            <target state="needs-translation">Ältere und neuere Beiträge</target></trans-unit>
 
             <!-- Crop variants -->
-            <trans-unit id="cropVariants.blog_thumbnail">
+            <trans-unit id="cropVariants.blog_thumbnail" approved="no">
                 <source>Blog Thumbnail</source>
-                <target>Blog Vorschaubild</target>
-            </trans-unit>
-            <trans-unit id="cropVariants.blog_teaser">
+            <target state="needs-translation">Blog Vorschaubild</target></trans-unit>
+            <trans-unit id="cropVariants.blog_teaser" approved="no">
                 <source>Blog Teaser</source>
-                <target>Blog Teaserbild</target>
-            </trans-unit>
-            <trans-unit id="cropVariants.blog_featured_teaser">
+            <target state="needs-translation">Blog Teaserbild</target></trans-unit>
+            <trans-unit id="cropVariants.blog_featured_teaser" approved="no">
                 <source>Featured Blog Post Teaser</source>
-                <target>Featured Blog Teaserbild</target>
-            </trans-unit>
-            <trans-unit id="cropVariants.blog_header">
+            <target state="needs-translation">Featured Blog Teaserbild</target></trans-unit>
+            <trans-unit id="cropVariants.blog_header" approved="no">
                 <source>Blog Page Header</source>
-                <target>Blog Seiten-Kopfbereich</target>
-            </trans-unit>
+            <target state="needs-translation">Blog Seiten-Kopfbereich</target></trans-unit>
+
+            <!-- Comments -->
+            <trans-unit id="comment.confirmation.success" approved="yes">
+                <source>Congratulations, your comment has been confirmed successfully. Would you like to proceed to the blog post and view your comment?</source> <target state="translated">Glückwunsch, Ihr Kommentar wurde erfolgreich bestätigt. Möchten Sie weiter zum Blogartikel und Ihren Kommentar ansehen?</target></trans-unit>
+            <trans-unit id="comment.confirmation.failure" approved="yes">
+                <source>Unfortunately, your comment could not be confirmed. The reason might be that we couldn't find a matching blog post or that the comment has already be confirmed earlier. Would you like to proceed to our blog?</source> <target state="translated">Leider konnte Ihr Kommentar nicht erfolgreich bestätigt werden. Grund dafür kann sein, dass wir den zu bestätigenden Kommentar nicht finden konnten oder dieser bereits zuvor bestätigt wurde. Möchten Sie weiter zu unserem Blog?</target></trans-unit>
+            <trans-unit id="comment.confirmation.proceed.blog" approved="yes">
+                <source>Proceed to blog</source> <target state="translated">Weiter zum Blog</target></trans-unit>
+            <trans-unit id="comment.confirmation.proceed.post" approved="yes">
+                <source>Proceed to blog post</source> <target state="translated">Weiter zum Blogartikel</target></trans-unit>
         </body>
     </file>
 </xliff>

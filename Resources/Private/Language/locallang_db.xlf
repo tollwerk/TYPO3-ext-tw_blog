@@ -165,6 +165,9 @@
             <trans-unit id="plugin.blog.display_mode.featured">
                 <source>Featured Posts</source>
             </trans-unit>
+            <trans-unit id="plugin.comment">
+                <source>Blog comment</source>
+            </trans-unit>
 
             <!-- Table: be_users -->
             <trans-unit id="be_users.tx_twblog_frontend_name" approved="yes">
@@ -189,6 +192,12 @@
             </trans-unit>
             <trans-unit id="pages.tx_twblog_blog_series" approved="yes">
                 <source>Blog Series</source>
+            </trans-unit>
+            <trans-unit id="pages.tx_twblog_blog_disable_comments" approved="yes">
+                <source>Disable Comments</source>
+            </trans-unit>
+            <trans-unit id="pages.tx_twblog_blog_disable_webmentions" approved="yes">
+                <source>Disable Webmentions</source>
             </trans-unit>
             <trans-unit id="pages.tx_twblog_blog_related_posts" approved="yes">
                 <source>Related Posts</source>
@@ -217,6 +226,15 @@
             </trans-unit>
             <trans-unit id="tx_twblog_domain_model_comment.name">
                 <source>Name</source>
+            </trans-unit>
+            <trans-unit id="tx_twblog_domain_model_comment.confirmation">
+                <source>Confirmation code</source>
+            </trans-unit>
+            <trans-unit id="tx_twblog_domain_model_comment.ip">
+                <source>IP Address</source>
+            </trans-unit>
+            <trans-unit id="tx_twblog_domain_model_comment.privacy">
+                <source>Privacy Consent</source>
             </trans-unit>
             <trans-unit id="tx_twblog_domain_model_comment.email">
                 <source>Email address</source>

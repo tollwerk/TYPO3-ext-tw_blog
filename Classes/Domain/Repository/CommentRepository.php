@@ -36,6 +36,7 @@
 
 namespace Tollwerk\TwBlog\Domain\Repository;
 
+use Tollwerk\TwBlog\Domain\Model\Comment;
 use TYPO3\CMS\Extbase\Persistence\QueryResultInterface;
 use TYPO3\CMS\Extbase\Persistence\Repository;
 
@@ -62,5 +63,21 @@ class CommentRepository extends Repository
         ]));
 
         return $query->execute();
+    }
+
+    /**
+     * Find a single comment by its confirmation hash (ignoring its hidden state)
+     *
+     * @param string $confirmation Confirmation hash
+     *
+     * @return Comment|null
+     */
+    public function findOneByConfirmation(string $confirmation): ?Comment
+    {
+        $query = $this->createQuery();
+        $query->getQuerySettings()->setRespectStoragePage(false);
+        $query->getQuerySettings()->setIgnoreEnableFields(true);
+
+        return $query->matching($query->equals('confirmation', $confirmation))->execute()->getFirst();
     }
 }

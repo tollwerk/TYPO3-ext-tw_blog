@@ -1,11 +1,13 @@
 CREATE TABLE pages
 (
-    tx_twblog_blog_teaser_image     INT(11) UNSIGNED NOT NULL DEFAULT '0',
-    tx_twblog_blog_teaser_text      TEXT             NOT NULL DEFAULT '',
-    tx_twblog_blog_related_posts VARCHAR(32)               DEFAULT '' NOT NULL,
-    tx_twblog_blog_authors          INT(11) UNSIGNED NOT NULL DEFAULT '0',
-    tx_twblog_blog_series           INT(11) UNSIGNED NOT NULL DEFAULT '0',
-    tx_twblog_blog_comments         VARCHAR(255)              DEFAULT '' NOT NULL
+    tx_twblog_blog_teaser_image        INT(11) UNSIGNED NOT NULL DEFAULT '0',
+    tx_twblog_blog_teaser_text         TEXT             NOT NULL DEFAULT '',
+    tx_twblog_blog_related_posts       VARCHAR(32)               DEFAULT '' NOT NULL,
+    tx_twblog_blog_authors             INT(11) UNSIGNED NOT NULL DEFAULT '0',
+    tx_twblog_blog_series              INT(11) UNSIGNED NOT NULL DEFAULT '0',
+    tx_twblog_blog_comments            VARCHAR(255)              DEFAULT '' NOT NULL,
+    tx_twblog_blog_disable_comments    TINYINT(4) UNSIGNED       DEFAULT '0' NOT NULL,
+    tx_twblog_blog_disable_webmentions TINYINT(4) UNSIGNED       DEFAULT '0' NOT NULL
 );
 
 CREATE TABLE be_users
@@ -43,6 +45,9 @@ CREATE TABLE tx_twblog_domain_model_comment
     parent_table VARCHAR(255)        DEFAULT ''  NOT NULL,
     text         TEXT                DEFAULT ''  NOT NULL,
     replies      VARCHAR(255)        DEFAULT ''  NOT NULL,
+    confirmation VARCHAR(32)         DEFAULT ''  NOT NULL,
+    ip           VARCHAR(15)         DEFAULT ''  NOT NULL,
+    privacy      INT(11) UNSIGNED    DEFAULT '0' NOT NULL,
 
     PRIMARY KEY (uid),
     KEY parent (pid)

@@ -92,6 +92,12 @@ return [
             'relatedPosts'       => [
                 'fieldName' => 'tx_twblog_blog_related_posts'
             ],
+            'disableComments'       => [
+                'fieldName' => 'tx_twblog_blog_disable_comments'
+            ],
+            'disableWebmentions'       => [
+                'fieldName' => 'tx_twblog_blog_disable_webmentions'
+            ],
         ],
     ],
     BlogAuthor::class => [

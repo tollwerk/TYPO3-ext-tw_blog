@@ -66,6 +66,25 @@
             <trans-unit id="cropVariants.blog_header">
                 <source>Blog Page Header</source>
             </trans-unit>
+
+            <!-- Comments -->
+            <trans-unit id="comment.confirmation.success">
+                <source>Congratulations, your comment has been confirmed successfully. Would you like to proceed to the
+                    blog post and view your comment?
+                </source>
+            </trans-unit>
+            <trans-unit id="comment.confirmation.failure">
+                <source>Unfortunately, your comment could not be confirmed. The reason might be that we couldn't find a
+                    matching blog post or that the comment has already be confirmed earlier. Would you like to proceed
+                    to our blog?
+                </source>
+            </trans-unit>
+            <trans-unit id="comment.confirmation.proceed.blog">
+                <source>Proceed to blog</source>
+            </trans-unit>
+            <trans-unit id="comment.confirmation.proceed.post">
+                <source>Proceed to blog post</source>
+            </trans-unit>
         </body>
     </file>
 </xliff>

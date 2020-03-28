@@ -36,13 +36,18 @@
 
 namespace Tollwerk\TwBlog\Controller;
 
+use Tollwerk\TwBlog\Domain\Model\BlogPost;
 use Tollwerk\TwBlog\Domain\Model\Comment;
+use Tollwerk\TwBlog\Domain\Repository\BlogPostRepository;
 use Tollwerk\TwBlog\Domain\Repository\CommentRepository;
+use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Mvc\Controller\ActionController;
 use TYPO3\CMS\Extbase\Mvc\Exception\StopActionException;
 use TYPO3\CMS\Extbase\Mvc\Exception\UnsupportedRequestTypeException;
 use TYPO3\CMS\Extbase\Persistence\Exception\IllegalObjectTypeException;
+use TYPO3\CMS\Extbase\Persistence\Exception\UnknownObjectException;
 use TYPO3\CMS\Extbase\Persistence\Generic\PersistenceManager;
+use TYPO3\CMS\Extbase\Service\CacheService;
 
 /**
  * Comment Controller
@@ -57,6 +62,12 @@ class CommentController extends ActionController
      * @var CommentRepository
      */
     protected $commentRepository;
+    /**
+     * Blog Post repository
+     *
+     * @var BlogPostRepository
+     */
+    protected $blogPostRepository;
 
     /**
      * Inject the comment repository
@@ -68,6 +79,16 @@ class CommentController extends ActionController
     public function injectCommentRepository(CommentRepository $commentRepository): void
     {
         $this->commentRepository = $commentRepository;
+    }
+
+    /**
+     * Inject the blog post repository
+     *
+     * @param BlogPostRepository $blogPostRepository Blog Post repository
+     */
+    public function injectBlogPostRepository(BlogPostRepository $blogPostRepository): void
+    {
+        $this->blogPostRepository = $blogPostRepository;
     }
 
     /**
@@ -105,5 +126,42 @@ class CommentController extends ActionController
         $this->commentRepository->add($newComment);
         $this->objectManager->get(PersistenceManager::class)->persistAll();
         $this->redirect('form');
+    }
+
+    /**
+     * Confirm a comment
+     *
+     * @param string $confirmation Confirmed comment
+     *
+     * @throws IllegalObjectTypeException
+     * @throws UnknownObjectException
+     */
+    public function confirmAction(string $confirmation)
+    {
+        $comment = $this->commentRepository->findOneByConfirmation($confirmation);
+        if ($comment instanceof Comment) {
+            $blogPost = $this->blogPostRepository->findByUid($comment->getParent());
+            if ($blogPost instanceof BlogPost) {
+                // Confirm the comment
+                $comment->setHidden(false);
+                $comment->setConfirmation('');
+                $this->commentRepository->update($comment);
+
+                // Clear the blog post page cache
+                $this->objectManager->get(CacheService::class)->clearPageCache($blogPost->getUid());
+
+                // Call initialization hooks
+                $params = ['comment' => $comment, 'blogPost' => $blogPost];
+                foreach ($GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['blogComment']['confirmation'] as $confirmationHook) {
+                    GeneralUtility::callUserFunction($confirmationHook, $params, $this);
+                }
+
+                // Variable assignment
+                $this->view->assignMultiple([
+                    'comment'  => $comment,
+                    'blogPost' => $this->blogPostRepository->findByUid($comment->getParent())
+                ]);
+            }
+        }
     }
 }

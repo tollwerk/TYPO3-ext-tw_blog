@@ -57,19 +57,54 @@ return [
         '1' => [
             'showitem' =>
                 '--palette--;;user,
+                --palette--;;internal,
                 text,
                  --div--;LLL:EXT:tw_blog/Resources/Private/Language/locallang_db.xlf:plugin.blog.comments,
                 replies'
         ],
     ],
     'palettes'  => [
-        'user' => ['showitem' => 'name, email, url'],
+        'user'     => ['showitem' => 'name, email, url'],
+        'internal' => ['showitem' => 'ip, privacy, confirmation'],
     ],
     'columns'   => [
-        'crdate' => [
-          'config' => [
-            'type' => 'passthrough',
-          ],
+        'crdate'       => [
+            'config' => [
+                'type' => 'passthrough',
+            ],
+        ],
+        'confirmation' => [
+            'exclude' => 0,
+            'label'   => 'LLL:EXT:tw_blog/Resources/Private/Language/locallang_db.xlf:tx_twblog_domain_model_comment.confirmation',
+            'config'  => [
+                'type'      => 'input',
+                'size'      => 30,
+                'eval'      => 'trim',
+                'adminOnly' => true,
+                'readOnly'  => true,
+            ],
+        ],
+        'ip'           => [
+            'exclude' => 0,
+            'label'   => 'LLL:EXT:tw_blog/Resources/Private/Language/locallang_db.xlf:tx_twblog_domain_model_comment.ip',
+            'config'  => [
+                'type'      => 'input',
+                'size'      => 30,
+                'eval'      => 'trim',
+                'adminOnly' => true,
+                'readOnly'  => true,
+            ],
+        ],
+        'privacy'      => [
+            'exclude' => 0,
+            'label'   => 'LLL:EXT:tw_blog/Resources/Private/Language/locallang_db.xlf:tx_twblog_domain_model_comment.privacy',
+            'config'  => [
+                'type'      => 'input',
+                'size'      => 30,
+                'eval'      => 'trim,datetime',
+                'adminOnly' => true,
+                'readOnly'  => true,
+            ],
         ],
         'hidden'       => [
             'exclude' => true,

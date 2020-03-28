@@ -36,7 +36,6 @@
 
 namespace Tollwerk\TwBlog\Domain\Model;
 
-use Ramsey\Uuid\Uuid;
 use TYPO3\CMS\Extbase\DomainObject\AbstractEntity;
 use TYPO3\CMS\Extbase\Persistence\ObjectStorage;
 
@@ -177,6 +176,20 @@ class BlogPost extends AbstractEntity
      * @TYPO3\CMS\Extbase\Annotation\ORM\Lazy
      */
     protected $categories = null;
+
+    /**
+     * Disable comments
+     *
+     * @var bool
+     */
+    protected $disableComments = false;
+
+    /**
+     * Disable webmentions
+     *
+     * @var bool
+     */
+    protected $disableWebmentions = false;
 
     /**
      * Constructor
@@ -498,7 +511,7 @@ class BlogPost extends AbstractEntity
      *
      * @return void
      */
-    public function addComments(Comment $comments): void
+    public function addComment(Comment $comments): void
     {
         $this->comments->attach($comments);
     }
@@ -510,7 +523,7 @@ class BlogPost extends AbstractEntity
      *
      * @return void
      */
-    public function removeComments(Comment $commentsToRemove): void
+    public function removeComment(Comment $commentsToRemove): void
     {
         $this->comments->detach($commentsToRemove);
     }
@@ -634,5 +647,45 @@ class BlogPost extends AbstractEntity
     public function getLastUpdated(): int
     {
         return max($this->getCreated(), $this->getTstamp(), $this->getStarttime());
+    }
+
+    /**
+     * Return whether comments are disabled for this blog post
+     *
+     * @return bool Comments disabled
+     */
+    public function isDisableComments(): bool
+    {
+        return $this->disableComments;
+    }
+
+    /**
+     * Set whether comments are disabled for this blog post
+     *
+     * @param bool $disableComments Comments disabled
+     */
+    public function setDisableComments(bool $disableComments): void
+    {
+        $this->disableComments = $disableComments;
+    }
+
+    /**
+     * Return whether webmentions are disabled for this blog post
+     *
+     * @return bool Webmentions disabled
+     */
+    public function isDisableWebmentions(): bool
+    {
+        return $this->disableWebmentions;
+    }
+
+    /**
+     * Set whether webmentions are disabled for this blog post
+     *
+     * @param bool $disableWebmentions Webmentions disabled
+     */
+    public function setDisableWebmentions(bool $disableWebmentions): void
+    {
+        $this->disableWebmentions = $disableWebmentions;
     }
 }

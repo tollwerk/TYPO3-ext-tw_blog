@@ -21,6 +21,12 @@ call_user_func(
             [\Tollwerk\TwBlog\Controller\BlogController::class => 'list, filter, navigation, atom'],
             []
         );
+        \TYPO3\CMS\Extbase\Utility\ExtensionUtility::configurePlugin(
+            'TwBlog',
+            'Comment',
+            [\Tollwerk\TwBlog\Controller\CommentController::class => 'confirm'],
+            []
+        );
 
         // Extend classes (XCLASSes)
         $GLOBALS['TYPO3_CONF_VARS']['SYS']['Objects'][\TYPO3\CMS\Extbase\Domain\Model\Category::class]                = [
@@ -38,5 +44,8 @@ call_user_func(
             \TYPO3\CMS\Extbase\Persistence\Generic\QueryFactoryInterface::class,
             \Tollwerk\TwBlog\Persistence\QueryFactory::class
         );
+
+        // Prepare hooks for comment confirmation
+        $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['blogComment']['confirmation'] = (array)($GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['blogComment']['confirmation'] ?? []);
     }
 );
