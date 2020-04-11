@@ -36,7 +36,12 @@
 
 namespace Tollwerk\TwBlog\Domain\Model;
 
+use Tollwerk\TwBlog\Domain\Repository\BlogPostRepository;
+use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\DomainObject\AbstractEntity;
+use TYPO3\CMS\Extbase\Object\Exception;
+use TYPO3\CMS\Extbase\Object\ObjectManager;
+use TYPO3\CMS\Extbase\Persistence\QueryResultInterface;
 
 /**
  * Blog Series
@@ -49,6 +54,12 @@ class BlogSeries extends AbstractEntity
      * @var string
      */
     protected $title = '';
+    /**
+     * Blog posts in this series.
+     *
+     * @var QueryResultInterface
+     */
+    protected $posts = null;
 
     /**
      * @return string
@@ -64,5 +75,22 @@ class BlogSeries extends AbstractEntity
     public function setTitle(string $title)
     {
         $this->title = $title;
+    }
+
+    /**
+     * Return the posts of this series
+     *
+     * @return QueryResultInterface
+     * @throws Exception
+     */
+    public function getPosts(): QueryResultInterface
+    {
+        if ($this->posts === null) {
+            $this->posts = GeneralUtility::makeInstance(ObjectManager::class)
+                                         ->get(BlogPostRepository::class)
+                                         ->findBySeries($this);
+        }
+
+        return $this->posts;
     }
 }

@@ -29,6 +29,20 @@ call_user_func(
             'FILE:EXT:tw_blog/Configuration/FlexForms/Blog.xml'
         );
 
+        // Register blog post teaser plugin
+        \TYPO3\CMS\Extbase\Utility\ExtensionUtility::registerPlugin(
+            'Tollwerk.TwBlog',
+            'BlogTeaser',
+            'LLL:EXT:tw_blog/Resources/Private/Language/locallang_db.xlf:plugin.blogteaser',
+            'EXT:tw_blog/Resources/Public/Icons/Extension/Blog.svg'
+        );
+
+        $GLOBALS['TCA']['tt_content']['types']['list']['subtypes_addlist']['twblog_blogteaser'] = 'pi_flexform';
+        \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addPiFlexFormValue(
+            'twblog_blogteaser',
+            'FILE:EXT:tw_blog/Configuration/FlexForms/BlogTeaser.xml'
+        );
+
         // Register comment confirmation plugin
         \TYPO3\CMS\Extbase\Utility\ExtensionUtility::registerPlugin(
             'Tollwerk.TwBlog',
@@ -54,6 +68,9 @@ call_user_func(
             TYPO3\CMS\Core\Imaging\IconProvider\SvgIconProvider::class,
             ['source' => 'EXT:'.$extKey.'/Resources/Public/Icons/Extension/apps-pagetree-page-blogpage.svg',]
         );
+
+        // Allow blog series to be added to standard pages
+        \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::allowTableOnStandardPages('tx_twblog_domain_model_blogseries');
     },
     'tw_blog'
 );

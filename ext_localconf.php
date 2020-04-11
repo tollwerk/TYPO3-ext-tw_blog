@@ -23,6 +23,12 @@ call_user_func(
         );
         \TYPO3\CMS\Extbase\Utility\ExtensionUtility::configurePlugin(
             'TwBlog',
+            'BlogTeaser',
+            [\Tollwerk\TwBlog\Controller\BlogController::class => 'teaser'],
+            []
+        );
+        \TYPO3\CMS\Extbase\Utility\ExtensionUtility::configurePlugin(
+            'TwBlog',
             'Comment',
             [\Tollwerk\TwBlog\Controller\CommentController::class => 'confirm'],
             []

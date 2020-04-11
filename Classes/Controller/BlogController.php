@@ -187,6 +187,24 @@ class BlogController extends ActionController
     }
 
     /**
+     * Teaser action
+     */
+    public function teaserAction()
+    {
+        if ($this->settings['selection_mode'] == self::SELECTION_MODE_MANUAL) {
+            $blogPosts = $this->blogPostRepository->findLimitedByUids(
+                GeneralUtility::trimExplode(',', $this->settings['posts'], true),
+                0,
+                $this->settings['limit']
+            );
+        } else {
+            $blogPosts = $this->blogPostRepository->findLimited(0, $this->settings['limit']);
+        }
+
+        $this->view->assign('blogPosts', $blogPosts);
+    }
+
+    /**
      * Prepare paginator data
      *
      * @param int $currentOffset Current offset

@@ -165,6 +165,12 @@
             <trans-unit id="plugin.blog.display_mode.featured">
                 <source>Featured Posts</source>
             </trans-unit>
+            <trans-unit id="plugin.blogteaser">
+                <source>Blog Teaser</source>
+            </trans-unit>
+            <trans-unit id="plugin.blogteaser.limit">
+                <source>Limit</source>
+            </trans-unit>
             <trans-unit id="plugin.comment">
                 <source>Blog comment</source>
             </trans-unit>

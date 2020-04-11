@@ -38,6 +38,7 @@ namespace Tollwerk\TwBlog\Domain\Repository;
 
 use Doctrine\DBAL\FetchMode;
 use Tollwerk\TwBlog\Domain\Model\BlogPost;
+use Tollwerk\TwBlog\Domain\Model\BlogSeries;
 use TYPO3\CMS\Core\Database\ConnectionPool;
 use TYPO3\CMS\Core\Database\Query\QueryBuilder;
 use TYPO3\CMS\Core\Database\Query\Restriction\EndTimeRestriction;
@@ -76,10 +77,10 @@ class BlogPostRepository extends AbstractRepository
      *
      * @var array
      */
-    protected $defaultOrderings = array(
+    protected $defaultOrderings = [
         'starttime' => QueryInterface::ORDER_DESCENDING,
         'uid'       => QueryInterface::ORDER_DESCENDING
-    );
+    ];
 
     /**
      * Returns all blog posts
@@ -458,5 +459,22 @@ class BlogPostRepository extends AbstractRepository
         $queryGenerator = $objectManager->get(QueryGenerator::class);
 
         return GeneralUtility::trimExplode(',', $queryGenerator->getTreeList($storagePid, $recursive));
+    }
+
+    /**
+     * Find blog posts by series
+     *
+     * @param BlogSeries $series Series
+     *
+     * @return QueryResultInterface Blog posts
+     */
+    public function findBySeries(BlogSeries $series): QueryResultInterface
+    {
+        $query = $this->createQuery();
+
+        return $query->matching($query->equals('series', $series))->setOrderings([
+            'starttime' => QueryInterface::ORDER_ASCENDING,
+            'uid'       => QueryInterface::ORDER_ASCENDING
+        ])->execute();
     }
 }
