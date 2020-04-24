@@ -98,7 +98,7 @@ call_user_func(
                     'foreign_table_where'              => 'AND be_users.username NOT LIKE "\_cli%" ORDER BY be_users.realName ASC',
                     'MM'                               => 'tx_twblog_blog_post_author_mm',
                     'size'                             => 3,
-                    'minitems'                         => 0,
+                    'minitems'                         => 1,
                     'enableMultiSelectFilterTextfield' => true,
                 ],
             ],

@@ -55,15 +55,16 @@ CREATE TABLE tx_twblog_domain_model_comment
 
 CREATE TABLE tx_twblog_domain_model_blogseries
 (
-    uid       INT(11)                         NOT NULL AUTO_INCREMENT,
-    pid       INT(11)             DEFAULT '0' NOT NULL,
-    tstamp    INT(11) UNSIGNED    DEFAULT '0' NOT NULL,
-    crdate    INT(11) UNSIGNED    DEFAULT '0' NOT NULL,
-    cruser_id INT(11) UNSIGNED    DEFAULT '0' NOT NULL,
-    deleted   TINYINT(4) UNSIGNED DEFAULT '0' NOT NULL,
-    hidden    TINYINT(4) UNSIGNED DEFAULT '0' NOT NULL,
+    uid         INT(11)                         NOT NULL AUTO_INCREMENT,
+    pid         INT(11)             DEFAULT '0' NOT NULL,
+    tstamp      INT(11) UNSIGNED    DEFAULT '0' NOT NULL,
+    crdate      INT(11) UNSIGNED    DEFAULT '0' NOT NULL,
+    cruser_id   INT(11) UNSIGNED    DEFAULT '0' NOT NULL,
+    deleted     TINYINT(4) UNSIGNED DEFAULT '0' NOT NULL,
+    hidden      TINYINT(4) UNSIGNED DEFAULT '0' NOT NULL,
 
-    title     VARCHAR(255)        DEFAULT ''  NOT NULL,
+    title       VARCHAR(255)        DEFAULT ''  NOT NULL,
+    description TEXT                DEFAULT ''  NOT NULL,
 
     PRIMARY KEY (uid),
     KEY parent (pid)

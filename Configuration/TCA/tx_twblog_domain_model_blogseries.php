@@ -50,18 +50,18 @@ return [
         'iconfile'       => 'EXT:tw_blog/Resources/Public/Icons/Extension/BlogSeries.svg',
     ],
     'interface' => [
-        'showRecordFieldList' => 'hidden, title',
+        'showRecordFieldList' => 'hidden, title, description',
     ],
     'types'     => [
         '1' => [
             'showitem' =>
                 'title,
-                sponsors,
+                description,
             --div--;LLL:EXT:frontend/Resources/Private/Language/locallang_ttc.xlf:tabs.access, hidden'
         ],
     ],
     'columns'   => [
-        'hidden' => [
+        'hidden'      => [
             'exclude' => true,
             'label'   => 'LLL:EXT:core/Resources/Private/Language/locallang_general.xlf:LGL.visible',
             'config'  => [
@@ -76,13 +76,24 @@ return [
                 ],
             ]
         ],
-        'title'  => [
+        'title'       => [
             'exclude' => 0,
             'label'   => 'LLL:EXT:tw_blog/Resources/Private/Language/locallang_db.xlf:tx_twblog_domain_model_blogseries.title',
             'config'  => [
                 'type' => 'input',
                 'size' => 30,
                 'eval' => 'trim'
+            ],
+        ],
+        'description' => [
+            'exclude' => 0,
+            'label'   => 'LLL:EXT:tw_blog/Resources/Private/Language/locallang_db.xlf:tx_twblog_domain_model_blogseries.description',
+            'config'  => [
+                'type'           => 'text',
+                'cols'           => 80,
+                'rows'           => 15,
+                'softref'        => 'typolink_tag,email[subst],url',
+                'enableRichtext' => true,
             ],
         ],
     ],

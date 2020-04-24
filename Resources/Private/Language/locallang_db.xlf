@@ -225,6 +225,9 @@
             <trans-unit id="tx_twblog_domain_model_blogseries.title">
                 <source>Title</source>
             </trans-unit>
+            <trans-unit id="tx_twblog_domain_model_blogseries.description">
+                <source>Description</source>
+            </trans-unit>
 
             <!-- Comment -->
             <trans-unit id="tx_twblog_domain_model_comment">

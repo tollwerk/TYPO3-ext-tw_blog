@@ -51,9 +51,17 @@ use TYPO3\CMS\Extbase\Persistence\QueryResultInterface;
 class BlogSeries extends AbstractEntity
 {
     /**
+     * Series title
+     *
      * @var string
      */
     protected $title = '';
+    /**
+     * Series description
+     *
+     * @var string
+     */
+    protected $description = '';
     /**
      * Blog posts in this series.
      *
@@ -62,7 +70,9 @@ class BlogSeries extends AbstractEntity
     protected $posts = null;
 
     /**
-     * @return string
+     * Return the title
+     *
+     * @return string Title
      */
     public function getTitle(): string
     {
@@ -70,11 +80,33 @@ class BlogSeries extends AbstractEntity
     }
 
     /**
-     * @param string $title
+     * Set the title
+     *
+     * @param string $title Title
      */
     public function setTitle(string $title)
     {
         $this->title = $title;
+    }
+
+    /**
+     * Return the description
+     *
+     * @return string Description
+     */
+    public function getDescription(): string
+    {
+        return $this->description;
+    }
+
+    /**
+     * Set the description
+     *
+     * @param string $description Description
+     */
+    public function setDescription(string $description)
+    {
+        $this->description = $description;
     }
 
     /**
