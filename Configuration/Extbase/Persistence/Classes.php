@@ -74,6 +74,9 @@ return [
             'localizationConfig' => [
                 'fieldName' => 'l18n_cfg'
             ],
+            'titleLanguage'      => [
+                'fieldName' => 'tx_twbase_title_language',
+            ],
             'teaserText'         => [
                 'fieldName' => 'tx_twblog_blog_teaser_text'
             ],
@@ -92,10 +95,10 @@ return [
             'relatedPosts'       => [
                 'fieldName' => 'tx_twblog_blog_related_posts'
             ],
-            'disableComments'       => [
+            'disableComments'    => [
                 'fieldName' => 'tx_twblog_blog_disable_comments'
             ],
-            'disableWebmentions'       => [
+            'disableWebmentions' => [
                 'fieldName' => 'tx_twblog_blog_disable_webmentions'
             ],
         ],

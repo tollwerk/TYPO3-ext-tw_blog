@@ -75,6 +75,8 @@ class BlogPost extends AbstractEntity
     protected $doktype;
 
     /**
+     * Hidden
+     *
      * @var bool
      */
     protected $hidden = false;
@@ -85,6 +87,13 @@ class BlogPost extends AbstractEntity
      * @var string
      */
     protected $title = '';
+
+    /**
+     * Blog title language
+     *
+     * @var string
+     */
+    protected $titleLanguage = '';
 
     /**
      * @var string
@@ -319,6 +328,26 @@ class BlogPost extends AbstractEntity
     public function setTitle(string $title): void
     {
         $this->title = $title;
+    }
+
+    /**
+     * Return the blog title language
+     *
+     * @return string Title language
+     */
+    public function getTitleLanguage(): string
+    {
+        return $this->titleLanguage;
+    }
+
+    /**
+     * Set the blog title language
+     *
+     * @param string $titleLanguage Title language
+     */
+    public function setTitleLanguage(string $titleLanguage): void
+    {
+        $this->titleLanguage = $titleLanguage;
     }
 
     /**
