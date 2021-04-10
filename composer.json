@@ -1,42 +1,41 @@
 {
-  "name": "tollwerk/tw-blog",
-  "type": "typo3-cms-extension",
-  "description": "tollwerk Blog",
-  "homepage": "https://github.com/tollwerk/TYPO3-EXT-tw_blog",
-  "license": "GPL-2.0+",
-  "version": "1.0",
-  "require": {
-    "typo3/cms-core": "^10.0",
-    "ramsey/uuid": "^3.9"
-  },
-  "autoload": {
-    "psr-4": {
-      "Tollwerk\\TwBlog\\": "Classes/"
-    }
-  },
-  "autoload-dev": {
-    "psr-4": {
-      "Tollwerk\\TwBlog\\Tests\\": "Tests/",
-      "TYPO3\\CMS\\Core\\Tests\\": ".Build/vendor/typo3/cms/typo3/sysext/core/Tests/"
-    }
-  },
-  "replace": {
-    "tw_blog": "self.version",
-    "typo3-ter/tw_blog": "self.version"
-  },
-  "authors": [
-    {
-      "name": "tollwerk GmbH",
-      "email": "info@tollwerk.de"
-    }
-  ],
-  "extra": {
-    "branch-alias": {
-      "dev-master": "master"
+    "name": "tollwerk/tw-blog",
+    "type": "typo3-cms-extension",
+    "description": "tollwerk Blog",
+    "homepage": "https://github.com/tollwerk/TYPO3-EXT-tw_blog",
+    "license": "GPL-2.0+",
+    "version": "1.0",
+    "require": {
+        "typo3/cms-core": "^10.0",
+        "ramsey/uuid": "^3.9"
     },
-    "typo3/cms": {
-      "cms-package-dir": "{$vendor-dir}/typo3/cms",
-      "web-dir": ".Build/Web"
+    "autoload": {
+        "psr-4": {
+            "Tollwerk\\TwBlog\\": "Classes/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Tollwerk\\TwBlog\\Tests\\": "Tests/",
+            "TYPO3\\CMS\\Core\\Tests\\": ".Build/vendor/typo3/cms/typo3/sysext/core/Tests/"
+        }
+    },
+    "replace": {
+        "tw_blog": "self.version",
+        "typo3-ter/tw_blog": "self.version"
+    },
+    "authors": [
+        {
+            "name": "tollwerk GmbH",
+            "email": "info@tollwerk.de"
+        }
+    ],
+    "extra": {
+        "branch-alias": {
+            "dev-master": "master"
+        },
+        "typo3/cms": {
+            "extension-key": "tw_blog"
+        }
     }
-  }
 }
