@@ -74,6 +74,9 @@ return [
             'localizationConfig' => [
                 'fieldName' => 'l18n_cfg'
             ],
+            'navTitle'           => [
+                'fieldName' => 'nav_title',
+            ],
             'titleLanguage'      => [
                 'fieldName' => 'tx_twbase_title_language',
             ],

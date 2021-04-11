@@ -89,6 +89,13 @@ class BlogPost extends AbstractEntity
     protected $title = '';
 
     /**
+     * Navigation title
+     *
+     * @var string
+     */
+    protected $navTitle = '';
+
+    /**
      * Blog title language
      *
      * @var string
@@ -328,6 +335,26 @@ class BlogPost extends AbstractEntity
     public function setTitle(string $title): void
     {
         $this->title = $title;
+    }
+
+    /**
+     * Return the navigation title
+     *
+     * @return string NavTitle
+     */
+    public function getNavTitle(): string
+    {
+        return $this->navTitle;
+    }
+
+    /**
+     * Set the navigation title
+     *
+     * @param string $navTitle NavTitle
+     */
+    public function setNavTitle(string $navTitle): void
+    {
+        $this->navTitle = $navTitle;
     }
 
     /**
