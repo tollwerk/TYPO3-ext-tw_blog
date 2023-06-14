@@ -37,9 +37,11 @@
 namespace Tollwerk\TwBlog\Domain\Repository;
 
 use Doctrine\DBAL\FetchMode;
+use Tollwerk\TwBase\Domain\Repository\Traits\DebuggableRepositoryTrait;
 use Tollwerk\TwBlog\Domain\Model\BlogArticle;
 use Tollwerk\TwBlog\Hooks\TwBlog\CreateQueryStatementInterface;
 use TYPO3\CMS\Core\Context\Context;
+use TYPO3\CMS\Core\Database\Connection;
 use TYPO3\CMS\Core\Database\ConnectionPool;
 use TYPO3\CMS\Core\Database\Query\QueryBuilder;
 use TYPO3\CMS\Core\Database\Query\Restriction\EndTimeRestriction;
@@ -51,8 +53,10 @@ use TYPO3\CMS\Extbase\Configuration\Exception\InvalidConfigurationTypeException;
 use TYPO3\CMS\Extbase\Object\Exception;
 use TYPO3\CMS\Extbase\Object\ObjectManager;
 use TYPO3\CMS\Extbase\Persistence\Exception\InvalidQueryException;
+use TYPO3\CMS\Extbase\Persistence\Generic\Mapper\DataMapper;
 use TYPO3\CMS\Extbase\Persistence\QueryInterface;
 use TYPO3\CMS\Extbase\Persistence\QueryResultInterface;
+use TYPO3\CMS\Extbase\Utility\DebuggerUtility;
 
 /**
  * Blog Article Repository
@@ -149,7 +153,7 @@ class BlogArticleRepository extends AbstractRepository
      * @param bool $showDisabled Include disabled articles
      * @param int $count         Overall article count (set by reference)
      *
-     * @return QueryResultInterface Blog articles
+     * @return array Blog articles
      * @throws InvalidQueryException
      */
     public function findLimitedByUids(
@@ -159,14 +163,15 @@ class BlogArticleRepository extends AbstractRepository
         array $categories = [],
         bool $showDisabled = false,
         int &$count = null
-    ): ?QueryResultInterface {
+    ): ?array {
         $count = 0;
         if (empty($uids)) {
             return null;
         }
 
+        // Get raw page records data from database to prevent erroneous behaviour with page translations.
         $query = $this->createQuery();
-        $query->statement($this->createQueryStatement(
+        $queryBuilder = $this->createQueryStatement(
             $uids,
             $offset,
             $limit,
@@ -174,23 +179,33 @@ class BlogArticleRepository extends AbstractRepository
             $showDisabled,
             $query->getQuerySettings()->getStoragePageIds(),
             [],
-            $count
-        )->getSQL());
+            $count,
+            true
+        );
+        $result = $queryBuilder->execute();
+        if (!$result->columnCount()) {
+            return [];
+        }
 
-        return $query->execute();
+        // If records where found, create BlogArticle objects and return those.
+        $records = $result->fetchAllAssociative();
+        $dataMapper = GeneralUtility::makeInstance(ObjectManager::class)->get(DataMapper::class);
+
+        return $dataMapper->map(BlogArticle::class, $records);
     }
 
     /**
      * Create a query statement
      *
-     * @param int[] $ids          Article IDs
-     * @param int $offset         Pagination offset
-     * @param int $limit          Pagination limit
-     * @param int[] $categories   Categories
-     * @param bool $showDisabled  Include disabled articles
-     * @param string[] $orderings Ordering
-     * @param int[] $storagePids  Storage PIDs
-     * @param int $count          Overall article count (set by reference)
+     * @param int[] $ids            Article IDs
+     * @param int $offset           Pagination offset
+     * @param int $limit            Pagination limit
+     * @param int[] $categories     Categories
+     * @param bool $showDisabled    Include disabled articles
+     * @param string[] $orderings   Ordering
+     * @param int[] $storagePids    Storage PIDs
+     * @param int $count            Overall article count (set by reference)
+     * @param bool $strictLanguage   Limit to current language
      *
      * @return QueryBuilder Query
      */
@@ -202,11 +217,12 @@ class BlogArticleRepository extends AbstractRepository
         bool $showDisabled,
         array $storagePids,
         array $orderings,
-        int &$count = null
+        int &$count = null,
+        bool $strictLanguage = false
     ): QueryBuilder {
         // Query the blog article IDs first
         $connection = GeneralUtility::makeInstance(ConnectionPool::class)
-            ->getConnectionForTable('pages');
+                                    ->getConnectionForTable('pages');
         $query = $connection->createQueryBuilder();
         if ($showDisabled) {
             $query->getRestrictions()->removeByType(HiddenRestriction::class);
@@ -228,16 +244,15 @@ class BlogArticleRepository extends AbstractRepository
         }
 
         $query->select('p.*')
-            ->from('pages', 'p')
-            ->where($query->expr()->eq('p.doktype', static::DOKTYPE));
-
-        // Localization handling
-        $context = GeneralUtility::makeInstance(Context::class);
-        $query->andWhere($query->expr()->eq('p.sys_language_uid', $context->getPropertyFromAspect('language', 'id')));
+              ->from('pages', 'p')
+              ->where($query->expr()->eq('p.doktype', static::DOKTYPE));
 
         // IDs
         if (count($ids)) {
             $query->andWhere($query->expr()->in('p.uid', $ids));
+            if ($strictLanguage == true) {
+                $query->orWhere($query->expr()->in('p.l10n_parent', $ids));
+            }
 
             // Order CASE statement
             $cases = array_map(function(int $index, int $id) {
@@ -248,6 +263,10 @@ class BlogArticleRepository extends AbstractRepository
                 ' END AS '.$query->quoteIdentifier('_ordervalues')
             );
             $orderings = ['_ordervalues' => QueryInterface::ORDER_ASCENDING];
+        } else {
+            // Localization handling
+            $context = GeneralUtility::makeInstance(Context::class);
+            $query->andWhere($query->expr()->eq('p.sys_language_uid', $context->getPropertyFromAspect('language', 'id')));
         }
 
         // Storage pages
@@ -276,12 +295,18 @@ class BlogArticleRepository extends AbstractRepository
 
         // Offset & limit
         if (intval($limit)) {
-            $query->setFirstResult($offset * $limit)->setMaxResults($limit);
+            $query->setFirstResult($offset)->setMaxResults($limit);
         }
 
         // Ordering
         foreach ($orderings as $column => $direction) {
             $query->addOrderBy(strncmp($column, '_', 1) ? 'p.'.$column : $column, $direction);
+        }
+
+        // Strict language (optional)
+        if ($strictLanguage == true) {
+            $context = GeneralUtility::makeInstance(Context::class);
+            $query->andWhere($query->expr()->eq('p.sys_language_uid', $context->getPropertyFromAspect('language', 'id')));
         }
 
         return $query;
@@ -313,7 +338,7 @@ class BlogArticleRepository extends AbstractRepository
      * @param array $storagePids Storage PIDs
      * @param int $count         Overall article count (set by reference)
      *
-     * @return QueryResultInterface Blog articles
+     * @return array Blog articles
      * @throws InvalidQueryException
      */
     public function findLimited(
@@ -324,7 +349,8 @@ class BlogArticleRepository extends AbstractRepository
         int $orderBy = self::ORDER_BY_STARTTIME,
         array $storagePids = [],
         int &$count = null
-    ): ?QueryResultInterface {
+    ): ?array {
+
         $count = 0;
         $query = $this->createQuery();
         $orderings = ($orderBy == self::ORDER_BY_SORTING) ?
@@ -335,7 +361,7 @@ class BlogArticleRepository extends AbstractRepository
                 'uid' => QueryInterface::ORDER_DESCENDING,
             ];
         $storagePids = $storagePids ?: $query->getQuerySettings()->getStoragePageIds();
-        $query->statement($this->createQueryStatement(
+        $queryBuilder = $this->createQueryStatement(
             [],
             $offset,
             $limit,
@@ -344,9 +370,17 @@ class BlogArticleRepository extends AbstractRepository
             $storagePids,
             $orderings,
             $count
-        )->getSQL());
+        );
+        $result = $queryBuilder->execute();
+        if (!$result->columnCount()) {
+            return [];
+        }
 
-        return $query->execute();
+        // If records where found, create BlogArticle objects and return those.
+        $records = $result->fetchAllAssociative();
+        $dataMapper = GeneralUtility::makeInstance(ObjectManager::class)->get(DataMapper::class);
+
+        return $dataMapper->map(BlogArticle::class, $records);
     }
 
     /**
