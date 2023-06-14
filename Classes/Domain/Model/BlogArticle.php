@@ -36,8 +36,16 @@
 
 namespace Tollwerk\TwBlog\Domain\Model;
 
+use TYPO3\CMS\Core\Database\ConnectionPool;
+use TYPO3\CMS\Core\Database\Query\QueryBuilder;
+use TYPO3\CMS\Core\Resource\FileReference;
+use TYPO3\CMS\Core\Resource\FileRepository;
+use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\DomainObject\AbstractEntity;
+use TYPO3\CMS\Extbase\Object\ObjectManager;
+use TYPO3\CMS\Extbase\Persistence\Generic\Mapper\DataMapper;
 use TYPO3\CMS\Extbase\Persistence\ObjectStorage;
+use TYPO3\CMS\Extbase\Utility\DebuggerUtility;
 
 /**
  * Blog Article
@@ -85,6 +93,13 @@ class BlogArticle extends AbstractEntity
      * @var string
      */
     protected $title = '';
+
+    /**
+     * Blog navigation title
+     *
+     * @var string
+     */
+    protected $navTitle = '';
 
     /**
      * @var string
@@ -176,6 +191,13 @@ class BlogArticle extends AbstractEntity
      * @TYPO3\CMS\Extbase\Annotation\ORM\Lazy
      */
     protected $categories = null;
+
+    /**
+     * Localization parent
+     *
+     * @var int
+     */
+    protected $l10nParent = 0;
 
     /**
      * Constructor
@@ -294,7 +316,7 @@ class BlogArticle extends AbstractEntity
      */
     public function getTitle(): string
     {
-        return $this->title;
+        return $this->getNavTitle() ? : $this->title;
     }
 
     /**
@@ -305,6 +327,22 @@ class BlogArticle extends AbstractEntity
     public function setTitle(string $title): void
     {
         $this->title = $title;
+    }
+
+    /**
+     * @return string
+     */
+    public function getNavTitle(): string
+    {
+        return $this->navTitle;
+    }
+
+    /**
+     * @param string $navTitle
+     */
+    public function setNavTitle(string $navTitle): void
+    {
+        $this->navTitle = $navTitle;
     }
 
     /**
@@ -411,7 +449,35 @@ class BlogArticle extends AbstractEntity
      */
     public function getTeaserImage(): ?\TYPO3\CMS\Extbase\Domain\Model\FileReference
     {
-        return $this->teaserImage;
+        // If there is a teaser image directly linked to this object, return it.
+        if ($this->teaserImage) {
+            return $this->teaserImage;
+        }
+
+        // If there is no translation parent, just return null.
+        if (!$this->l10nParent) {
+            return null;
+        }
+
+         // If no teaser image was found but there is a translation parent, try to find image from there.
+        $queryBuilder = GeneralUtility::makeInstance(ConnectionPool::class)
+            ->getQueryBuilderForTable('sys_file_reference');
+        $result = $queryBuilder
+            ->select('*')
+            ->from('sys_file_reference')
+            ->where($queryBuilder->expr()->eq('tablenames', $queryBuilder->createNamedParameter('pages')))
+            ->andWhere($queryBuilder->expr()->eq('fieldname', $queryBuilder->createNamedParameter('tx_twblog_blog_teaser_image')))
+            ->andWhere($queryBuilder->expr()->eq('uid_foreign', $queryBuilder->createNamedParameter($this->l10nParent)))
+            ->execute();
+        if (!$result->rowCount()) {
+            return null;
+        }
+
+        // Create file reference object.
+        $fileReferenceData = $result->fetchAssociative();
+        $dataMapper = GeneralUtility::makeInstance(ObjectManager::class)->get(DataMapper::class);
+
+        return $dataMapper->map(\TYPO3\CMS\Extbase\Domain\Model\FileReference::class, [$fileReferenceData])[0];
     }
 
     /**
@@ -623,5 +689,13 @@ class BlogArticle extends AbstractEntity
     public function setRelatedArticles(ObjectStorage $relatedArticles): void
     {
         $this->relatedArticles = $relatedArticles;
+    }
+
+    /**
+     * @return int
+     */
+    public function getL10nParent(): int
+    {
+        return $this->l10nParent;
     }
 }
