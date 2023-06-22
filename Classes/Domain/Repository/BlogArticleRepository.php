@@ -183,15 +183,29 @@ class BlogArticleRepository extends AbstractRepository
             true
         );
         $result = $queryBuilder->execute();
+
         if (!$result->columnCount()) {
             return [];
         }
 
         // If records where found, create BlogArticle objects and return those.
         $records = $result->fetchAllAssociative();
-        $dataMapper = GeneralUtility::makeInstance(ObjectManager::class)->get(DataMapper::class);
 
-        return $dataMapper->map(BlogArticle::class, $records);
+        // Sort records by uid
+        $sortedRecords = [];
+        $uidIndex = array_flip($uids);
+        foreach($records as $record) {
+            // Get UID of original record, not the translated one, for propper sorting.
+            $uid = !empty($record['l10n_parent']) ? $record['l10n_parent'] : $record['uid'];
+            if (isset($uidIndex[$uid])) {
+                $sortedRecords[$uidIndex[$uid]] = $record;
+            }
+        }
+        ksort($sortedRecords);
+
+        // Create objects from blog page records.
+        $dataMapper = GeneralUtility::makeInstance(ObjectManager::class)->get(DataMapper::class);
+        return $dataMapper->map(BlogArticle::class, $sortedRecords);
     }
 
     /**
