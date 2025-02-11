@@ -44,6 +44,7 @@ use TYPO3\CMS\Extbase\Domain\Repository\CategoryRepository;
 use TYPO3\CMS\Extbase\Mvc\Controller\ActionController;
 use TYPO3\CMS\Extbase\Mvc\View\ViewInterface;
 use TYPO3\CMS\Extbase\Persistence\Exception\InvalidQueryException;
+use TYPO3\CMS\Extbase\Utility\DebuggerUtility;
 
 /**
  * Blog Controller
@@ -130,6 +131,7 @@ class BlogController extends ActionController
         int $orderBy = null,
         bool $showDisabled = false
     ): void {
+
         // Show categories
         $showCategories = ($categories === null) ?
             GeneralUtility::trimExplode(',', $this->settings['categories'], true) : $categories;

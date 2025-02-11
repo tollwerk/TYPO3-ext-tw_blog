@@ -66,6 +66,9 @@ return [
     BlogArticle::class => [
         'tableName'  => 'pages',
         'properties' => [
+            'uid' => [
+                'fieldName' => 'uid',
+            ],
             'created'            => [
                 'fieldName' => 'crdate'
             ],
@@ -74,6 +77,12 @@ return [
             ],
             'localizationConfig' => [
                 'fieldName' => 'l18n_cfg'
+            ],
+            'l10nParent' => [
+                'fieldName' => 'l10n_parent',
+            ],
+            'navTitle' =>           [
+                'fieldName' => 'nav_title',
             ],
             'teaserText'         => [
                 'fieldName' => 'tx_twblog_blog_teaser_text'

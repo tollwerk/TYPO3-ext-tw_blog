@@ -13,11 +13,11 @@
 <html xmlns:f="https://xsd.helhum.io/ns/typo3/cms-fluid/master/ViewHelpers"
       xmlns:blog="http://typo3.org/ns/Tollwerk/TwBlog/ViewHelpers"
       data-namespace-typo3-fluid="true">
-    <f:if condition="{pagination}">
-        <f:render section="Main" arguments="{_all}"/>
-    </f:if>
+<f:if condition="{pagination}">
+    <f:render section="Main" arguments="{_all}"/>
+</f:if>
 
-    <f:comment><!--
+<f:comment><!--
 
         Render the paginator
 
@@ -31,8 +31,8 @@
         @param string extensionName     Extension name
 
     --></f:comment>
-    <f:section name="Main">
-        <f:variable name="plugin" value="{
+<f:section name="Main">
+    <f:variable name="plugin" value="{
                 action: action,
                 controller: controller,
                 pluginName: pluginName,
@@ -40,91 +40,94 @@
                 pageUid: settings.blog.listPid,
                 section: section
             }"/>
-        <nav class="BlogPagination" {f:if(condition: label, then: ' aria-label="{label}"')}>
-            <f:if condition="{pagination.pages.prev}">
-                <div class="BlogPagination__steps BlogPagination__steps--prev">
-                    <f:if condition="{pagination.pages.first}">
-                        <f:render section="Link"
-                                  arguments="{
-                                        offset: pagination.offsets.first,
-                                        plugin: plugin,
-                                        class: 'BlogPagination__jump-first',
-                                        title: '{f:translate(key: \'LLL:EXT:tw_blog/Resources/Private/Language/locallang.xlf:blog.pagination.first\')}'
-                                    }"
-                                  contentAs="content">
-                        </f:render>
-                    </f:if>
-                    <f:if condition="{pagination.offsets.prev} >= 0">
-                        <f:render section="Headerlink"
-                                  arguments="{
-                                        rel: 'prev',
-                                        offset: pagination.offsets.prev,
-                                        plugin: plugin,
-                                        title: '{f:translate(key: \'LLL:EXT:tw_blog/Resources/Private/Language/locallang.xlf:blog.pagination.previous\')}'
-                                    }"/>
-                        <f:render section="Link" arguments="{offset: pagination.offsets.prev, plugin: plugin}"
-                                  contentAs="content">
-                        </f:render>
-                    </f:if>
+
+    <nav class="Pagination">
+    <f:variable name="count" value="{f:count(subject: pagination.allPages)}"/>
+    <ol class="Pagination__list informal">
+        <f:if condition="{pagination.pages.prev}">
+            <f:for each="{pagination.pages.prev}" key="page" as="offset" reverse="{reverse}">
+                <li class="Pagination__list-item  Pagination__list-item--prev">
+                    <f:render section="Link" arguments="{offset: offset,plugin: plugin,dontLinkIt: dontLinkIt,title: '{f:translate(key: \'LLL:EXT:tw_blog/Resources/Private/Language/locallang.xlf:blog.pagination.page\', arguments: \'{0: page, 1: count}\')}'}" contentAs="content">
+                        <base:icon icon="ArrowLeft" />
+                    </f:render>
+                </li>
+            </f:for>
+        </f:if>
+        <f:for each="{pagination.allPages}" key="page" as="offset" reverse="{reverse}">
+            <li class="Pagination__list-item">
+                <f:render section="Link" arguments="{offset: offset,plugin: plugin,dontLinkIt: dontLinkIt,title: '{f:translate(key: \'LLL:EXT:tw_blog/Resources/Private/Language/locallang.xlf:blog.pagination.page\', arguments: \'{0: page, 1: count}\')}'}" contentAs="content">
+                    {page}
+                </f:render>
+            </li>
+        </f:for>
+        <f:if condition="{pagination.pages.next}">
+            <f:for each="{pagination.pages.next}" key="page" as="offset" reverse="{reverse}">
+                <li class="Pagination__list-item  Pagination__list-item--prev">
+                    <f:render section="Link" arguments="{offset: offset,plugin: plugin,dontLinkIt: dontLinkIt,title: '{f:translate(key: \'LLL:EXT:tw_blog/Resources/Private/Language/locallang.xlf:blog.pagination.page\', arguments: \'{0: page, 1: count}\')}'}" contentAs="content">
+                        <base:icon icon="ArrowRight" />
+                    </f:render>
+                </li>
+            </f:for>
+        </f:if>
+    </ol>
+
+    <f:comment>
+        <div class="BlogPagination__pages-container">
+            <f:variable name="count" value="{f:count(subject: pagination.allPages)}"/>
+            <f:if condition="{pagination.pages.first}">
+                <div class="BlogPagination__pages BlogPagination__pages--first">
+                    <f:render section="Pages" arguments="{pages: pagination.pages.first, plugin: plugin, count: count}"/>
                 </div>
             </f:if>
 
-            <div class="BlogPagination__pages-container">
-                <f:variable name="count" value="{f:count(subject: pagination.allPages)}"/>
-                <f:if condition="{pagination.pages.first}">
-                    <div class="BlogPagination__pages BlogPagination__pages--first">
-                        <f:render section="Pages" arguments="{pages: pagination.pages.first, plugin: plugin, count: count}"/>
-                    </div>
-                </f:if>
-                <f:if condition="{pagination.pages.prev}">
-                    <div class="BlogPagination__pages BlogPagination__pages--prev">
-                        <f:render section="Pages" arguments="{pages: pagination.pages.prev, reverse: 1, plugin: plugin, count: count}"/>
-                    </div>
-                </f:if>
-                <div class="BlogPagination__pages BlogPagination__pages--current">
-                    <f:render section="Pages" arguments="{pages: pagination.pages.current, dontLinkIt: 1, plugin: plugin, count: count}"/>
-                </div>
-                <f:if condition="{pagination.pages.next}">
-                    <div class="BlogPagination__pages BlogPagination__pages--next">
-                        <f:render section="Pages" arguments="{pages: pagination.pages.next, plugin: plugin, count: count}"/>
-                    </div>
-                </f:if>
-                <f:if condition="{pagination.pages.last}">
-                    <div class="BlogPagination__pages BlogPagination__pages--last">
-                        <f:render section="Pages" arguments="{pages: pagination.pages.last, reverse: 1, plugin: plugin, count: count}"/>
-                    </div>
-                </f:if>
+
+            <div class="BlogPagination__pages BlogPagination__pages--current">
+                <f:render section="Pages" arguments="{pages: pagination.pages.current, dontLinkIt: 1, plugin: plugin, count: count}"/>
             </div>
 
+
             <f:if condition="{pagination.pages.next}">
-                <div class="BlogPagination__steps BlogPagination__steps--next">
-                    <f:if condition="{pagination.pages.next}">
-                        <f:render section="Headerlink"
-                                  arguments="{rel: 'next', offset: pagination.offsets.next, plugin: plugin}"/>
-                        <f:render section="Link" arguments="{
+                <div class="BlogPagination__pages BlogPagination__pages--next">
+                    <f:render section="Pages" arguments="{pages: pagination.pages.next, plugin: plugin, count: count}"/>
+                </div>
+            </f:if>
+            <f:if condition="{pagination.pages.last}">
+                <div class="BlogPagination__pages BlogPagination__pages--last">
+                    <f:render section="Pages" arguments="{pages: pagination.pages.last, reverse: 1, plugin: plugin, count: count}"/>
+                </div>
+            </f:if>
+        </div>
+    </f:comment>
+
+    <f:if condition="{pagination.pages.next}">
+        <div class="BlogPagination__steps BlogPagination__steps--next">
+            <f:if condition="{pagination.pages.next}">
+                <f:render section="Headerlink"
+                          arguments="{rel: 'next', offset: pagination.offsets.next, plugin: plugin}"/>
+                <f:render section="Link" arguments="{
                                         offset: pagination.offsets.next,
                                         plugin: plugin,
                                         title: '{f:translate(key: \'LLL:EXT:tw_blog/Resources/Private/Language/locallang.xlf:blog.pagination.next\')}'
                                     }" contentAs="content">
-                        </f:render>
-                    </f:if>
-                    <f:if condition="{pagination.pages.last}">
-                        <f:render section="Link"
-                                  arguments="{
+                </f:render>
+            </f:if>
+            <f:if condition="{pagination.pages.last}">
+                <f:render section="Link"
+                          arguments="{
                                           offset: pagination.offsets.last,
                                           plugin: plugin,
                                           class: 'BlogPagination__jump-last',
                                           title: '{f:translate(key: \'LLL:EXT:tw_blog/Resources/Private/Language/locallang.xlf:blog.pagination.last\')}'
                                     }"
-                                  contentAs="content">
-                        </f:render>
-                    </f:if>
-                </div>
+                          contentAs="content">
+                </f:render>
             </f:if>
-        </nav>
-    </f:section>
+        </div>
+    </f:if>
+    </nav>
+</f:section>
 
-    <f:comment><!--
+<f:comment><!--
 
         Render pagination pages
 
@@ -133,9 +136,9 @@
         @param boolean dontLinkIt       Don't really link
 
     --></f:comment>
-    <f:section name="Pages">
-        <f:for each="{pages}" key="page" as="offset" reverse="{reverse}">
-            <f:render section="Link" arguments="{
+<f:section name="Pages">
+    <f:for each="{pages}" key="page" as="offset" reverse="{reverse}">
+        <f:render section="Link" arguments="{
                     offset: offset,
                     plugin: plugin,
                     dontLinkIt: dontLinkIt,
@@ -144,11 +147,11 @@
                             arguments: \'{0: page, 1: count}\'
                         )}'
                 }" contentAs="content">{page}
-            </f:render>
-        </f:for>
-    </f:section>
+        </f:render>
+    </f:for>
+</f:section>
 
-    <f:comment><!--
+<f:comment><!--
 
         Render a prev/next <link> to the page header
 
@@ -156,10 +159,10 @@
         @param array plugin             Link parameters
 
     --></f:comment>
-    <f:section name="Headerlink">
-        <f:variable name="pageInfo" value="{v:page.info()}"/>
-        <f:if condition="{pageInfo.uid} == {plugin.pageUid}">
-            <blog:page.head.link rel="{rel}" href="{f:uri.action(
+<f:section name="Headerlink">
+    <f:variable name="pageInfo" value="{v:page.info()}"/>
+    <f:if condition="{pageInfo.uid} == {plugin.pageUid}">
+        <blog:page.head.link rel="{rel}" href="{f:uri.action(
                     arguments: '{offset: offset}',
                     action: plugin.action,
                     controller: plugin.controller,
@@ -170,10 +173,10 @@
                     noCacheHash: 1,
                     absolute: 1
                 )}"/>
-        </f:if>
-    </f:section>
+    </f:if>
+</f:section>
 
-    <f:comment><!--
+<f:comment><!--
 
         Render a paginator page link
 
@@ -183,21 +186,14 @@
         @param string class             Additional CSS class
 
     --></f:comment>
-    <f:section name="Link">
-        <f:if condition="{dontLinkIt}">
-            <f:then>
-                <span class="BlogPagination__item{f:if(condition: class, then: ' {class}')}">
-                    <f:format.raw>{content}</f:format.raw>
-                </span>
-            </f:then>
-            <f:else>
-                <f:link.action class="BlogPagination__item BlogPagination__item--link{f:if(condition: class, then: ' {class}')}"
-                               arguments="{offset: offset}" action="{plugin.action}" controller="{plugin.controller}"
-                               pluginName="{plugin.pluginName}" extensionName="{plugin.extensionName}"
-                               pageUid="{plugin.pageUid}" section="{plugin.section}" noCacheHash="true" title="{title}">
-                    <f:format.raw>{content}</f:format.raw>
-                </f:link.action>
-            </f:else>
-        </f:if>
-    </f:section>
+<f:section name="Link">
+    <f:link.action class="Pagination__list-item {f:if(condition: class, then: ' {class}')}"
+                   arguments="{offset: offset}" action="{plugin.action}" controller="{plugin.controller}"
+                   pluginName="{plugin.pluginName}" extensionName="{plugin.extensionName}"
+                   pageUid="{plugin.pageUid}" section="{plugin.section}" noCacheHash="true" title="{title}">
+            <span>
+                <f:format.raw>{content}</f:format.raw>
+            </span>
+    </f:link.action>
+</f:section>
 </html>
